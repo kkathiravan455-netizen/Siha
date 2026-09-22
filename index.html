@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Birthday Puzzle 🎁</title>
+
+<style>
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #d8f3dc, #95d5b2);
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+.box {
+    width: 90%;
+    max-width: 450px;
+    background: white;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+h1 {
+    color: #176b3a;
+}
+
+#puzzle {
+    width: 100%;
+    aspect-ratio: 1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3px;
+    background: #222;
+    padding: 3px;
+    margin-top: 20px;
+}
+
+.piece {
+    width: 100%;
+    aspect-ratio: 1;
+    background-image: url("./photo.jpeg");
+    background-size: 300% 300%;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+
+.selected {
+    outline: 4px solid orange;
+}
+
+#quiz,
+#qrBox,
+#success {
+    display: none;
+}
+
+.option {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 10px;
+    background: #d8f3dc;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.option:hover {
+    background: #95d5b2;
+}
+
+#qrBox {
+    margin-top: 20px;
+    padding: 20px;
+    background: #f1fff5;
+    border-radius: 15px;
+}
+
+#qrBox img {
+    width: 220px;
+    max-width: 100%;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+    <h1>🎁 Birthday Puzzle</h1>
+
+    <p id="instruction">
+        Arrange the pieces correctly! 🧩
+    </p>
+
+    <div id="puzzle"></div>
+
+    <div id="success">
+        <h2>🎉 PUZZLE SOLVED! 🎉</h2>
+    </div>
+
+    <div id="quiz">
+
+        <h2 id="question"></h2>
+
+        <div id="options"></div>
+
+    </div>
+
+    <div id="qrBox">
+
+        <h2>🎉 YOU DID IT! 🎉</h2>
+
+        <p>Here is your next surprise! 💗</p>
+
+        <img id="qr">
+
+    </div>
+
+</div>
+
+<script>
+
+const puzzle = document.getElementById("puzzle");
+
+let pieces = [];
+
+for (let i = 0; i < 9; i++) {
+    pieces.push(i);
+}
+
+pieces.sort(() => Math.random() - 0.5);
+
+let selected = null;
+
+function createPuzzle() {
+
+    puzzle.innerHTML = "";
+
+    pieces.forEach((number) => {
+
+        let piece = document.createElement("div");
+
+        piece.className = "piece";
+
+        let row = Math.floor(number / 3);
+        let col = number % 3;
+
+        piece.style.backgroundPosition =
+            `${col * 50}% ${row * 50}%`;
+
+        piece.dataset.number = number;
+
+        piece.onclick = function () {
+
+            if (selected === null) {
+
+                selected = piece;
+                piece.classList.add("selected");
+
+            } else {
+
+                let temp = selected.dataset.number;
+
+                selected.dataset.number =
+                    piece.dataset.number;
+
+                piece.dataset.number = temp;
+
+                let tempPosition =
+                    selected.style.backgroundPosition;
+
+                selected.style.backgroundPosition =
+                    piece.style.backgroundPosition;
+
+                piece.style.backgroundPosition =
+                    tempPosition;
+
+                selected.classList.remove("selected");
+
+                selected = null;
+
+                checkSolved();
+            }
+        };
+
+        puzzle.appendChild(piece);
+    });
+}
+
+function checkSolved() {
+
+    let allPieces =
+        document.querySelectorAll(".piece");
+
+    let solved = true;
+
+    allPieces.forEach((piece, index) => {
+
+        if (Number(piece.dataset.number) !== index) {
+            solved = false;
+        }
+
+    });
+
+    if (solved) {
+
+        document.getElementById("success").style.display =
+            "block";
+
+        puzzle.style.display = "none";
+
+        document.getElementById("instruction").style.display =
+            "none";
+
+        startQuiz();
+    }
+}
+
+
+/* QUIZ */
+
+let currentQuestion = 0;
+
+const questions = [
+
+    {
+        question: "Naa unna epdi kupduven?",
+        options: [
+            "Nivedha",
+            "Alagii",
+            "Alukuuuu",
+            "Eruma"
+        ],
+        answer: 2
+    },
+
+    {
+        question: "Enaku pudicha dress color?",
+        options: [
+            "Rose",
+            "Red",
+            "Black",
+            "Yellow"
+        ],
+        answer: 3
+    },
+
+    {
+        question: "Secret Code sollu?",
+        options: [
+            "15",
+            "16",
+            "17",
+            "18"
+        ],
+        answer: 3
+    }
+
+];
+
+
+function startQuiz() {
+
+    document.getElementById("quiz").style.display =
+        "block";
+
+    showQuestion();
+}
+
+
+function showQuestion() {
+
+    let q = questions[currentQuestion];
+
+    document.getElementById("question").innerText =
+        q.question;
+
+    let optionsDiv =
+        document.getElementById("options");
+
+    optionsDiv.innerHTML = "";
+
+    q.options.forEach((option, index) => {
+
+        let button =
+            document.createElement("button");
+
+        button.className = "option";
+
+        button.innerText =
+            option;
+
+        button.onclick = function () {
+
+            if (index === q.answer) {
+
+                currentQuestion++;
+
+                if (currentQuestion === questions.length) {
+
+                    showQR();
+
+                } else {
+
+                    showQuestion();
+
+                }
+
+            } else {
+
+                alert("❌ Wrong answer! Try again 😜");
+
+            }
+
+        };
+
+        optionsDiv.appendChild(button);
+
+    });
+}
+
+
+/* QR */
+
+function showQR() {
+
+    document.getElementById("quiz").style.display =
+        "none";
+
+    document.getElementById("qrBox").style.display =
+        "block";
+
+    let nextLink =
+        "https://drive.google.com/file/d/19eG1mdXxrsVoE0VSKDdlqydaE8e72E8J/view?usp=drivesdk";
+
+    document.getElementById("qr").src =
+        "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data="
+        + encodeURIComponent(nextLink);
+}
+
+
+createPuzzle();
+
+</script>
+
+</body>
+</html>
