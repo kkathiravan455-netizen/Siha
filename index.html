@@ -4,1000 +4,1548 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Just For You 💚</title>
+<title>Birthday Surprise ✨</title>
 
 <style>
-* {
-    box-sizing: border-box;
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
-body {
-    margin: 0;
-    min-height: 100vh;
-    overflow-x: hidden;
-    font-family: Arial, sans-serif;
-    color: white;
+body{
+    width:100%;
+    height:100vh;
+    overflow:hidden;
+    font-family:Arial, sans-serif;
+    background:#08000f;
+    color:white;
+}
+
+.screen{
+    position:fixed;
+    inset:0;
+    display:none;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+}
+
+.screen.active{
+    display:flex;
+}
+
+/* ================= BACKGROUND ================= */
+
+.background{
+    position:absolute;
+    inset:0;
     background:
-        radial-gradient(circle at 20% 20%, #173d2c 0%, transparent 35%),
-        radial-gradient(circle at 80% 80%, #0d3325 0%, transparent 35%),
-        #030807;
+        radial-gradient(
+            circle at 20% 20%,
+            rgba(255,0,180,.20),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 80% 75%,
+            rgba(100,0,255,.22),
+            transparent 35%
+        ),
+        linear-gradient(
+            135deg,
+            #08000f,
+            #19002d,
+            #08000f
+        );
 }
 
-/* FLOATING PARTICLES */
-
-.particles {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    overflow: hidden;
-    z-index: 0;
+.orb{
+    position:absolute;
+    width:180px;
+    height:180px;
+    border-radius:50%;
+    background:rgba(255,0,180,.12);
+    filter:blur(30px);
+    animation:float 6s infinite ease-in-out;
 }
 
-.particle {
-    position: absolute;
-    width: 4px;
-    height: 4px;
-    background: #9cffc5;
-    border-radius: 50%;
-    opacity: .5;
-    animation: float 7s linear infinite;
+.orb.one{
+    top:5%;
+    left:0;
 }
 
-@keyframes float {
-    from {
-        transform: translateY(110vh) scale(.5);
+.orb.two{
+    right:0;
+    bottom:0;
+    background:rgba(80,0,255,.15);
+    animation-delay:2s;
+}
+
+@keyframes float{
+
+    0%,100%{
+        transform:translate(0,0);
     }
-    to {
-        transform: translateY(-10vh) scale(1.5);
+
+    50%{
+        transform:translate(30px,-30px);
     }
+
 }
 
-/* MAIN */
+/* ================= STARS ================= */
 
-.screen {
-    min-height: 100vh;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    position: relative;
-    z-index: 2;
+.star{
+    position:fixed;
+    width:3px;
+    height:3px;
+    border-radius:50%;
+    background:white;
+    pointer-events:none;
+    animation:twinkle 2s infinite alternate;
 }
 
-.card {
-    width: min(92vw, 470px);
-    padding: 30px 25px;
-    border-radius: 28px;
+@keyframes twinkle{
 
-    background: rgba(255,255,255,.07);
-    border: 1px solid rgba(255,255,255,.15);
+    from{
+        opacity:.2;
+        transform:scale(.5);
+    }
 
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
+    to{
+        opacity:1;
+        transform:scale(1.5);
+    }
+
+}
+
+/* ================= MUSIC BUTTON ================= */
+
+#musicBtn{
+
+    position:fixed;
+
+    top:18px;
+    right:18px;
+
+    width:52px;
+    height:52px;
+
+    z-index:9999;
+
+    border:none;
+    border-radius:50%;
+
+    background:rgba(255,255,255,.14);
+
+    color:white;
+
+    font-size:22px;
+
+    cursor:pointer;
+
+    backdrop-filter:blur(10px);
 
     box-shadow:
-        0 25px 70px rgba(0,0,0,.55),
-        inset 0 1px rgba(255,255,255,.15);
+        0 0 15px rgba(255,0,200,.5);
 
-    text-align: center;
-
-    transform:
-        perspective(1000px)
-        rotateX(0deg);
-
-    animation: cardIn .8s ease;
+    transition:.2s;
 }
 
-@keyframes cardIn {
-    from {
-        opacity: 0;
-        transform:
-            perspective(1000px)
-            rotateX(20deg)
-            translateY(40px)
-            scale(.9);
+#musicBtn:active{
+    transform:scale(.88);
+}
+
+/* ================= INTRO ================= */
+
+.intro-content{
+
+    position:relative;
+
+    z-index:10;
+
+    width:90%;
+    max-width:500px;
+
+    text-align:center;
+}
+
+/* GIFT */
+
+.gift{
+
+    position:relative;
+
+    width:150px;
+    height:130px;
+
+    margin:0 auto 30px;
+
+    animation:giftFloat 3s infinite ease-in-out;
+
+}
+
+@keyframes giftFloat{
+
+    0%,100%{
+        transform:translateY(0) rotateY(0);
     }
 
-    to {
-        opacity: 1;
-        transform:
-            perspective(1000px)
-            rotateX(0)
-            translateY(0)
-            scale(1);
+    50%{
+        transform:translateY(-12px) rotateY(8deg);
     }
+
 }
 
-.title {
-    font-size: 30px;
-    margin-bottom: 8px;
-    color: #d8ffe7;
-    text-shadow: 0 0 20px rgba(111,255,166,.35);
+.gift-box{
+
+    position:absolute;
+
+    left:0;
+    bottom:0;
+
+    width:150px;
+    height:95px;
+
+    border-radius:10px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff008c,
+            #72004e
+        );
+
+    box-shadow:
+        0 15px 35px rgba(255,0,150,.4);
 }
 
-.subtitle {
-    color: #b6c9bf;
-    font-size: 14px;
-    margin-bottom: 25px;
+.gift-box::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:62px;
+    top:0;
+
+    width:26px;
+    height:95px;
+
+    background:#ffd700;
 }
 
-.progress {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    margin-bottom: 25px;
+.gift-lid{
+
+    position:absolute;
+
+    left:-7px;
+    top:25px;
+
+    width:164px;
+    height:28px;
+
+    border-radius:8px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff1888,
+            #87005c
+        );
+
+    z-index:2;
 }
 
-.dot {
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
-    background: #355246;
-    transition: .4s;
+.gift-lid::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:69px;
+
+    width:26px;
+    height:28px;
+
+    background:#ffd700;
 }
 
-.dot.active {
-    background: #7dffb0;
-    box-shadow: 0 0 15px #7dffb0;
+.ribbon{
+
+    position:absolute;
+
+    width:45px;
+    height:35px;
+
+    top:0;
+    left:43px;
+
+    border:9px solid #ffd700;
+
+    border-radius:50%;
+
+    transform:rotate(-25deg);
+
+    z-index:3;
 }
 
-.question {
-    font-size: 22px;
-    margin-bottom: 22px;
+.ribbon.right{
+
+    left:65px;
+
+    transform:rotate(25deg);
 }
 
-/* OPTIONS */
+.title{
 
-.option {
-    width: 100%;
-    padding: 15px;
-    margin: 9px 0;
+    font-size:clamp(38px,10vw,64px);
 
-    border: 1px solid rgba(255,255,255,.12);
-    border-radius: 16px;
+    font-weight:900;
 
-    background: rgba(255,255,255,.07);
-    color: white;
+    letter-spacing:2px;
 
-    font-size: 16px;
-    cursor: pointer;
+    background:
+        linear-gradient(
+            90deg,
+            white,
+            #ff8bd6,
+            white
+        );
 
-    transition:
-        transform .25s,
-        background .25s,
-        box-shadow .25s;
-}
+    -webkit-background-clip:text;
 
-.option:hover {
-    transform:
-        perspective(500px)
-        translateZ(12px)
-        scale(1.02);
+    color:transparent;
 
-    background: rgba(125,255,176,.15);
-    box-shadow: 0 10px 25px rgba(0,0,0,.3);
-}
+    margin-bottom:12px;
 
-.correct {
-    background: rgba(60,220,120,.3) !important;
-    box-shadow: 0 0 30px rgba(80,255,140,.5);
-}
-
-.wrong {
-    animation: shake .4s;
-    background: rgba(255,60,60,.2) !important;
-}
-
-@keyframes shake {
-    0%,100% { transform: translateX(0); }
-    25% { transform: translateX(-10px); }
-    75% { transform: translateX(10px); }
-}
-
-/* UNLOCK MESSAGE */
-
-.unlock {
-    position: fixed;
-    inset: 0;
-    background: #020504;
-    z-index: 20;
-
-    display: none;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-
-    animation: fadeIn .5s;
-}
-
-.unlock h1 {
-    font-size: clamp(35px, 10vw, 70px);
-    color: #9affbd;
     text-shadow:
-        0 0 20px #65ff9a,
-        0 0 60px #22b85d;
-
-    animation: unlockPulse 1.2s infinite alternate;
+        0 0 25px rgba(255,0,180,.4);
 }
 
-@keyframes unlockPulse {
-    from { transform: scale(.9); }
-    to { transform: scale(1.08); }
+.subtitle{
+
+    color:#e5bfdf;
+
+    font-size:16px;
+
+    margin-bottom:30px;
 }
 
-/* PUZZLE */
+/* ================= BUTTON ================= */
 
-#puzzleScreen {
-    display: none;
-}
+.main-btn{
 
-.puzzle-card {
-    width: min(92vw, 480px);
-}
+    border:none;
 
-.puzzle {
-    width: 100%;
-    aspect-ratio: 1;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 5px;
+    padding:17px 28px;
 
-    padding: 6px;
-    border-radius: 22px;
+    border-radius:50px;
 
-    background: rgba(0,0,0,.7);
+    color:white;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ff008c,
+            #8b00ff
+        );
+
+    font-size:15px;
+
+    font-weight:bold;
+
+    letter-spacing:1px;
+
+    cursor:pointer;
 
     box-shadow:
-        0 30px 70px rgba(0,0,0,.7),
-        inset 0 0 20px rgba(255,255,255,.05);
+        0 0 20px rgba(255,0,180,.5);
 
-    perspective: 1000px;
+    transition:.2s;
 }
 
-.piece {
-    position: relative;
+.main-btn:active{
 
-    border-radius: 9px;
+    transform:scale(.94);
 
-    background-image: url("./photo.jpeg");
-    background-size: 300% 300%;
-    background-repeat: no-repeat;
+}
 
-    cursor: pointer;
+/* ================= QUESTION ================= */
 
-    transition:
-        transform .35s,
-        box-shadow .35s;
+.question-card{
+
+    position:relative;
+
+    z-index:10;
+
+    width:90%;
+    max-width:520px;
+
+    padding:30px 20px;
+
+    border-radius:25px;
+
+    text-align:center;
+
+    background:rgba(255,255,255,.08);
+
+    border:1px solid rgba(255,255,255,.2);
+
+    backdrop-filter:blur(15px);
 
     box-shadow:
-        inset 0 0 12px rgba(255,255,255,.12),
-        0 5px 10px rgba(0,0,0,.5);
+        0 20px 60px rgba(0,0,0,.5);
 }
 
-.piece:hover {
-    transform:
-        translateZ(25px)
-        scale(1.04);
+.progress{
+
+    color:#d8add2;
+
+    font-size:13px;
+
+    margin-bottom:18px;
+}
+
+.question{
+
+    font-size:23px;
+
+    font-weight:bold;
+
+    margin-bottom:25px;
+}
+
+.options{
+
+    display:grid;
+
+    gap:12px;
+}
+
+.option{
+
+    width:100%;
+
+    padding:15px;
+
+    border-radius:14px;
+
+    border:1px solid rgba(255,255,255,.2);
+
+    background:rgba(255,255,255,.08);
+
+    color:white;
+
+    font-size:16px;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.option:active{
+
+    transform:scale(.96);
+
+}
+
+.option.correct{
+
+    background:rgba(0,255,150,.25);
+
+    border-color:#00ff9d;
+}
+
+.option.wrong{
+
+    background:rgba(255,0,60,.25);
+
+    border-color:#ff315d;
+}
+
+/* ================= PUZZLE ================= */
+
+.puzzle-container{
+
+    position:relative;
+
+    z-index:10;
+
+    text-align:center;
+
+    width:95%;
+}
+
+.puzzle-title{
+
+    font-size:28px;
+
+    margin-bottom:8px;
+}
+
+.puzzle-sub{
+
+    color:#d8b6d3;
+
+    font-size:14px;
+
+    margin-bottom:20px;
+}
+
+.puzzle{
+
+    width:min(90vw,360px);
+
+    aspect-ratio:1;
+
+    margin:auto;
+
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    gap:3px;
+
+    padding:4px;
+
+    background:rgba(255,255,255,.15);
+
+    border-radius:14px;
 
     box-shadow:
-        0 15px 30px rgba(0,0,0,.7);
+        0 0 35px rgba(255,0,190,.3);
 }
 
-.selected {
-    transform:
-        translateZ(35px)
-        scale(1.07)
-        rotateX(5deg);
+.piece{
 
-    outline: 3px solid #9affbd;
+    background-image:url("photo.jpeg");
 
-    box-shadow:
-        0 0 25px #65ff9a;
+    background-size:300% 300%;
+
+    border-radius:5px;
+
+    cursor:pointer;
+
+    transition:.2s;
 }
 
-/* SOLVED */
+.piece.selected{
 
-.solved {
-    animation: solvedPiece .7s ease forwards;
+    outline:3px solid #ff4fbd;
+
+    transform:scale(.94);
+
 }
 
-@keyframes solvedPiece {
-    50% {
-        transform: scale(1.08) rotateY(180deg);
+/* ================= SUCCESS ================= */
+
+.success-overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:7000;
+
+    display:none;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:rgba(5,0,15,.78);
+
+    backdrop-filter:blur(8px);
+
+}
+
+.success-overlay.show{
+
+    display:flex;
+
+}
+
+.success-text{
+
+    text-align:center;
+
+    animation:successPop .6s ease;
+}
+
+.success-text h1{
+
+    font-size:clamp(38px,10vw,70px);
+
+    text-shadow:
+        0 0 20px #ff00aa,
+        0 0 45px #ff00aa;
+}
+
+.success-text p{
+
+    margin-top:12px;
+
+    color:#ffd9f3;
+}
+
+@keyframes successPop{
+
+    from{
+        transform:scale(.4);
+        opacity:0;
     }
 
-    100% {
-        transform: scale(1) rotateY(360deg);
+    to{
+        transform:scale(1);
+        opacity:1;
     }
+
 }
 
-/* CURTAIN */
+/* ================= CURTAIN ================= */
 
-#revealScreen {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: #020303;
-    z-index: 50;
+#curtainScene{
 
-    overflow: hidden;
+    position:fixed;
+
+    inset:0;
+
+    z-index:8000;
+
+    display:none;
+
+    background:#050005;
+
+    overflow:hidden;
 }
 
-.reveal-photo {
-    position: absolute;
-    inset: 0;
+#curtainScene.show{
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    padding: 30px;
-
-    opacity: 0;
-    transform: scale(.75);
-
-    transition:
-        opacity 1.5s ease,
-        transform 2s cubic-bezier(.2,.8,.2,1);
+    display:block;
 }
 
-.reveal-photo img {
-    max-width: 94vw;
-    max-height: 90vh;
+.spotlight{
 
-    object-fit: contain;
+    position:absolute;
 
-    border-radius: 18px;
+    left:50%;
+    top:0;
 
-    box-shadow:
-        0 0 50px rgba(125,255,176,.2),
-        0 30px 80px rgba(0,0,0,.8);
+    transform:translateX(-50%);
+
+    width:0;
+    height:0;
+
+    border-left:260px solid transparent;
+    border-right:260px solid transparent;
+
+    border-top:700px solid rgba(255,230,150,.08);
+
+    filter:blur(5px);
 }
 
-.curtain {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 52%;
+.curtain{
 
-    z-index: 5;
+    position:absolute;
+
+    top:0;
+
+    width:53%;
+    height:100%;
 
     background:
         repeating-linear-gradient(
             90deg,
-            #07140e 0px,
-            #153d2b 18px,
-            #07140e 36px
+            #3b0007 0px,
+            #750015 20px,
+            #3b0007 42px
         );
 
     box-shadow:
-        inset 0 0 70px rgba(0,0,0,.9),
-        0 0 50px rgba(0,0,0,.7);
+        inset 0 0 80px rgba(0,0,0,.7);
 
     transition:
-        transform 2.2s cubic-bezier(.77,0,.18,1);
+        transform 2.2s
+        cubic-bezier(.77,0,.18,1);
 }
 
-.curtain.left {
-    left: 0;
+.curtain.left{
+
+    left:0;
+
+    transform-origin:left center;
 }
 
-.curtain.right {
-    right: 0;
+.curtain.right{
+
+    right:0;
+
+    transform-origin:right center;
 }
 
-.open .curtain.left {
-    transform: translateX(-100%);
-}
+#curtainScene.open .curtain.left{
 
-.open .curtain.right {
-    transform: translateX(100%);
-}
-
-.open .reveal-photo {
-    opacity: 1;
-    transform: scale(1);
-}
-
-/* CURTAIN CENTER TEXT */
-
-.curtain-text {
-    position: absolute;
-    z-index: 10;
-
-    top: 50%;
-    left: 50%;
-
-    transform: translate(-50%, -50%);
-
-    text-align: center;
-
-    transition:
-        opacity .8s,
-        transform 1s;
-}
-
-.curtain-text h2 {
-    font-size: clamp(25px, 7vw, 45px);
-    color: white;
-    text-shadow: 0 0 25px black;
-}
-
-.curtain-text p {
-    color: #c7d8cf;
-}
-
-.open .curtain-text {
-    opacity: 0;
     transform:
-        translate(-50%, -50%)
-        scale(1.5);
+        translateX(-105%)
+        rotateY(12deg);
 }
 
-/* CONFETTI */
+#curtainScene.open .curtain.right{
 
-.confetti {
-    position: fixed;
-    width: 8px;
-    height: 14px;
-
-    z-index: 100;
-
-    animation:
-        confettiFall 3s linear forwards;
+    transform:
+        translateX(105%)
+        rotateY(-12deg);
 }
 
-@keyframes confettiFall {
-    from {
-        transform:
-            translateY(-20px)
-            rotate(0deg);
+.tie{
+
+    position:absolute;
+
+    top:52%;
+
+    width:45px;
+    height:90px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #a87400,
+            #ffe36a,
+            #a87400
+        );
+
+    box-shadow:
+        0 0 20px rgba(255,210,50,.6);
+}
+
+.tie.left{
+
+    left:47%;
+
+    border-radius:
+        0 20px 20px 0;
+}
+
+.tie.right{
+
+    right:47%;
+
+    border-radius:
+        20px 0 0 20px;
+}
+
+#curtainScene.open .tie{
+
+    opacity:0;
+
+    transition:.5s;
+}
+
+/* ================= FINAL ================= */
+
+.final-content{
+
+    position:relative;
+
+    z-index:10;
+
+    width:92%;
+    max-width:700px;
+
+    text-align:center;
+}
+
+.final-image{
+
+    width:100%;
+
+    max-height:80vh;
+
+    object-fit:contain;
+
+    border-radius:18px;
+
+    box-shadow:
+        0 0 35px rgba(255,0,180,.45),
+        0 20px 60px rgba(0,0,0,.7);
+
+    animation:finalZoom 8s ease-out;
+}
+
+@keyframes finalZoom{
+
+    from{
+        transform:scale(1.05);
     }
 
-    to {
+    to{
+        transform:scale(1);
+    }
+
+}
+
+/* ================= FLASH ================= */
+
+.flash{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:10000;
+
+    background:white;
+
+    opacity:0;
+
+    pointer-events:none;
+}
+
+.flash.active{
+
+    animation:flash .7s ease;
+}
+
+@keyframes flash{
+
+    0%{
+        opacity:0;
+    }
+
+    30%{
+        opacity:.9;
+    }
+
+    100%{
+        opacity:0;
+    }
+
+}
+
+/* ================= CONFETTI ================= */
+
+.confetti{
+
+    position:fixed;
+
+    top:-20px;
+
+    width:8px;
+    height:14px;
+
+    z-index:8500;
+
+    animation:
+        fall linear forwards;
+}
+
+@keyframes fall{
+
+    to{
+
         transform:
             translateY(110vh)
             rotate(720deg);
-    }
-}
 
-/* FADE */
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-.fade-out {
-    animation: fadeOut .6s forwards;
-}
-
-@keyframes fadeOut {
-    to {
-        opacity: 0;
-        transform: scale(1.05);
-    }
-}
-
-/* MOBILE */
-
-@media(max-width:500px) {
-
-    .card {
-        padding: 25px 18px;
-    }
-
-    .title {
-        font-size: 26px;
-    }
-
-    .question {
-        font-size: 20px;
     }
 
 }
+
 </style>
 </head>
 
+
 <body>
 
-<!-- PARTICLES -->
 
-<div class="particles" id="particles"></div>
+<!-- MUSIC BUTTON -->
+
+<button
+    id="musicBtn"
+    type="button"
+    onclick="toggleMusic()"
+>
+    🔇
+</button>
 
 
-<!-- QUIZ -->
+<!-- ================= INTRO ================= -->
 
-<section class="screen" id="quizScreen">
+<section
+    id="introScreen"
+    class="screen active"
+>
 
-    <div class="card" id="quizCard">
+    <div class="background"></div>
 
-        <div class="title">
-            ✨ Something Special ✨
+    <div class="orb one"></div>
+    <div class="orb two"></div>
+
+    <div class="intro-content">
+
+        <div class="gift">
+
+            <div class="ribbon"></div>
+
+            <div class="ribbon right"></div>
+
+            <div class="gift-lid"></div>
+
+            <div class="gift-box"></div>
+
         </div>
 
-        <div class="subtitle">
-            Answer these little questions to unlock your surprise
-        </div>
 
-        <div class="progress">
-            <span class="dot active"></span>
-            <span class="dot"></span>
-            <span class="dot"></span>
-        </div>
+        <h1 class="title">
+            Birthday Surprise
+        </h1>
 
-        <div class="question" id="question">
-        </div>
 
-        <div id="options"></div>
+        <p class="subtitle">
+            Something special is waiting for you ✨
+        </p>
+
+
+        <button
+            class="main-btn"
+            type="button"
+            onclick="startGame()"
+        >
+            ENTER THE SURPRISE ✨
+        </button>
 
     </div>
 
 </section>
 
 
-<!-- UNLOCK SCREEN -->
+<!-- ================= QUESTIONS ================= -->
 
-<div class="unlock" id="unlock">
+<section
+    id="questionScreen"
+    class="screen"
+>
 
-    <div>
-        <h1>ACCESS GRANTED ✨</h1>
-        <p>Your surprise is unlocking...</p>
+    <div class="background"></div>
+
+    <div class="orb one"></div>
+    <div class="orb two"></div>
+
+
+    <div class="question-card">
+
+        <div
+            id="progress"
+            class="progress"
+        >
+            Question 1 of 3
+        </div>
+
+
+        <div
+            id="question"
+            class="question"
+        >
+        </div>
+
+
+        <div
+            id="options"
+            class="options"
+        >
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= PUZZLE ================= -->
+
+<section
+    id="puzzleScreen"
+    class="screen"
+>
+
+    <div class="background"></div>
+
+    <div class="orb one"></div>
+    <div class="orb two"></div>
+
+
+    <div class="puzzle-container">
+
+        <h1 class="puzzle-title">
+            One Last Challenge 🧩
+        </h1>
+
+        <p class="puzzle-sub">
+            Arrange the pieces to reveal the surprise
+        </p>
+
+
+        <div
+            id="puzzle"
+            class="puzzle"
+        >
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= SUCCESS ================= -->
+
+<div
+    id="successOverlay"
+    class="success-overlay"
+>
+
+    <div class="success-text">
+
+        <h1>
+            ✨ YOU DID IT ✨
+        </h1>
+
+        <p>
+            Something beautiful is waiting...
+        </p>
+
     </div>
 
 </div>
 
 
-<!-- PUZZLE -->
+<!-- ================= CURTAIN ================= -->
 
-<section class="screen" id="puzzleScreen">
+<div id="curtainScene">
 
-    <div class="card puzzle-card">
+    <div class="spotlight"></div>
 
-        <div class="title">
-            🧩 One Last Secret
-        </div>
+    <div class="curtain left"></div>
 
-        <div class="subtitle">
-            Put the pieces together...
-        </div>
+    <div class="curtain right"></div>
 
-        <div class="puzzle" id="puzzle"></div>
+    <div class="tie left"></div>
 
-        <p style="color:#8fa99b;font-size:13px;">
-            Tap two pieces to swap them
-        </p>
+    <div class="tie right"></div>
+
+</div>
+
+
+<!-- ================= FINAL ================= -->
+
+<section
+    id="finalScreen"
+    class="screen"
+>
+
+    <div class="background"></div>
+
+    <div class="orb one"></div>
+    <div class="orb two"></div>
+
+
+    <div class="final-content">
+
+        <img
+            src="surprise.jpeg"
+            class="final-image"
+            alt="Birthday Surprise"
+        >
 
     </div>
 
 </section>
 
 
-<!-- FINAL REVEAL -->
+<!-- FLASH -->
 
-<div id="revealScreen">
-
-    <div class="reveal-photo">
-        <img src="./surprise.jpeg" alt="Your Birthday Surprise">
-    </div>
-
-    <div class="curtain left"></div>
-    <div class="curtain right"></div>
-
-    <div class="curtain-text">
-        <h2>🎁 Ready?</h2>
-        <p>Your surprise is waiting...</p>
-    </div>
-
+<div
+    id="flash"
+    class="flash"
+>
 </div>
 
 
 <script>
 
-/* PARTICLES */
+/* =====================================================
+   AUDIO
+===================================================== */
 
-const particles = document.getElementById("particles");
+let audioContext = null;
 
-for(let i = 0; i < 35; i++) {
+let masterGain = null;
 
-    const p = document.createElement("span");
+let musicPlaying = false;
 
-    p.className = "particle";
+let musicTimer = null;
 
-    p.style.left = Math.random() * 100 + "%";
+let melodyIndex = 0;
 
-    p.style.animationDelay =
-        Math.random() * 7 + "s";
 
-    p.style.animationDuration =
-        (5 + Math.random() * 6) + "s";
+/* =====================================================
+   INITIALIZE AUDIO
+===================================================== */
 
-    p.style.opacity =
-        .2 + Math.random() * .7;
+function initAudio(){
 
-    particles.appendChild(p);
+    try{
+
+        if(!audioContext){
+
+            const AudioContext =
+                window.AudioContext ||
+                window.webkitAudioContext;
+
+            if(!AudioContext){
+
+                return false;
+            }
+
+            audioContext =
+                new AudioContext();
+
+            masterGain =
+                audioContext.createGain();
+
+            masterGain.gain.value =
+                0.20;
+
+            masterGain.connect(
+                audioContext.destination
+            );
+        }
+
+
+        if(
+            audioContext.state ===
+            "suspended"
+        ){
+
+            audioContext.resume();
+
+        }
+
+
+        return true;
+
+    }catch(error){
+
+        console.log(
+            "Audio error:",
+            error
+        );
+
+        return false;
+
+    }
+
 }
 
 
-/* QUESTIONS */
+/* =====================================================
+   PLAY SOUND
+===================================================== */
+
+function playTone(
+    frequency,
+    duration,
+    type,
+    volume
+){
+
+    if(!initAudio()){
+
+        return;
+
+    }
+
+
+    try{
+
+        const oscillator =
+            audioContext.createOscillator();
+
+        const gain =
+            audioContext.createGain();
+
+
+        oscillator.type =
+            type || "sine";
+
+
+        oscillator.frequency.setValueAtTime(
+            frequency,
+            audioContext.currentTime
+        );
+
+
+        gain.gain.setValueAtTime(
+            volume || 0.12,
+            audioContext.currentTime
+        );
+
+
+        gain.gain.exponentialRampToValueAtTime(
+            0.001,
+            audioContext.currentTime +
+            duration
+        );
+
+
+        oscillator.connect(gain);
+
+        gain.connect(masterGain);
+
+
+        oscillator.start();
+
+
+        oscillator.stop(
+            audioContext.currentTime +
+            duration
+        );
+
+    }catch(error){
+
+        console.log(error);
+
+    }
+
+}
+
+
+/* =====================================================
+   BUTTON SOUND
+===================================================== */
+
+function buttonSound(){
+
+    playTone(
+        520,
+        0.12,
+        "sine",
+        0.15
+    );
+
+
+    setTimeout(function(){
+
+        playTone(
+            760,
+            0.16,
+            "sine",
+            0.14
+        );
+
+    },70);
+
+}
+
+
+/* =====================================================
+   CORRECT SOUND
+===================================================== */
+
+function correctSound(){
+
+    playTone(
+        523,
+        0.18,
+        "sine",
+        0.15
+    );
+
+
+    setTimeout(function(){
+
+        playTone(
+            659,
+            0.18,
+            "sine",
+            0.15
+        );
+
+    },100);
+
+
+    setTimeout(function(){
+
+        playTone(
+            784,
+            0.40,
+            "sine",
+            0.17
+        );
+
+    },200);
+
+}
+
+
+/* =====================================================
+   WRONG SOUND
+===================================================== */
+
+function wrongSound(){
+
+    playTone(
+        180,
+        0.25,
+        "sawtooth",
+        0.09
+    );
+
+}
+
+
+/* =====================================================
+   MUSIC
+===================================================== */
+
+const melody = [
+
+    261.63,
+    329.63,
+    392.00,
+    523.25,
+    392.00,
+    329.63,
+    293.66,
+    392.00
+
+];
+
+
+function musicLoop(){
+
+    if(!musicPlaying){
+
+        return;
+
+    }
+
+
+    playTone(
+        melody[melodyIndex],
+        0.75,
+        "sine",
+        0.08
+    );
+
+
+    melodyIndex++;
+
+
+    if(
+        melodyIndex >=
+        melody.length
+    ){
+
+        melodyIndex = 0;
+
+    }
+
+
+    musicTimer =
+        setTimeout(
+            musicLoop,
+            650
+        );
+
+}
+
+
+/* =====================================================
+   START MUSIC
+===================================================== */
+
+function startMusic(){
+
+    if(!initAudio()){
+
+        return;
+
+    }
+
+
+    if(musicPlaying){
+
+        return;
+
+    }
+
+
+    musicPlaying = true;
+
+
+    document.getElementById(
+        "musicBtn"
+    ).innerText = "🎵";
+
+
+    melodyIndex = 0;
+
+
+    musicLoop();
+
+}
+
+
+/* =====================================================
+   STOP MUSIC
+===================================================== */
+
+function stopMusic(){
+
+    musicPlaying = false;
+
+
+    clearTimeout(
+        musicTimer
+    );
+
+
+    document.getElementById(
+        "musicBtn"
+    ).innerText = "🔇";
+
+}
+
+
+/* =====================================================
+   MUSIC BUTTON
+===================================================== */
+
+function toggleMusic(){
+
+    if(!initAudio()){
+
+        return;
+
+    }
+
+
+    if(musicPlaying){
+
+        stopMusic();
+
+        buttonSound();
+
+    }
+
+    else{
+
+        startMusic();
+
+        buttonSound();
+
+    }
+
+}
+
+
+/* =====================================================
+   START GAME
+===================================================== */
+
+function startGame(){
+
+    /*
+       IMPORTANT:
+       SCREEN CHANGE FIRST.
+       SOUND CANNOT BLOCK THE BUTTON.
+    */
+
+
+    currentQuestion = 0;
+
+
+    showScreen(
+        "questionScreen"
+    );
+
+
+    loadQuestion();
+
+
+    /*
+       Start sound AFTER screen change.
+    */
+
+    try{
+
+        initAudio();
+
+        buttonSound();
+
+        startMusic();
+
+    }catch(error){
+
+        console.log(error);
+
+    }
+
+}
+
+
+/* =====================================================
+   SCREEN CHANGE
+===================================================== */
+
+function showScreen(id){
+
+    const screens =
+        document.querySelectorAll(
+            ".screen"
+        );
+
+
+    screens.forEach(
+        function(screen){
+
+            screen.classList.remove(
+                "active"
+            );
+
+        }
+    );
+
+
+    const target =
+        document.getElementById(id);
+
+
+    if(target){
+
+        target.classList.add(
+            "active"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   QUESTIONS
+===================================================== */
 
 const questions = [
 
     {
-        question: "Naa unna epdi kupduven?",
+
+        question:
+            "Naa unna epdi kupduven?",
+
         options: [
-            "Nivedha",
+
             "Alagii",
             "Alukuuuu",
-            "Eruma"
-        ],
-        answer: 2
-    },
-
-    {
-        question: "Enaku pudicha dress color?",
-        options: [
-            "Rose",
-            "Red",
-            "Black",
-            "Yellow"
-        ],
-        answer: 3
-    },
-
-    {
-        question: "Secret Code sollu?",
-        options: [
-            "15",
-            "16",
-            "17",
-            "18"
-        ],
-        answer: 3
-    }
-
-];
-
-let currentQuestion = 0;
-
-const questionText =
-    document.getElementById("question");
-
-const optionsDiv =
-    document.getElementById("options");
-
-const dots =
-    document.querySelectorAll(".dot");
-
-const quizCard =
-    document.getElementById("quizCard");
-
-
-function showQuestion() {
-
-    const q = questions[currentQuestion];
-
-    questionText.innerText =
-        q.question;
-
-    dots.forEach((dot, index) => {
-
-        dot.classList.toggle(
-            "active",
-            index === currentQuestion
-        );
-
-    });
-
-    optionsDiv.innerHTML = "";
-
-    q.options.forEach((option, index) => {
-
-        const button =
-            document.createElement("button");
-
-        button.className = "option";
-
-        button.innerText =
-            option;
-
-        button.onclick = () => {
-
-            if(index === q.answer) {
-
-                button.classList.add("correct");
-
-                setTimeout(() => {
-
-                    currentQuestion++;
-
-                    if(currentQuestion === questions.length) {
-
-                        unlockPuzzle();
-
-                    } else {
-
-                        quizCard.style.animation =
-                            "none";
-
-                        void quizCard.offsetWidth;
-
-                        quizCard.style.animation =
-                            "cardIn .7s ease";
-
-                        showQuestion();
-
-                    }
-
-                }, 500);
-
-            } else {
-
-                button.classList.add("wrong");
-
-                setTimeout(() => {
-
-                    button.classList.remove("wrong");
-
-                }, 500);
-
-            }
-
-        };
-
-        optionsDiv.appendChild(button);
-
-    });
-
-}
-
-
-/* UNLOCK PUZZLE */
-
-function unlockPuzzle() {
-
-    document.getElementById("quizScreen")
-        .style.display = "none";
-
-    const unlock =
-        document.getElementById("unlock");
-
-    unlock.style.display = "flex";
-
-    setTimeout(() => {
-
-        unlock.style.display = "none";
-
-        document.getElementById("puzzleScreen")
-            .style.display = "flex";
-
-        createPuzzle();
-
-    }, 1700);
-
-}
-
-
-/* PUZZLE */
-
-const puzzle =
-    document.getElementById("puzzle");
-
-let pieces = [];
-
-let selected = null;
-
-
-function createPuzzle() {
-
-    pieces = [];
-
-    for(let i = 0; i < 9; i++) {
-
-        pieces.push(i);
-
-    }
-
-    do {
-
-        pieces.sort(() =>
-            Math.random() - .5
-        );
-
-    } while(
-        pieces.every(
-            (value, index) =>
-            value === index
-        )
-    );
-
-    renderPuzzle();
-
-}
-
-
-function renderPuzzle() {
-
-    puzzle.innerHTML = "";
-
-    pieces.forEach((number) => {
-
-        const piece =
-            document.createElement("div");
-
-        piece.className = "piece";
-
-        const row =
-            Math.floor(number / 3);
-
-        const col =
-            number % 3;
-
-        piece.style.backgroundPosition =
-            `${col * 50}% ${row * 50}%`;
-
-        piece.dataset.number =
-            number;
-
-        piece.onclick = () => {
-
-            if(selected === null) {
-
-                selected = piece;
-
-                piece.classList.add("selected");
-
-                return;
-            }
-
-            if(selected === piece) {
-
-                piece.classList.remove("selected");
-
-                selected = null;
-
-                return;
-            }
-
-            const firstIndex =
-                [...puzzle.children]
-                .indexOf(selected);
-
-            const secondIndex =
-                [...puzzle.children]
-                .indexOf(piece);
-
-            [
-                pieces[firstIndex],
-                pieces[secondIndex]
-            ] =
-            [
-                pieces[secondIndex],
-                pieces[firstIndex]
-            ];
-
-            selected.classList.remove("selected");
-
-            selected = null;
-
-            renderPuzzle();
-
-            checkSolved();
-
-        };
-
-        puzzle.appendChild(piece);
-
-    });
-
-}
-
-
-function checkSolved() {
-
-    const solved =
-        pieces.every(
-            (value, index) =>
-            value === index
-        );
-
-    if(!solved) return;
-
-    document
-        .querySelectorAll(".piece")
-        .forEach(piece => {
-
-            piece.classList.add("solved");
-
-        });
-
-    setTimeout(() => {
-
-        showReveal();
-
-    }, 1000);
-
-}
-
-
-/* FINAL REVEAL */
-
-function showReveal() {
-
-    const reveal =
-        document.getElementById("revealScreen");
-
-    reveal.style.display = "block";
-
-    setTimeout(() => {
-
-        reveal.classList.add("open");
-
-    }, 1200);
-
-    setTimeout(() => {
-
-        createConfetti();
-
-    }, 2500);
-
-}
-
-
-/* CONFETTI */
-
-function createConfetti() {
-
-    for(let i = 0; i < 80; i++) {
-
-        const confetti =
-            document.createElement("span");
-
-        confetti.className =
-            "confetti";
-
-        confetti.style.left =
-            Math.random() * 100 + "vw";
-
-        confetti.style.top =
-            "-20px";
-
-        confetti.style.background =
-            [
-                "#9affbd",
-                "#ffffff",
-                "#8de8ff",
-                "#ffd86b",
-                "#ff8fab"
-            ][Math.floor(
-                Math.random() * 5
-            )];
-
-        confetti.style.animationDelay =
-            Math.random() * 1.5 + "s";
-
-        confetti.style.transform =
-            `rotate(${Math.random()*360}deg)`;
-
-        document.body.appendChild(confetti);
-
-        setTimeout(() => {
-
-            confetti.remove();
-
-        }, 4500);
-
-    }
-
-}
-
-
-/* START */
-
-showQuestion();
-
-</script>
-
-</body>
-</html>
+            "Eruma",
