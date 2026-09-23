@@ -4,231 +4,623 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Birthday Puzzle 🎁</title>
+<title>Just For You 💚</title>
 
 <style>
+* {
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
     min-height: 100vh;
+    overflow-x: hidden;
+    font-family: Arial, sans-serif;
+    color: white;
+    background:
+        radial-gradient(circle at 20% 20%, #173d2c 0%, transparent 35%),
+        radial-gradient(circle at 80% 80%, #0d3325 0%, transparent 35%),
+        #030807;
+}
+
+/* FLOATING PARTICLES */
+
+.particles {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #9cffc5;
+    border-radius: 50%;
+    opacity: .5;
+    animation: float 7s linear infinite;
+}
+
+@keyframes float {
+    from {
+        transform: translateY(110vh) scale(.5);
+    }
+    to {
+        transform: translateY(-10vh) scale(1.5);
+    }
+}
+
+/* MAIN */
+
+.screen {
+    min-height: 100vh;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(135deg, #d8f3dc, #95d5b2);
-    font-family: Arial, sans-serif;
+    padding: 20px;
+    position: relative;
+    z-index: 2;
+}
+
+.card {
+    width: min(92vw, 470px);
+    padding: 30px 25px;
+    border-radius: 28px;
+
+    background: rgba(255,255,255,.07);
+    border: 1px solid rgba(255,255,255,.15);
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,.55),
+        inset 0 1px rgba(255,255,255,.15);
+
     text-align: center;
+
+    transform:
+        perspective(1000px)
+        rotateX(0deg);
+
+    animation: cardIn .8s ease;
 }
 
-.box {
-    width: 90%;
-    max-width: 450px;
-    background: white;
-    padding: 25px;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+@keyframes cardIn {
+    from {
+        opacity: 0;
+        transform:
+            perspective(1000px)
+            rotateX(20deg)
+            translateY(40px)
+            scale(.9);
+    }
+
+    to {
+        opacity: 1;
+        transform:
+            perspective(1000px)
+            rotateX(0)
+            translateY(0)
+            scale(1);
+    }
 }
 
-h1 {
-    color: #176b3a;
+.title {
+    font-size: 30px;
+    margin-bottom: 8px;
+    color: #d8ffe7;
+    text-shadow: 0 0 20px rgba(111,255,166,.35);
 }
 
-#puzzle {
+.subtitle {
+    color: #b6c9bf;
+    font-size: 14px;
+    margin-bottom: 25px;
+}
+
+.progress {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 25px;
+}
+
+.dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #355246;
+    transition: .4s;
+}
+
+.dot.active {
+    background: #7dffb0;
+    box-shadow: 0 0 15px #7dffb0;
+}
+
+.question {
+    font-size: 22px;
+    margin-bottom: 22px;
+}
+
+/* OPTIONS */
+
+.option {
+    width: 100%;
+    padding: 15px;
+    margin: 9px 0;
+
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 16px;
+
+    background: rgba(255,255,255,.07);
+    color: white;
+
+    font-size: 16px;
+    cursor: pointer;
+
+    transition:
+        transform .25s,
+        background .25s,
+        box-shadow .25s;
+}
+
+.option:hover {
+    transform:
+        perspective(500px)
+        translateZ(12px)
+        scale(1.02);
+
+    background: rgba(125,255,176,.15);
+    box-shadow: 0 10px 25px rgba(0,0,0,.3);
+}
+
+.correct {
+    background: rgba(60,220,120,.3) !important;
+    box-shadow: 0 0 30px rgba(80,255,140,.5);
+}
+
+.wrong {
+    animation: shake .4s;
+    background: rgba(255,60,60,.2) !important;
+}
+
+@keyframes shake {
+    0%,100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
+}
+
+/* UNLOCK MESSAGE */
+
+.unlock {
+    position: fixed;
+    inset: 0;
+    background: #020504;
+    z-index: 20;
+
+    display: none;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    animation: fadeIn .5s;
+}
+
+.unlock h1 {
+    font-size: clamp(35px, 10vw, 70px);
+    color: #9affbd;
+    text-shadow:
+        0 0 20px #65ff9a,
+        0 0 60px #22b85d;
+
+    animation: unlockPulse 1.2s infinite alternate;
+}
+
+@keyframes unlockPulse {
+    from { transform: scale(.9); }
+    to { transform: scale(1.08); }
+}
+
+/* PUZZLE */
+
+#puzzleScreen {
+    display: none;
+}
+
+.puzzle-card {
+    width: min(92vw, 480px);
+}
+
+.puzzle {
     width: 100%;
     aspect-ratio: 1;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 3px;
-    background: #222;
-    padding: 3px;
-    margin-top: 20px;
+    gap: 5px;
+
+    padding: 6px;
+    border-radius: 22px;
+
+    background: rgba(0,0,0,.7);
+
+    box-shadow:
+        0 30px 70px rgba(0,0,0,.7),
+        inset 0 0 20px rgba(255,255,255,.05);
+
+    perspective: 1000px;
 }
 
 .piece {
-    width: 100%;
-    aspect-ratio: 1;
+    position: relative;
+
+    border-radius: 9px;
+
     background-image: url("./photo.jpeg");
     background-size: 300% 300%;
     background-repeat: no-repeat;
+
     cursor: pointer;
+
+    transition:
+        transform .35s,
+        box-shadow .35s;
+
+    box-shadow:
+        inset 0 0 12px rgba(255,255,255,.12),
+        0 5px 10px rgba(0,0,0,.5);
+}
+
+.piece:hover {
+    transform:
+        translateZ(25px)
+        scale(1.04);
+
+    box-shadow:
+        0 15px 30px rgba(0,0,0,.7);
 }
 
 .selected {
-    outline: 4px solid orange;
+    transform:
+        translateZ(35px)
+        scale(1.07)
+        rotateX(5deg);
+
+    outline: 3px solid #9affbd;
+
+    box-shadow:
+        0 0 25px #65ff9a;
 }
 
-#quiz,
-#qrBox,
-#success {
+/* SOLVED */
+
+.solved {
+    animation: solvedPiece .7s ease forwards;
+}
+
+@keyframes solvedPiece {
+    50% {
+        transform: scale(1.08) rotateY(180deg);
+    }
+
+    100% {
+        transform: scale(1) rotateY(360deg);
+    }
+}
+
+/* CURTAIN */
+
+#revealScreen {
     display: none;
+    position: fixed;
+    inset: 0;
+    background: #020303;
+    z-index: 50;
+
+    overflow: hidden;
 }
 
-.option {
-    display: block;
-    width: 100%;
-    padding: 12px;
-    margin: 8px 0;
-    border: none;
-    border-radius: 10px;
-    background: #d8f3dc;
-    font-size: 16px;
-    cursor: pointer;
+.reveal-photo {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 30px;
+
+    opacity: 0;
+    transform: scale(.75);
+
+    transition:
+        opacity 1.5s ease,
+        transform 2s cubic-bezier(.2,.8,.2,1);
 }
 
-.option:hover {
-    background: #95d5b2;
+.reveal-photo img {
+    max-width: 94vw;
+    max-height: 90vh;
+
+    object-fit: contain;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 0 50px rgba(125,255,176,.2),
+        0 30px 80px rgba(0,0,0,.8);
 }
 
-#qrBox {
-    margin-top: 20px;
-    padding: 20px;
-    background: #f1fff5;
-    border-radius: 15px;
+.curtain {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 52%;
+
+    z-index: 5;
+
+    background:
+        repeating-linear-gradient(
+            90deg,
+            #07140e 0px,
+            #153d2b 18px,
+            #07140e 36px
+        );
+
+    box-shadow:
+        inset 0 0 70px rgba(0,0,0,.9),
+        0 0 50px rgba(0,0,0,.7);
+
+    transition:
+        transform 2.2s cubic-bezier(.77,0,.18,1);
 }
 
-#qrBox img {
-    width: 220px;
-    max-width: 100%;
+.curtain.left {
+    left: 0;
+}
+
+.curtain.right {
+    right: 0;
+}
+
+.open .curtain.left {
+    transform: translateX(-100%);
+}
+
+.open .curtain.right {
+    transform: translateX(100%);
+}
+
+.open .reveal-photo {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* CURTAIN CENTER TEXT */
+
+.curtain-text {
+    position: absolute;
+    z-index: 10;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    text-align: center;
+
+    transition:
+        opacity .8s,
+        transform 1s;
+}
+
+.curtain-text h2 {
+    font-size: clamp(25px, 7vw, 45px);
+    color: white;
+    text-shadow: 0 0 25px black;
+}
+
+.curtain-text p {
+    color: #c7d8cf;
+}
+
+.open .curtain-text {
+    opacity: 0;
+    transform:
+        translate(-50%, -50%)
+        scale(1.5);
+}
+
+/* CONFETTI */
+
+.confetti {
+    position: fixed;
+    width: 8px;
+    height: 14px;
+
+    z-index: 100;
+
+    animation:
+        confettiFall 3s linear forwards;
+}
+
+@keyframes confettiFall {
+    from {
+        transform:
+            translateY(-20px)
+            rotate(0deg);
+    }
+
+    to {
+        transform:
+            translateY(110vh)
+            rotate(720deg);
+    }
+}
+
+/* FADE */
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.fade-out {
+    animation: fadeOut .6s forwards;
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        transform: scale(1.05);
+    }
+}
+
+/* MOBILE */
+
+@media(max-width:500px) {
+
+    .card {
+        padding: 25px 18px;
+    }
+
+    .title {
+        font-size: 26px;
+    }
+
+    .question {
+        font-size: 20px;
+    }
+
 }
 </style>
 </head>
 
 <body>
 
-<div class="box">
+<!-- PARTICLES -->
 
-    <h1>🎁 Birthday Puzzle</h1>
+<div class="particles" id="particles"></div>
 
-    <p id="instruction">
-        Arrange the pieces correctly! 🧩
-    </p>
 
-    <div id="puzzle"></div>
+<!-- QUIZ -->
 
-    <div id="success">
-        <h2>🎉 PUZZLE SOLVED! 🎉</h2>
-    </div>
+<section class="screen" id="quizScreen">
 
-    <div id="quiz">
+    <div class="card" id="quizCard">
 
-        <h2 id="question"></h2>
+        <div class="title">
+            ✨ Something Special ✨
+        </div>
+
+        <div class="subtitle">
+            Answer these little questions to unlock your surprise
+        </div>
+
+        <div class="progress">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>
+
+        <div class="question" id="question">
+        </div>
 
         <div id="options"></div>
 
     </div>
 
-    <div id="qrBox">
+</section>
 
-        <h2>🎉 YOU DID IT! 🎉</h2>
 
-        <p>Here is your next surprise! 💗</p>
+<!-- UNLOCK SCREEN -->
 
-        <img id="qr">
+<div class="unlock" id="unlock">
 
+    <div>
+        <h1>ACCESS GRANTED ✨</h1>
+        <p>Your surprise is unlocking...</p>
     </div>
 
 </div>
 
+
+<!-- PUZZLE -->
+
+<section class="screen" id="puzzleScreen">
+
+    <div class="card puzzle-card">
+
+        <div class="title">
+            🧩 One Last Secret
+        </div>
+
+        <div class="subtitle">
+            Put the pieces together...
+        </div>
+
+        <div class="puzzle" id="puzzle"></div>
+
+        <p style="color:#8fa99b;font-size:13px;">
+            Tap two pieces to swap them
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- FINAL REVEAL -->
+
+<div id="revealScreen">
+
+    <div class="reveal-photo">
+        <img src="./surprise.jpeg" alt="Your Birthday Surprise">
+    </div>
+
+    <div class="curtain left"></div>
+    <div class="curtain right"></div>
+
+    <div class="curtain-text">
+        <h2>🎁 Ready?</h2>
+        <p>Your surprise is waiting...</p>
+    </div>
+
+</div>
+
+
 <script>
 
-const puzzle = document.getElementById("puzzle");
+/* PARTICLES */
 
-let pieces = [];
+const particles = document.getElementById("particles");
 
-for (let i = 0; i < 9; i++) {
-    pieces.push(i);
-}
+for(let i = 0; i < 35; i++) {
 
-pieces.sort(() => Math.random() - 0.5);
+    const p = document.createElement("span");
 
-let selected = null;
+    p.className = "particle";
 
-function createPuzzle() {
+    p.style.left = Math.random() * 100 + "%";
 
-    puzzle.innerHTML = "";
+    p.style.animationDelay =
+        Math.random() * 7 + "s";
 
-    pieces.forEach((number) => {
+    p.style.animationDuration =
+        (5 + Math.random() * 6) + "s";
 
-        let piece = document.createElement("div");
+    p.style.opacity =
+        .2 + Math.random() * .7;
 
-        piece.className = "piece";
-
-        let row = Math.floor(number / 3);
-        let col = number % 3;
-
-        piece.style.backgroundPosition =
-            `${col * 50}% ${row * 50}%`;
-
-        piece.dataset.number = number;
-
-        piece.onclick = function () {
-
-            if (selected === null) {
-
-                selected = piece;
-                piece.classList.add("selected");
-
-            } else {
-
-                let temp = selected.dataset.number;
-
-                selected.dataset.number =
-                    piece.dataset.number;
-
-                piece.dataset.number = temp;
-
-                let tempPosition =
-                    selected.style.backgroundPosition;
-
-                selected.style.backgroundPosition =
-                    piece.style.backgroundPosition;
-
-                piece.style.backgroundPosition =
-                    tempPosition;
-
-                selected.classList.remove("selected");
-
-                selected = null;
-
-                checkSolved();
-            }
-        };
-
-        puzzle.appendChild(piece);
-    });
-}
-
-function checkSolved() {
-
-    let allPieces =
-        document.querySelectorAll(".piece");
-
-    let solved = true;
-
-    allPieces.forEach((piece, index) => {
-
-        if (Number(piece.dataset.number) !== index) {
-            solved = false;
-        }
-
-    });
-
-    if (solved) {
-
-        document.getElementById("success").style.display =
-            "block";
-
-        puzzle.style.display = "none";
-
-        document.getElementById("instruction").style.display =
-            "none";
-
-        startQuiz();
-    }
+    particles.appendChild(p);
 }
 
 
-/* QUIZ */
-
-let currentQuestion = 0;
+/* QUESTIONS */
 
 const questions = [
 
@@ -267,31 +659,42 @@ const questions = [
 
 ];
 
+let currentQuestion = 0;
 
-function startQuiz() {
+const questionText =
+    document.getElementById("question");
 
-    document.getElementById("quiz").style.display =
-        "block";
+const optionsDiv =
+    document.getElementById("options");
 
-    showQuestion();
-}
+const dots =
+    document.querySelectorAll(".dot");
+
+const quizCard =
+    document.getElementById("quizCard");
 
 
 function showQuestion() {
 
-    let q = questions[currentQuestion];
+    const q = questions[currentQuestion];
 
-    document.getElementById("question").innerText =
+    questionText.innerText =
         q.question;
 
-    let optionsDiv =
-        document.getElementById("options");
+    dots.forEach((dot, index) => {
+
+        dot.classList.toggle(
+            "active",
+            index === currentQuestion
+        );
+
+    });
 
     optionsDiv.innerHTML = "";
 
     q.options.forEach((option, index) => {
 
-        let button =
+        const button =
             document.createElement("button");
 
         button.className = "option";
@@ -299,25 +702,45 @@ function showQuestion() {
         button.innerText =
             option;
 
-        button.onclick = function () {
+        button.onclick = () => {
 
-            if (index === q.answer) {
+            if(index === q.answer) {
 
-                currentQuestion++;
+                button.classList.add("correct");
 
-                if (currentQuestion === questions.length) {
+                setTimeout(() => {
 
-                    showQR();
+                    currentQuestion++;
 
-                } else {
+                    if(currentQuestion === questions.length) {
 
-                    showQuestion();
+                        unlockPuzzle();
 
-                }
+                    } else {
+
+                        quizCard.style.animation =
+                            "none";
+
+                        void quizCard.offsetWidth;
+
+                        quizCard.style.animation =
+                            "cardIn .7s ease";
+
+                        showQuestion();
+
+                    }
+
+                }, 500);
 
             } else {
 
-                alert("❌ Wrong answer! Try again 😜");
+                button.classList.add("wrong");
+
+                setTimeout(() => {
+
+                    button.classList.remove("wrong");
+
+                }, 500);
 
             }
 
@@ -326,29 +749,253 @@ function showQuestion() {
         optionsDiv.appendChild(button);
 
     });
+
 }
 
 
-/* QR */
+/* UNLOCK PUZZLE */
 
-function showQR() {
+function unlockPuzzle() {
 
-    document.getElementById("quiz").style.display =
-        "none";
+    document.getElementById("quizScreen")
+        .style.display = "none";
 
-    document.getElementById("qrBox").style.display =
-        "block";
+    const unlock =
+        document.getElementById("unlock");
 
-    let nextLink =
-        "https://drive.google.com/file/d/19eG1mdXxrsVoE0VSKDdlqydaE8e72E8J/view?usp=drivesdk";
+    unlock.style.display = "flex";
 
-    document.getElementById("qr").src =
-        "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data="
-        + encodeURIComponent(nextLink);
+    setTimeout(() => {
+
+        unlock.style.display = "none";
+
+        document.getElementById("puzzleScreen")
+            .style.display = "flex";
+
+        createPuzzle();
+
+    }, 1700);
+
 }
 
 
-createPuzzle();
+/* PUZZLE */
+
+const puzzle =
+    document.getElementById("puzzle");
+
+let pieces = [];
+
+let selected = null;
+
+
+function createPuzzle() {
+
+    pieces = [];
+
+    for(let i = 0; i < 9; i++) {
+
+        pieces.push(i);
+
+    }
+
+    do {
+
+        pieces.sort(() =>
+            Math.random() - .5
+        );
+
+    } while(
+        pieces.every(
+            (value, index) =>
+            value === index
+        )
+    );
+
+    renderPuzzle();
+
+}
+
+
+function renderPuzzle() {
+
+    puzzle.innerHTML = "";
+
+    pieces.forEach((number) => {
+
+        const piece =
+            document.createElement("div");
+
+        piece.className = "piece";
+
+        const row =
+            Math.floor(number / 3);
+
+        const col =
+            number % 3;
+
+        piece.style.backgroundPosition =
+            `${col * 50}% ${row * 50}%`;
+
+        piece.dataset.number =
+            number;
+
+        piece.onclick = () => {
+
+            if(selected === null) {
+
+                selected = piece;
+
+                piece.classList.add("selected");
+
+                return;
+            }
+
+            if(selected === piece) {
+
+                piece.classList.remove("selected");
+
+                selected = null;
+
+                return;
+            }
+
+            const firstIndex =
+                [...puzzle.children]
+                .indexOf(selected);
+
+            const secondIndex =
+                [...puzzle.children]
+                .indexOf(piece);
+
+            [
+                pieces[firstIndex],
+                pieces[secondIndex]
+            ] =
+            [
+                pieces[secondIndex],
+                pieces[firstIndex]
+            ];
+
+            selected.classList.remove("selected");
+
+            selected = null;
+
+            renderPuzzle();
+
+            checkSolved();
+
+        };
+
+        puzzle.appendChild(piece);
+
+    });
+
+}
+
+
+function checkSolved() {
+
+    const solved =
+        pieces.every(
+            (value, index) =>
+            value === index
+        );
+
+    if(!solved) return;
+
+    document
+        .querySelectorAll(".piece")
+        .forEach(piece => {
+
+            piece.classList.add("solved");
+
+        });
+
+    setTimeout(() => {
+
+        showReveal();
+
+    }, 1000);
+
+}
+
+
+/* FINAL REVEAL */
+
+function showReveal() {
+
+    const reveal =
+        document.getElementById("revealScreen");
+
+    reveal.style.display = "block";
+
+    setTimeout(() => {
+
+        reveal.classList.add("open");
+
+    }, 1200);
+
+    setTimeout(() => {
+
+        createConfetti();
+
+    }, 2500);
+
+}
+
+
+/* CONFETTI */
+
+function createConfetti() {
+
+    for(let i = 0; i < 80; i++) {
+
+        const confetti =
+            document.createElement("span");
+
+        confetti.className =
+            "confetti";
+
+        confetti.style.left =
+            Math.random() * 100 + "vw";
+
+        confetti.style.top =
+            "-20px";
+
+        confetti.style.background =
+            [
+                "#9affbd",
+                "#ffffff",
+                "#8de8ff",
+                "#ffd86b",
+                "#ff8fab"
+            ][Math.floor(
+                Math.random() * 5
+            )];
+
+        confetti.style.animationDelay =
+            Math.random() * 1.5 + "s";
+
+        confetti.style.transform =
+            `rotate(${Math.random()*360}deg)`;
+
+        document.body.appendChild(confetti);
+
+        setTimeout(() => {
+
+            confetti.remove();
+
+        }, 4500);
+
+    }
+
+}
+
+
+/* START */
+
+showQuestion();
 
 </script>
 
