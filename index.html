@@ -3,968 +3,1722 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Siha ✨</title>
+
+<title>SIHA ✨</title>
 
 <style>
+
+/* =====================================================
+   RESET
+===================================================== */
+
 *{
-    box-sizing:border-box;
     margin:0;
     padding:0;
+    box-sizing:border-box;
 }
 
-html,body{
+html,
+body{
     width:100%;
-    min-height:100%;
+    height:100%;
     overflow:hidden;
-    font-family:Arial,Helvetica,sans-serif;
 }
 
 body{
-    background:#090014;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#030006;
     color:white;
 }
 
-/* =========================
-   BACKGROUND
-========================= */
 
-#starField{
+/* =====================================================
+   GLOBAL BACKGROUND
+===================================================== */
+
+#space{
     position:fixed;
     inset:0;
     overflow:hidden;
-    pointer-events:none;
+    background:
+        radial-gradient(
+            circle at 50% 45%,
+            rgba(150,30,150,.18),
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at 20% 20%,
+            rgba(70,20,180,.18),
+            transparent 35%
+        ),
+        #030006;
+
     z-index:1;
 }
 
 .star{
     position:absolute;
-    width:3px;
-    height:3px;
-    background:white;
     border-radius:50%;
-    opacity:.75;
-    animation:twinkle 2s infinite alternate;
+    background:white;
+    opacity:.7;
+
+    animation:
+        starTwinkle
+        2s
+        ease-in-out
+        infinite
+        alternate;
 }
 
-@keyframes twinkle{
-    from{opacity:.15;transform:scale(.6);}
-    to{opacity:1;transform:scale(1.3);}
+@keyframes starTwinkle{
+
+    from{
+        opacity:.15;
+        transform:scale(.6);
+    }
+
+    to{
+        opacity:.9;
+        transform:scale(1.3);
+    }
 }
+
+
+/* =====================================================
+   SCREEN SYSTEM
+===================================================== */
 
 .screen{
     position:fixed;
     inset:0;
+
     display:none;
-    z-index:5;
+    align-items:center;
+    justify-content:center;
+
     overflow:hidden;
+    z-index:10;
 }
 
 .screen.active{
     display:flex;
 }
 
-.background-glow{
-    position:absolute;
-    inset:0;
-    background:
-        radial-gradient(circle at 20% 20%,rgba(255,0,150,.25),transparent 35%),
-        radial-gradient(circle at 80% 70%,rgba(100,0,255,.25),transparent 35%),
-        radial-gradient(circle at 50% 50%,rgba(255,80,180,.08),transparent 50%);
-    pointer-events:none;
-}
 
-/* =========================
-   MUSIC BUTTON
-========================= */
+/* =====================================================
+   MUSIC INDICATOR
+===================================================== */
 
-#musicBtn{
+#musicIndicator{
+
     position:fixed;
+
     top:18px;
     right:18px;
+
     z-index:9999;
 
-    border:2px solid rgba(255,255,255,.5);
-    background:rgba(20,0,35,.85);
-    color:white;
+    padding:9px 14px;
 
-    padding:11px 16px;
     border-radius:30px;
-    font-size:14px;
-    font-weight:bold;
 
-    cursor:pointer;
+    background:rgba(15,0,25,.72);
+
+    border:1px solid rgba(255,150,230,.35);
+
     backdrop-filter:blur(10px);
 
-    box-shadow:
-        0 0 15px rgba(255,80,200,.35),
-        inset 0 0 10px rgba(255,255,255,.08);
+    font-size:12px;
+    letter-spacing:1px;
 
-    transition:.25s;
+    opacity:.8;
+
+    pointer-events:none;
+
 }
 
-#musicBtn:hover{
-    transform:scale(1.06);
-}
 
-#musicBtn.on{
-    border-color:#ff8bd8;
-    box-shadow:
-        0 0 20px rgba(255,50,200,.7),
-        0 0 45px rgba(255,50,200,.25);
-}
-
-/* =========================
+/* =====================================================
    INTRO
-========================= */
+===================================================== */
 
 #introScreen{
-    align-items:center;
-    justify-content:center;
     text-align:center;
 }
 
-.intro-content{
+.intro-wrap{
     position:relative;
-    z-index:10;
-    width:90%;
-    max-width:600px;
+    z-index:20;
+
+    width:92%;
+    max-width:700px;
+
+    animation:
+        introAppear
+        1.5s
+        ease;
 }
 
-.small-title{
-    font-size:14px;
-    letter-spacing:5px;
-    opacity:.75;
-    margin-bottom:20px;
+@keyframes introAppear{
+
+    from{
+        opacity:0;
+        transform:
+            translateY(30px)
+            scale(.95);
+    }
+
+    to{
+        opacity:1;
+        transform:
+            translateY(0)
+            scale(1);
+    }
 }
 
-.main-title{
-    font-size:clamp(42px,10vw,90px);
+
+.intro-mini{
+    font-size:12px;
+    letter-spacing:7px;
+    opacity:.55;
+    margin-bottom:18px;
+}
+
+
+.intro-title{
+
+    font-size:
+        clamp(
+            60px,
+            15vw,
+            120px
+        );
+
     font-weight:900;
-    background:linear-gradient(90deg,#ff65c7,#fff,#a96bff,#ff65c7);
+
+    letter-spacing:5px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ff45b7,
+            #ffffff,
+            #9d65ff,
+            #ff45b7
+        );
+
     background-size:300%;
+
     -webkit-background-clip:text;
+    background-clip:text;
+
     color:transparent;
-    animation:titleGradient 5s linear infinite;
+
+    animation:
+        titleMove
+        5s
+        linear
+        infinite;
+
+    text-shadow:
+        0 0 40px rgba(255,50,190,.25);
 }
 
-@keyframes titleGradient{
-    0%{background-position:0%;}
-    100%{background-position:300%;}
+@keyframes titleMove{
+
+    from{
+        background-position:0%;
+    }
+
+    to{
+        background-position:300%;
+    }
 }
 
-.subtitle{
-    margin-top:12px;
-    font-size:18px;
-    opacity:.8;
-}
 
-.gift{
+.intro-line{
+
     width:150px;
-    height:130px;
+    height:2px;
+
+    margin:15px auto;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            #ff7bd4,
+            transparent
+        );
+
+    box-shadow:
+        0 0 15px #ff4fc0;
+}
+
+
+.intro-text{
+
+    font-size:17px;
+    opacity:.75;
+    margin-top:12px;
+}
+
+
+/* =====================================================
+   3D GIFT
+===================================================== */
+
+.gift-scene{
+
+    width:180px;
+    height:160px;
+
     margin:45px auto 35px;
+
     position:relative;
-    animation:giftFloat 2.5s ease-in-out infinite;
+
+    perspective:800px;
+
+    animation:
+        giftFloat
+        3s
+        ease-in-out
+        infinite;
 }
 
 @keyframes giftFloat{
-    0%,100%{transform:translateY(0) rotate(-2deg);}
-    50%{transform:translateY(-14px) rotate(2deg);}
+
+    0%,100%{
+        transform:
+            translateY(0)
+            rotateY(-4deg);
+    }
+
+    50%{
+        transform:
+            translateY(-15px)
+            rotateY(4deg);
+    }
 }
+
 
 .gift-box{
+
     position:absolute;
-    left:10px;
-    bottom:0;
-    width:130px;
-    height:95px;
-    border-radius:10px;
-    background:linear-gradient(135deg,#ff3d9d,#9d38ff);
+
+    width:145px;
+    height:100px;
+
+    left:18px;
+    bottom:10px;
+
+    border-radius:12px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff278f,
+            #9b35ff
+        );
+
     box-shadow:
-        0 20px 40px rgba(255,0,150,.3),
-        inset 0 0 25px rgba(255,255,255,.2);
+        0 25px 50px rgba(0,0,0,.45),
+        0 0 35px rgba(255,30,180,.25);
+
+    transform:
+        rotateX(5deg);
 }
+
 
 .gift-box:before{
+
     content:"";
+
     position:absolute;
-    left:55px;
+
+    left:61px;
     top:0;
-    width:20px;
+
+    width:23px;
     height:100%;
-    background:#ffd45c;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ffdc65,
+            #fff0a0,
+            #d99b26
+        );
 }
+
 
 .gift-lid{
+
     position:absolute;
-    left:0;
-    top:15px;
-    width:150px;
-    height:28px;
-    border-radius:8px;
-    background:linear-gradient(135deg,#ff55ae,#a83bff);
-    box-shadow:0 8px 20px rgba(0,0,0,.25);
+
+    width:165px;
+    height:32px;
+
+    left:8px;
+    top:35px;
+
+    border-radius:9px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff50ac,
+            #a73cff
+        );
+
+    box-shadow:
+        0 10px 20px rgba(0,0,0,.3);
+
+    z-index:3;
 }
+
 
 .gift-lid:before{
+
     content:"";
+
     position:absolute;
-    left:65px;
-    top:-20px;
-    width:20px;
+
+    left:71px;
+    top:-25px;
+
+    width:23px;
+    height:60px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ffdc65,
+            #fff0a0,
+            #d99b26
+        );
+}
+
+
+.bow{
+
+    position:absolute;
+
+    top:5px;
+    left:62px;
+
+    width:58px;
     height:45px;
-    background:#ffd45c;
+
+    z-index:5;
 }
 
-.gift-ribbon{
-    position:absolute;
-    left:51px;
-    top:-32px;
-    width:48px;
-    height:30px;
-}
+.bow:before,
+.bow:after{
 
-.gift-ribbon:before,
-.gift-ribbon:after{
     content:"";
+
     position:absolute;
-    width:30px;
-    height:22px;
-    border:7px solid #ffd45c;
-    border-radius:50% 50% 0 50%;
+
+    width:38px;
+    height:28px;
+
+    border:
+        7px solid #ffd85c;
+
+    border-radius:
+        50%
+        50%
+        10%
+        50%;
 }
 
-.gift-ribbon:before{
-    left:-2px;
-    transform:rotate(-25deg);
+.bow:before{
+    transform:rotate(-28deg);
+    left:-4px;
 }
 
-.gift-ribbon:after{
-    right:-2px;
-    transform:rotate(25deg) scaleX(-1);
+.bow:after{
+    transform:
+        rotate(28deg)
+        scaleX(-1);
+
+    right:-4px;
 }
 
-.enter-btn{
+
+.open-btn{
+
     border:none;
-    padding:16px 38px;
-    border-radius:40px;
+
+    padding:
+        17px
+        42px;
+
+    border-radius:50px;
+
     color:white;
-    font-size:17px;
+
+    font-size:16px;
     font-weight:bold;
+
+    letter-spacing:1px;
+
     cursor:pointer;
 
-    background:linear-gradient(90deg,#ff3c9e,#8f42ff);
+    background:
+        linear-gradient(
+            90deg,
+            #ff319b,
+            #883cff
+        );
+
     box-shadow:
-        0 10px 30px rgba(255,0,150,.35),
-        0 0 25px rgba(150,60,255,.3);
+        0 12px 35px rgba(255,30,170,.35),
+        0 0 30px rgba(130,50,255,.2);
 
     transition:.3s;
 }
 
-.enter-btn:hover{
-    transform:translateY(-3px) scale(1.04);
+.open-btn:hover{
+
+    transform:
+        translateY(-4px)
+        scale(1.04);
+
+    box-shadow:
+        0 18px 40px rgba(255,30,170,.5);
 }
 
-.sound-note{
-    margin-top:15px;
-    font-size:12px;
-    opacity:.55;
+
+.intro-note{
+
+    margin-top:17px;
+
+    font-size:11px;
+
+    letter-spacing:2px;
+
+    opacity:.45;
 }
 
-/* =========================
+
+/* =====================================================
    QUESTIONS
-========================= */
+===================================================== */
 
-#questionScreen{
-    align-items:center;
-    justify-content:center;
-}
+.question-wrap{
 
-.question-content{
     position:relative;
-    z-index:10;
-    width:min(92%,650px);
+    z-index:20;
+
+    width:min(92%,700px);
+
     text-align:center;
 }
 
-.progress{
-    font-size:13px;
-    letter-spacing:3px;
-    opacity:.6;
+
+.question-number{
+
+    font-size:12px;
+
+    letter-spacing:5px;
+
+    opacity:.5;
+
     margin-bottom:20px;
 }
 
-.question{
-    font-size:clamp(24px,5vw,42px);
+
+.question-text{
+
+    font-size:
+        clamp(
+            27px,
+            6vw,
+            46px
+        );
+
     font-weight:bold;
-    margin-bottom:30px;
+
     line-height:1.25;
+
+    margin-bottom:35px;
+
+    text-shadow:
+        0 0 30px rgba(255,70,190,.25);
 }
 
-.options{
+
+.answers{
+
     display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:15px;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:16px;
 }
 
-.option{
-    border:1px solid rgba(255,255,255,.2);
-    background:rgba(255,255,255,.07);
+
+.answer{
+
+    border:
+        1px solid
+        rgba(255,255,255,.18);
+
+    background:
+        rgba(255,255,255,.055);
+
     color:white;
-    padding:17px;
+
+    padding:18px;
+
     border-radius:18px;
-    font-size:17px;
+
+    font-size:16px;
+
     cursor:pointer;
-    transition:.25s;
-    backdrop-filter:blur(8px);
+
+    backdrop-filter:blur(10px);
+
+    transition:.3s;
 }
 
-.option:hover{
-    transform:translateY(-4px);
-    background:rgba(255,70,180,.18);
-    border-color:rgba(255,120,220,.7);
+
+.answer:hover{
+
+    transform:
+        translateY(-5px)
+        scale(1.02);
+
+    background:
+        rgba(255,70,190,.16);
+
+    border-color:
+        rgba(255,130,220,.7);
+
+    box-shadow:
+        0 10px 30px
+        rgba(255,30,170,.15);
 }
 
-.option.correct{
-    background:rgba(50,220,120,.25);
-    border-color:#66ffad;
+
+.answer.correct{
+
+    background:
+        rgba(40,220,130,.2);
+
+    border-color:
+        #62ffad;
+
+    transform:scale(1.03);
 }
 
-.option.wrong{
-    animation:wrongShake .35s;
-    border-color:#ff4c78;
+
+.answer.wrong{
+
+    border-color:#ff4b72;
+
+    animation:
+        shake
+        .35s
+        ease;
 }
 
-@keyframes wrongShake{
-    25%{transform:translateX(-8px);}
-    50%{transform:translateX(8px);}
-    75%{transform:translateX(-5px);}
+@keyframes shake{
+
+    25%{
+        transform:translateX(-8px);
+    }
+
+    50%{
+        transform:translateX(8px);
+    }
+
+    75%{
+        transform:translateX(-5px);
+    }
+
 }
 
-/* =========================
+
+/* =====================================================
    PUZZLE
-========================= */
+===================================================== */
 
-#puzzleScreen{
-    align-items:center;
-    justify-content:center;
-}
+.puzzle-wrap{
 
-.puzzle-content{
     position:relative;
-    z-index:10;
-    width:92%;
-    max-width:550px;
+    z-index:20;
+
+    width:94%;
+
+    max-width:570px;
+
     text-align:center;
 }
 
-.puzzle-title{
-    font-size:clamp(25px,6vw,40px);
+
+.puzzle-heading{
+
+    font-size:
+        clamp(
+            28px,
+            6vw,
+            45px
+        );
+
     margin-bottom:8px;
 }
 
-.puzzle-help{
-    font-size:14px;
-    opacity:.7;
+
+.puzzle-sub{
+
+    font-size:13px;
+
+    opacity:.6;
+
     margin-bottom:22px;
 }
 
+
 .puzzle{
-    width:min(88vw,480px);
-    aspect-ratio:1/1;
+
+    width:
+        min(
+            90vw,
+            480px
+        );
+
+    aspect-ratio:1;
+
     margin:auto;
 
     display:grid;
-    grid-template-columns:repeat(3,1fr);
+
+    grid-template-columns:
+        repeat(3,1fr);
+
     gap:4px;
 
     padding:5px;
-    border-radius:18px;
 
-    background:rgba(255,255,255,.08);
-    border:2px solid rgba(255,255,255,.2);
+    border-radius:20px;
+
+    background:
+        rgba(255,255,255,.08);
+
+    border:
+        2px solid
+        rgba(255,255,255,.18);
 
     box-shadow:
-        0 0 35px rgba(255,40,180,.3),
-        0 20px 50px rgba(0,0,0,.4);
+        0 20px 70px
+        rgba(0,0,0,.55),
+
+        0 0 40px
+        rgba(255,40,190,.2);
 
     touch-action:none;
 }
 
+
 .piece{
-    position:relative;
-    border-radius:8px;
-    background-image:url("photo.jpeg");
-    background-size:300% 300%;
+
+    background-image:
+        url("photo.jpeg");
+
+    background-size:
+        300% 300%;
+
     background-repeat:no-repeat;
 
+    border-radius:8px;
+
     cursor:grab;
+
     user-select:none;
+
     -webkit-user-select:none;
+
     touch-action:none;
 
     transition:
-        transform .18s ease,
-        filter .18s ease,
-        box-shadow .18s ease;
-
-    box-shadow:inset 0 0 10px rgba(0,0,0,.25);
+        transform .18s,
+        filter .18s,
+        box-shadow .18s;
 }
+
 
 .piece:hover{
-    filter:brightness(1.12);
+
+    filter:brightness(1.15);
 }
+
 
 .piece.dragging{
+
     cursor:grabbing;
-    transform:scale(.92) translateY(-8px);
-    filter:brightness(1.2);
+
+    transform:
+        scale(.90)
+        translateY(-8px);
+
+    filter:
+        brightness(1.25);
+
     box-shadow:
-        0 15px 30px rgba(0,0,0,.5),
-        0 0 20px rgba(255,100,210,.5);
-    z-index:20;
+        0 20px 40px
+        rgba(0,0,0,.6),
+
+        0 0 25px
+        rgba(255,80,200,.55);
+
+    z-index:50;
 }
+
 
 .puzzle.solved .piece{
-    animation:solvedPiece .5s ease forwards;
+
+    animation:
+        puzzleDone
+        .5s
+        ease;
 }
 
-@keyframes solvedPiece{
-    50%{transform:scale(1.04);}
-    100%{transform:scale(1);}
+@keyframes puzzleDone{
+
+    50%{
+        transform:scale(1.05);
+    }
+
+    100%{
+        transform:scale(1);
+    }
 }
 
-/* =========================
+
+/* =====================================================
    SUCCESS
-========================= */
+===================================================== */
 
-#successOverlay{
+#success{
+
     position:fixed;
+
     inset:0;
+
     display:none;
+
     align-items:center;
     justify-content:center;
-    z-index:70;
-    background:rgba(10,0,20,.72);
-    backdrop-filter:blur(7px);
+
+    background:
+        rgba(4,0,10,.78);
+
+    backdrop-filter:blur(10px);
+
+    z-index:100;
 }
 
-#successOverlay.show{
+
+#success.show{
     display:flex;
 }
 
-.success-box{
-    text-align:center;
-    padding:40px 30px;
+
+.success-card{
+
     width:min(90%,500px);
-    border-radius:28px;
-    background:linear-gradient(
-        145deg,
-        rgba(255,70,180,.18),
-        rgba(100,50,255,.18)
-    );
-    border:1px solid rgba(255,255,255,.25);
-    box-shadow:0 0 60px rgba(255,50,190,.3);
-    animation:successPop .6s ease;
+
+    padding:45px 30px;
+
+    text-align:center;
+
+    border-radius:30px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.2);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,50,180,.16),
+            rgba(90,50,255,.16)
+        );
+
+    box-shadow:
+        0 0 60px
+        rgba(255,30,190,.25);
+
+    animation:
+        successIn
+        .6s
+        ease;
 }
 
-@keyframes successPop{
+@keyframes successIn{
+
     from{
         opacity:0;
-        transform:scale(.7);
+        transform:scale(.65);
     }
+
     to{
         opacity:1;
         transform:scale(1);
     }
 }
 
-.success-box h2{
-    font-size:35px;
+
+.success-card h2{
+
+    font-size:38px;
+
     margin-bottom:12px;
 }
 
-.success-box p{
-    opacity:.8;
+
+.success-card p{
+
+    opacity:.7;
 }
 
-/* =========================
-   CURTAIN
-========================= */
 
-#curtainScene{
+/* =====================================================
+   CURTAIN THEATRE
+===================================================== */
+
+#theatre{
+
     position:fixed;
+
     inset:0;
+
     display:none;
-    z-index:80;
+
+    z-index:200;
+
+    background:#000;
+
     overflow:hidden;
-    background:#020005;
-    perspective:1400px;
+
+    perspective:1600px;
 }
 
-#curtainScene.show{
+
+#theatre.show{
     display:block;
 }
 
-.stage-glow{
+
+/* light behind curtain */
+
+.theatre-light{
+
     position:absolute;
+
+    width:70vw;
+    height:70vw;
+
+    max-width:900px;
+    max-height:900px;
+
+    left:50%;
+    top:50%;
+
+    transform:
+        translate(-50%,-50%);
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,205,110,.45),
+            rgba(180,70,255,.12) 35%,
+            transparent 70%
+        );
+
+    filter:blur(15px);
+
+    opacity:.7;
+}
+
+
+/* dark stage */
+
+.stage{
+
+    position:absolute;
+
     inset:0;
+
     background:
         radial-gradient(
-            ellipse at center,
-            rgba(255,205,100,.35) 0%,
-            rgba(160,50,255,.12) 28%,
-            rgba(0,0,0,.9) 72%
-        );
-    transform:scale(1.2);
+            ellipse at center 55%,
+            rgba(100,30,110,.2),
+            transparent 50%
+        ),
+
+        #020002;
 }
 
-.stage-floor{
-    position:absolute;
-    bottom:-15%;
-    left:-10%;
-    width:120%;
-    height:45%;
-    background:
-        radial-gradient(
-            ellipse at center,
-            rgba(255,190,80,.35),
-            transparent 65%
-        );
-    filter:blur(8px);
-}
 
-.top-valance{
+/* =====================================================
+   CURTAIN TOP
+===================================================== */
+
+.valance{
+
     position:absolute;
-    top:-5%;
+
+    top:-20px;
+
     left:-5%;
+
     width:110%;
-    height:145px;
-    z-index:8;
+
+    height:125px;
+
+    z-index:30;
 
     background:
+
         repeating-linear-gradient(
             90deg,
-            #510015 0px,
-            #a00032 35px,
-            #4a0015 70px,
-            #9b0031 105px
+            #270008 0px,
+            #79001d 25px,
+            #3b000d 50px,
+            #97002a 75px,
+            #290008 100px
         );
 
-    border-bottom:8px solid #e6b34c;
+    border-bottom:
+        7px solid
+        #dcae45;
 
-    border-radius:0 0 50% 50%;
+    border-radius:
+        0 0 50% 50%;
 
     box-shadow:
-        0 15px 40px rgba(0,0,0,.7),
-        inset 0 -15px 25px rgba(0,0,0,.35);
+        0 20px 50px
+        rgba(0,0,0,.8);
 }
 
-.top-valance:after{
+
+.valance:after{
+
     content:"";
+
     position:absolute;
+
+    bottom:-14px;
+
     left:0;
-    right:0;
-    bottom:-16px;
-    height:18px;
-    background:#ffd86a;
+
+    width:100%;
+
+    height:15px;
+
     border-radius:50%;
-    box-shadow:0 0 20px rgba(255,210,80,.7);
+
+    background:#ffd86a;
+
+    box-shadow:
+        0 0 20px
+        rgba(255,210,80,.6);
 }
+
+
+/* =====================================================
+   MAIN CURTAINS
+===================================================== */
 
 .curtain{
+
     position:absolute;
+
     top:0;
-    width:57%;
+
+    width:55%;
+
     height:100%;
-    z-index:10;
+
+    z-index:20;
 
     background:
-        radial-gradient(
-            ellipse at center,
-            rgba(255,80,120,.15),
-            transparent 45%
+
+        linear-gradient(
+            90deg,
+            rgba(0,0,0,.7),
+            transparent 15%,
+            rgba(255,60,100,.08) 50%,
+            transparent 85%,
+            rgba(0,0,0,.75)
         ),
+
         repeating-linear-gradient(
             90deg,
-            #30000d 0px,
-            #7e001e 22px,
-            #3d000f 45px,
-            #a1002b 68px,
-            #35000d 92px
+            #270008 0px,
+            #71001b 22px,
+            #35000c 43px,
+            #a3002d 65px,
+            #39000d 87px
         );
 
     box-shadow:
-        inset 0 0 70px rgba(0,0,0,.65),
-        0 0 45px rgba(0,0,0,.8);
+        inset 0 0 80px
+        rgba(0,0,0,.7),
+
+        0 0 50px
+        rgba(0,0,0,.9);
 
     transition:
-        transform 2.8s cubic-bezier(.65,0,.15,1),
-        filter 2.8s ease,
-        opacity 2.8s ease;
+        transform
+        3s
+        cubic-bezier(.72,0,.15,1),
+
+        filter 3s,
+
+        opacity 3s;
 }
 
-.curtain:after{
+
+/* extra velvet folds */
+
+.curtain:before{
+
     content:"";
+
     position:absolute;
+
     inset:0;
+
     background:
+
         repeating-linear-gradient(
             90deg,
             transparent 0px,
-            rgba(255,100,140,.13) 12px,
-            transparent 27px,
-            rgba(0,0,0,.18) 48px
+            rgba(255,100,140,.1) 10px,
+            transparent 23px,
+            rgba(0,0,0,.2) 40px
         );
+
     pointer-events:none;
 }
 
+
 .curtain.left{
+
     left:0;
-    transform-origin:left center;
+
+    transform-origin:
+        left center;
 }
+
 
 .curtain.right{
+
     right:0;
-    transform-origin:right center;
+
+    transform-origin:
+        right center;
 }
 
-#curtainScene.open .curtain.left{
+
+/* =====================================================
+   DIFFERENT CURTAIN OPEN
+===================================================== */
+
+/*
+   First the curtains move toward the centre,
+   then swing outward in 3D.
+*/
+
+#theatre.open .curtain.left{
+
     transform:
-        translateX(-110%)
-        rotateY(20deg)
-        scaleX(.82)
-        skewY(-1deg);
-    filter:brightness(.7);
+        translateX(-112%)
+        rotateY(28deg)
+        rotateZ(-1deg)
+        scaleX(.72);
+
+    filter:
+        brightness(.65);
 }
 
-#curtainScene.open .curtain.right{
+
+#theatre.open .curtain.right{
+
     transform:
-        translateX(110%)
-        rotateY(-20deg)
-        scaleX(.82)
-        skewY(1deg);
-    filter:brightness(.7);
+        translateX(112%)
+        rotateY(-28deg)
+        rotateZ(1deg)
+        scaleX(.72);
+
+    filter:
+        brightness(.65);
 }
 
-.tie{
+
+/* =====================================================
+   GOLD SIDE ROPES
+===================================================== */
+
+.rope{
+
     position:absolute;
-    top:58%;
-    width:80px;
-    height:80px;
-    z-index:12;
-    border:5px solid #e9bd55;
-    border-radius:50%;
+
+    top:48%;
+
+    width:100px;
+
+    height:150px;
+
+    z-index:35;
+
+    border:
+        5px solid
+        #e6b74f;
+
+    border-left:none;
+
+    border-radius:
+        0 100px 100px 0;
+
     box-shadow:
-        0 0 20px rgba(255,205,80,.65),
-        inset 0 0 15px rgba(255,255,255,.2);
-    transition:2s ease;
+        0 0 20px
+        rgba(255,210,80,.6);
+
+    transition:
+        2.5s ease;
 }
 
-.tie.left{
-    left:51%;
-    transform:translateX(-50%);
-}
 
-.tie.right{
-    right:51%;
-    transform:translateX(50%);
-}
-
-#curtainScene.open .tie.left{
-    left:10%;
-    opacity:0;
-}
-
-#curtainScene.open .tie.right{
-    right:10%;
-    opacity:0;
-}
-
-.gold-rope{
-    position:absolute;
-    top:52%;
-    width:90px;
-    height:130px;
-    z-index:11;
-    border-right:5px solid #e9bd55;
-    border-radius:0 80px 80px 0;
-    transition:2s ease;
-}
-
-.gold-rope.left{
+.rope.left{
     left:49%;
 }
 
-.gold-rope.right{
+
+.rope.right{
+
     right:49%;
-    transform:scaleX(-1);
+
+    transform:
+        scaleX(-1);
 }
 
-#curtainScene.open .gold-rope.left{
-    left:7%;
+
+#theatre.open .rope.left{
+
+    left:4%;
+
     opacity:0;
 }
 
-#curtainScene.open .gold-rope.right{
-    right:7%;
+
+#theatre.open .rope.right{
+
+    right:4%;
+
     opacity:0;
 }
 
-.curtain-message{
+
+/* =====================================================
+   GOLD TIE
+===================================================== */
+
+.tie{
+
     position:absolute;
-    z-index:5;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%);
-    text-align:center;
-    opacity:0;
-    transition:1.5s ease 1s;
+
+    top:60%;
+
+    width:75px;
+    height:75px;
+
+    z-index:36;
+
+    border:
+        5px solid
+        #f0c65d;
+
+    border-radius:50%;
+
+    box-shadow:
+        0 0 25px
+        rgba(255,210,80,.7);
+
+    transition:
+        2.5s ease;
 }
 
-#curtainScene.open .curtain-message{
+
+.tie.left{
+    left:50%;
+    transform:translateX(-50%);
+}
+
+
+.tie.right{
+    right:50%;
+    transform:translateX(50%);
+}
+
+
+#theatre.open .tie.left{
+
+    left:5%;
+
+    opacity:0;
+
+    transform:
+        translateX(-50%)
+        scale(.5);
+}
+
+
+#theatre.open .tie.right{
+
+    right:5%;
+
+    opacity:0;
+
+    transform:
+        translateX(50%)
+        scale(.5);
+}
+
+
+/* =====================================================
+   CURTAIN MESSAGE
+===================================================== */
+
+.theatre-message{
+
+    position:absolute;
+
+    left:50%;
+    top:50%;
+
+    transform:
+        translate(-50%,-50%)
+        scale(.7);
+
+    text-align:center;
+
+    z-index:10;
+
+    opacity:0;
+
+    transition:
+        1.5s
+        ease
+        .7s;
+}
+
+
+#theatre.open .theatre-message{
+
+    opacity:1;
+
+    transform:
+        translate(-50%,-50%)
+        scale(1);
+}
+
+
+.theatre-message h1{
+
+    font-size:
+        clamp(
+            32px,
+            7vw,
+            72px
+        );
+
+    text-shadow:
+        0 0 20px white,
+        0 0 50px #ff65d0;
+}
+
+
+.theatre-message p{
+
+    margin-top:12px;
+
+    letter-spacing:5px;
+
+    font-size:12px;
+
+    opacity:.65;
+}
+
+
+/* =====================================================
+   BLACK PAUSE
+===================================================== */
+
+#blackPause{
+
+    position:fixed;
+
+    inset:0;
+
+    background:#000;
+
+    z-index:500;
+
+    display:none;
+
     opacity:1;
 }
 
-.curtain-message h1{
-    font-size:clamp(30px,7vw,65px);
-    text-shadow:
-        0 0 15px #fff,
-        0 0 40px #ff6cd0;
+
+#blackPause.show{
+    display:block;
 }
 
-.curtain-message p{
-    margin-top:10px;
-    opacity:.8;
-    letter-spacing:3px;
-}
 
-/* =========================
-   FINAL
-========================= */
+/* =====================================================
+   FINAL SCREEN
+===================================================== */
 
 #finalScreen{
-    align-items:center;
-    justify-content:center;
-    background:#050007;
-    z-index:20;
+
+    background:#000;
+
+    z-index:600;
 }
 
-.final-background{
+
+.final-bg{
+
     position:absolute;
+
     inset:0;
+
     background:
         radial-gradient(
             circle at center,
-            rgba(255,60,180,.16),
-            transparent 55%
-        );
+            rgba(130,30,110,.14),
+            transparent 50%
+        ),
+
+        #000;
 }
+
 
 .final-content{
+
     position:relative;
-    z-index:30;
+
+    z-index:10;
+
     width:100%;
     height:100%;
+
     display:flex;
+
     align-items:center;
     justify-content:center;
-    padding:35px 15px;
+
+    padding:
+        25px
+        10px;
 }
+
+
+/* gold frame */
 
 .final-frame{
-    position:relative;
-    max-width:94vw;
-    max-height:92vh;
 
-    padding:7px;
-    border-radius:16px;
+    max-width:95vw;
+    max-height:93vh;
 
-    background:linear-gradient(
-        135deg,
-        #e7bd60,
-        #fff0a4,
-        #b77b22,
-        #ffe28a
-    );
+    padding:6px;
+
+    border-radius:15px;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            #9a6820,
+            #ffe48a,
+            #c18b32,
+            #fff0a0,
+            #8c5c1c
+        );
 
     box-shadow:
-        0 0 25px rgba(255,210,100,.45),
-        0 25px 80px rgba(0,0,0,.65);
 
-    animation:finalReveal 1.5s cubic-bezier(.2,.8,.2,1);
+        0 0 25px
+        rgba(255,210,90,.45),
+
+        0 25px 80px
+        rgba(0,0,0,.8);
+
+    animation:
+        finalReveal
+        2s
+        cubic-bezier(.2,.8,.2,1);
 }
 
+
 .final-image{
+
     display:block;
 
     max-width:92vw;
+
     max-height:88vh;
 
     width:auto;
+
     height:auto;
 
     object-fit:contain;
 
-    border-radius:10px;
+    border-radius:9px;
 }
+
 
 @keyframes finalReveal{
-    from{
+
+    0%{
+
         opacity:0;
+
         transform:
-            scale(.72)
-            translateY(30px);
-        filter:brightness(1.8) blur(5px);
+            scale(.55)
+            translateY(40px);
+
+        filter:
+            brightness(2)
+            blur(10px);
     }
 
-    60%{
+    55%{
+
         opacity:1;
-        transform:scale(1.03);
-        filter:brightness(1.1) blur(0);
+
+        transform:
+            scale(1.04);
+
+        filter:
+            brightness(1.15)
+            blur(0);
     }
 
-    to{
+    100%{
+
         opacity:1;
-        transform:scale(1);
-        filter:brightness(1);
+
+        transform:
+            scale(1);
+
+        filter:
+            brightness(1)
+            blur(0);
     }
 }
 
-/* IMPORTANT:
-   White stars disappear on final screen
-*/
 
-body.final-mode #starField{
-    display:none;
-}
-
-/* =========================
+/* =====================================================
    FLASH
-========================= */
+===================================================== */
 
 #flash{
+
     position:fixed;
+
     inset:0;
+
     background:white;
-    z-index:100;
+
+    z-index:800;
+
     pointer-events:none;
+
     opacity:0;
 }
 
+
 #flash.show{
-    animation:flash .65s ease;
+
+    animation:
+        flashEffect
+        .7s
+        ease;
 }
 
-@keyframes flash{
-    0%{opacity:0;}
-    20%{opacity:.9;}
-    100%{opacity:0;}
-}
 
-/* =========================
-   CONFETTI
-========================= */
+@keyframes flashEffect{
 
-.confetti{
-    position:fixed;
-    top:-20px;
-    width:8px;
-    height:14px;
-    z-index:15;
-    pointer-events:none;
-    animation:confettiFall 3.5s linear forwards;
-}
+    0%{
+        opacity:0;
+    }
 
-@keyframes confettiFall{
-    to{
-        transform:
-            translateY(110vh)
-            rotate(720deg);
+    15%{
+        opacity:.9;
+    }
+
+    100%{
         opacity:0;
     }
 }
 
-/* =========================
-   MOBILE
-========================= */
+
+/* =====================================================
+   CONFETTI
+===================================================== */
+
+.confetti{
+
+    position:fixed;
+
+    top:-20px;
+
+    width:7px;
+    height:13px;
+
+    z-index:650;
+
+    pointer-events:none;
+
+    animation:
+        confettiFall
+        4s
+        linear
+        forwards;
+}
+
+
+@keyframes confettiFall{
+
+    to{
+
+        transform:
+            translateY(110vh)
+            rotate(720deg);
+
+        opacity:0;
+    }
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
 
 @media(max-width:600px){
 
-    #musicBtn{
+    #musicIndicator{
+
         top:10px;
         right:10px;
-        padding:9px 12px;
-        font-size:12px;
+
+        font-size:10px;
     }
 
-    .options{
+
+    .answers{
+
         gap:10px;
     }
 
-    .option{
-        padding:14px 8px;
-        font-size:15px;
+
+    .answer{
+
+        padding:15px 8px;
+
+        font-size:14px;
     }
 
-    .gift{
+
+    .gift-scene{
+
         transform:scale(.85);
-        margin-top:30px;
     }
+
 
     .puzzle{
-        width:90vw;
+
+        width:91vw;
     }
 
-    .top-valance{
-        height:100px;
+
+    .valance{
+
+        height:95px;
     }
+
 
     .final-content{
-        padding:55px 8px 15px;
+
+        padding:
+            50px
+            5px
+            10px;
     }
+
 }
+
 </style>
 </head>
 
+
 <body>
 
-<!-- =========================
-     MUSIC BUTTON
-========================= -->
 
-<button id="musicBtn" type="button">
-    🔇 SOUND OFF
-</button>
+<!-- =====================================================
+     SPACE BACKGROUND
+===================================================== -->
 
-<!-- STAR FIELD -->
+<div id="space"></div>
 
-<div id="starField"></div>
 
-<!-- =========================
+<!-- =====================================================
+     MUSIC STATUS
+===================================================== -->
+
+<div id="musicIndicator">
+    🔊 MUSIC PLAYING
+</div>
+
+
+<!-- =====================================================
      INTRO
-========================= -->
+===================================================== -->
 
-<section id="introScreen" class="screen active">
+<section
+    id="introScreen"
+    class="screen active"
+>
 
-    <div class="background-glow"></div>
+    <div class="intro-wrap">
 
-    <div class="intro-content">
-
-        <div class="small-title">
-            A LITTLE SURPRISE
+        <div class="intro-mini">
+            A LITTLE SOMETHING
         </div>
 
-        <div class="main-title">
-            SIHA ✨
+        <div class="intro-title">
+            SIHA
         </div>
 
-        <div class="subtitle">
-            Something special is waiting for you...
+        <div class="intro-line"></div>
+
+        <div class="intro-text">
+            Some surprises are worth solving... ✨
         </div>
 
-        <div class="gift">
 
-            <div class="gift-ribbon"></div>
+        <div class="gift-scene">
+
+            <div class="bow"></div>
 
             <div class="gift-lid"></div>
 
@@ -972,126 +1726,187 @@ body.final-mode #starField{
 
         </div>
 
-        <button id="enterBtn" class="enter-btn">
-            OPEN THE SURPRISE ✨
+
+        <button
+            id="openBtn"
+            class="open-btn"
+        >
+            ENTER THE SURPRISE ✨
         </button>
 
-        <div class="sound-note">
-            🔊 Sound will start when you enter
+
+        <div class="intro-note">
+            TURN UP YOUR DEVICE VOLUME 🔊
         </div>
 
     </div>
 
 </section>
 
-<!-- =========================
+
+<!-- =====================================================
      QUESTIONS
-========================= -->
+===================================================== -->
 
-<section id="questionScreen" class="screen">
+<section
+    id="questionScreen"
+    class="screen"
+>
 
-    <div class="background-glow"></div>
+    <div class="question-wrap">
 
-    <div class="question-content">
-
-        <div id="progress" class="progress">
+        <div
+            id="questionNumber"
+            class="question-number"
+        >
             QUESTION 1 / 3
         </div>
 
-        <div id="question" class="question">
-        </div>
 
-        <div id="options" class="options">
-        </div>
+        <div
+            id="questionText"
+            class="question-text"
+        ></div>
+
+
+        <div
+            id="answers"
+            class="answers"
+        ></div>
 
     </div>
 
 </section>
 
-<!-- =========================
+
+<!-- =====================================================
      PUZZLE
-========================= -->
+===================================================== -->
 
-<section id="puzzleScreen" class="screen">
+<section
+    id="puzzleScreen"
+    class="screen"
+>
 
-    <div class="background-glow"></div>
+    <div class="puzzle-wrap">
 
-    <div class="puzzle-content">
-
-        <h1 class="puzzle-title">
-            🧩 One Last Puzzle
+        <h1 class="puzzle-heading">
+            🧩 ONE LAST THING
         </h1>
 
-        <p class="puzzle-help">
-            Drag / Swipe one piece over another piece
+        <p class="puzzle-sub">
+            Swipe / drag the pieces and complete the picture
         </p>
 
-        <div id="puzzle" class="puzzle"></div>
+
+        <div
+            id="puzzle"
+            class="puzzle"
+        ></div>
 
     </div>
 
 </section>
 
-<!-- =========================
+
+<!-- =====================================================
      SUCCESS
-========================= -->
+===================================================== -->
 
-<div id="successOverlay">
+<div id="success">
 
-    <div class="success-box">
+    <div class="success-card">
 
         <h2>
-            🎉 Perfect!
+            🎉 PERFECT!
         </h2>
 
         <p>
-            You solved it... Something special is coming.
+            You found the way through...
         </p>
 
     </div>
 
 </div>
 
-<!-- =========================
-     CURTAIN
-========================= -->
 
-<div id="curtainScene">
+<!-- =====================================================
+     THEATRE CURTAIN
+===================================================== -->
 
-    <div class="stage-glow"></div>
+<div id="theatre">
 
-    <div class="stage-floor"></div>
+    <div class="stage"></div>
 
-    <div class="curtain-message">
+    <div class="theatre-light"></div>
+
+
+    <div class="theatre-message">
+
         <h1>
-            ✨ HERE IT IS ✨
+            ✨ WAIT FOR IT ✨
         </h1>
+
         <p>
-            YOUR SPECIAL SURPRISE
+            YOUR SURPRISE IS HERE
         </p>
+
     </div>
 
-    <div class="curtain left"></div>
 
-    <div class="curtain right"></div>
+    <div
+        class="curtain left"
+    ></div>
 
-    <div class="gold-rope left"></div>
-    <div class="gold-rope right"></div>
 
-    <div class="tie left"></div>
-    <div class="tie right"></div>
+    <div
+        class="curtain right"
+    ></div>
 
-    <div class="top-valance"></div>
+
+    <div
+        class="rope left"
+    ></div>
+
+
+    <div
+        class="rope right"
+    ></div>
+
+
+    <div
+        class="tie left"
+    ></div>
+
+
+    <div
+        class="tie right"
+    ></div>
+
+
+    <div class="valance"></div>
 
 </div>
 
-<!-- =========================
-     FINAL
-========================= -->
 
-<section id="finalScreen" class="screen">
+<!-- =====================================================
+     BLACK PAUSE
+===================================================== -->
 
-    <div class="final-background"></div>
+<div id="blackPause"></div>
+
+
+<!-- =====================================================
+     FINAL SURPRISE
+===================================================== -->
+
+<section
+    id="finalScreen"
+    class="screen"
+>
+
+    <div class="final-bg"></div>
+
 
     <div class="final-content">
 
@@ -1100,7 +1915,7 @@ body.final-mode #starField{
             <img
                 src="surprise.jpeg"
                 class="final-image"
-                alt="Birthday Surprise"
+                alt="Surprise"
             >
 
         </div>
@@ -1109,490 +1924,526 @@ body.final-mode #starField{
 
 </section>
 
+
+<!-- FLASH -->
+
 <div id="flash"></div>
+
 
 <script>
 
-/* =========================================================
-   SCREEN SYSTEM
-========================================================= */
+/* =====================================================
+   STAR BACKGROUND
+===================================================== */
 
-const introScreen = document.getElementById("introScreen");
-const questionScreen = document.getElementById("questionScreen");
-const puzzleScreen = document.getElementById("puzzleScreen");
-const finalScreen = document.getElementById("finalScreen");
+const space =
+    document.getElementById("space");
 
-function showScreen(screen){
 
-    document.querySelectorAll(".screen").forEach(s=>{
-        s.classList.remove("active");
-    });
+for(let i=0;i<90;i++){
 
-    screen.classList.add("active");
-}
+    const star =
+        document.createElement("div");
 
-/* =========================================================
-   STAR FIELD
-========================================================= */
+    star.className="star";
 
-const starField = document.getElementById("starField");
+    const size =
+        Math.random()*3+1;
 
-for(let i=0;i<80;i++){
+    star.style.width =
+        size+"px";
 
-    const star = document.createElement("div");
+    star.style.height =
+        size+"px";
 
-    star.className = "star";
+    star.style.left =
+        Math.random()*100+"%";
 
-    star.style.left = Math.random()*100 + "%";
-    star.style.top = Math.random()*100 + "%";
-
-    const size = Math.random()*3 + 1;
-
-    star.style.width = size + "px";
-    star.style.height = size + "px";
+    star.style.top =
+        Math.random()*100+"%";
 
     star.style.animationDelay =
-        Math.random()*3 + "s";
+        Math.random()*3+"s";
 
-    starField.appendChild(star);
+    space.appendChild(star);
 }
 
-/* =========================================================
-   AUDIO SYSTEM
-========================================================= */
+
+/* =====================================================
+   AUDIO ENGINE
+===================================================== */
 
 let audioContext = null;
 let masterGain = null;
 
-let musicPlaying = false;
-let soundEnabled = false;
+let musicStarted = false;
 
 let musicTimer = null;
+
 let melodyIndex = 0;
 
+
+/* nice simple melody */
+
 const melody = [
-    [261.63,0.30],
-    [329.63,0.30],
-    [392.00,0.30],
-    [523.25,0.45],
 
-    [392.00,0.30],
-    [329.63,0.30],
-    [293.66,0.30],
-    [392.00,0.45],
+    [261.63,330],
+    [329.63,330],
+    [392.00,330],
+    [523.25,500],
 
-    [261.63,0.30],
-    [329.63,0.30],
-    [440.00,0.30],
-    [523.25,0.45],
+    [392.00,330],
+    [329.63,330],
+    [293.66,330],
+    [392.00,500],
 
-    [493.88,0.30],
-    [440.00,0.30],
-    [392.00,0.30],
-    [329.63,0.45]
+    [261.63,330],
+    [329.63,330],
+    [440.00,330],
+    [523.25,500],
+
+    [493.88,330],
+    [440.00,330],
+    [392.00,330],
+    [329.63,550]
+
 ];
+
 
 function createAudio(){
 
-    if(audioContext) return;
+    if(audioContext){
+        return true;
+    }
+
 
     const AudioCtx =
         window.AudioContext ||
         window.webkitAudioContext;
 
+
     if(!AudioCtx){
-        return;
+
+        console.log(
+            "Web Audio is not supported."
+        );
+
+        return false;
     }
 
-    audioContext = new AudioCtx();
+
+    audioContext =
+        new AudioCtx();
+
 
     masterGain =
         audioContext.createGain();
 
-    masterGain.gain.value = 0.18;
+
+    masterGain.gain.value =
+        0.17;
+
 
     masterGain.connect(
         audioContext.destination
     );
+
+
+    return true;
 }
 
-/* ---------------------------------------------------------
-   BASIC TONE
---------------------------------------------------------- */
 
-function playTone(
+/* =====================================================
+   SOUND EFFECT
+===================================================== */
+
+function sound(
     frequency,
-    duration = 0.25,
-    type = "sine",
-    volume = 0.25
+    duration,
+    type="sine",
+    volume=.2
 ){
 
-    if(!audioContext || !soundEnabled){
+    if(
+        !audioContext ||
+        !musicStarted
+    ){
         return;
     }
 
-    const oscillator =
+
+    const osc =
         audioContext.createOscillator();
+
 
     const gain =
         audioContext.createGain();
 
-    oscillator.type = type;
 
-    oscillator.frequency.setValueAtTime(
+    osc.type=type;
+
+
+    osc.frequency.setValueAtTime(
         frequency,
         audioContext.currentTime
     );
 
+
     gain.gain.setValueAtTime(
-        0.0001,
+        .0001,
         audioContext.currentTime
     );
 
+
     gain.gain.exponentialRampToValueAtTime(
         volume,
-        audioContext.currentTime + 0.02
+        audioContext.currentTime+.025
     );
+
 
     gain.gain.exponentialRampToValueAtTime(
-        0.0001,
-        audioContext.currentTime + duration
+        .0001,
+        audioContext.currentTime+duration
     );
 
-    oscillator.connect(gain);
+
+    osc.connect(gain);
+
     gain.connect(masterGain);
 
-    oscillator.start();
 
-    oscillator.stop(
-        audioContext.currentTime + duration + 0.03
+    osc.start();
+
+
+    osc.stop(
+        audioContext.currentTime+
+        duration+
+        .03
     );
 }
 
-/* ---------------------------------------------------------
-   MUSIC LOOP
---------------------------------------------------------- */
 
-function playMusicNote(){
-
-    if(!musicPlaying || !soundEnabled){
-        return;
-    }
-
-    const note = melody[melodyIndex];
-
-    playTone(
-        note[0],
-        note[1],
-        "triangle",
-        0.13
-    );
-
-    /* soft higher note */
-
-    if(melodyIndex % 4 === 3){
-
-        playTone(
-            note[0] * 2,
-            0.4,
-            "sine",
-            0.045
-        );
-    }
-
-    melodyIndex++;
-
-    if(melodyIndex >= melody.length){
-        melodyIndex = 0;
-    }
-
-    musicTimer =
-        setTimeout(
-            playMusicNote,
-            330
-        );
-}
-
-/* ---------------------------------------------------------
+/* =====================================================
    START MUSIC
---------------------------------------------------------- */
+===================================================== */
 
 async function startMusic(){
 
-    createAudio();
-
-    if(!audioContext){
+    if(!createAudio()){
         return;
     }
 
+
     try{
 
-        if(audioContext.state === "suspended"){
+        if(
+            audioContext.state ===
+            "suspended"
+        ){
+
             await audioContext.resume();
+
         }
 
-        soundEnabled = true;
-        musicPlaying = true;
 
-        updateMusicButton();
+        musicStarted=true;
 
-        if(musicTimer){
-            clearTimeout(musicTimer);
-        }
 
-        melodyIndex = 0;
+        document
+            .getElementById("musicIndicator")
+            .textContent=
+            "🔊 MUSIC PLAYING";
 
-        /* Immediate confirmation sound */
 
-        playTone(
-            659.25,
-            0.16,
+        melodyIndex=0;
+
+
+        /* startup chime */
+
+        sound(
+            523.25,
+            .18,
             "sine",
-            0.22
+            .22
         );
+
 
         setTimeout(()=>{
-            playTone(
-                783.99,
-                0.25,
+
+            sound(
+                659.25,
+                .18,
                 "sine",
-                0.18
+                .20
             );
-        },120);
 
-        playMusicNote();
+        },130);
 
-    }catch(error){
 
-        console.log(
-            "Audio could not start:",
-            error
-        );
+        setTimeout(()=>{
 
-        soundEnabled = false;
-        musicPlaying = false;
+            sound(
+                783.99,
+                .3,
+                "sine",
+                .18
+            );
 
-        updateMusicButton();
+        },260);
+
+
+        playMelody();
+
     }
-}
+    catch(error){
 
-/* ---------------------------------------------------------
-   STOP MUSIC
---------------------------------------------------------- */
+        console.log(error);
 
-function stopMusic(){
-
-    musicPlaying = false;
-
-    if(musicTimer){
-        clearTimeout(musicTimer);
-        musicTimer = null;
     }
 
-    updateMusicButton();
 }
 
-/* ---------------------------------------------------------
-   TOGGLE SOUND
---------------------------------------------------------- */
 
-async function toggleMusic(){
+/* =====================================================
+   MELODY
+===================================================== */
 
-    createAudio();
+function playMelody(){
 
-    if(!audioContext){
+    if(!musicStarted){
         return;
     }
 
-    try{
 
-        if(audioContext.state === "suspended"){
-            await audioContext.resume();
-        }
+    const note =
+        melody[melodyIndex];
 
-        if(musicPlaying){
 
-            stopMusic();
+    sound(
+        note[0],
+        note[1]/1000,
+        "triangle",
+        .12
+    );
 
-            soundEnabled = false;
 
-            updateMusicButton();
+    if(
+        melodyIndex%4===3
+    ){
 
-        }else{
+        sound(
+            note[0]*2,
+            .4,
+            "sine",
+            .035
+        );
 
-            soundEnabled = true;
-
-            musicPlaying = true;
-
-            updateMusicButton();
-
-            melodyIndex = 0;
-
-            playTone(
-                523.25,
-                0.18,
-                "sine",
-                0.25
-            );
-
-            setTimeout(()=>{
-                if(soundEnabled){
-                    playTone(
-                        659.25,
-                        0.22,
-                        "sine",
-                        0.22
-                    );
-                }
-            },120);
-
-            playMusicNote();
-        }
-
-    }catch(error){
-
-        console.log(error);
     }
+
+
+    melodyIndex++;
+
+
+    if(
+        melodyIndex>=melody.length
+    ){
+
+        melodyIndex=0;
+
+    }
+
+
+    musicTimer =
+        setTimeout(
+            playMelody,
+            note[1]
+        );
+
 }
 
-/* ---------------------------------------------------------
-   MUSIC BUTTON UI
---------------------------------------------------------- */
 
-const musicBtn =
-    document.getElementById("musicBtn");
+/* =====================================================
+   INTRO START
+===================================================== */
 
-function updateMusicButton(){
+const openBtn =
+    document.getElementById("openBtn");
 
-    if(musicPlaying){
 
-        musicBtn.textContent =
-            "🔊 SOUND ON";
-
-        musicBtn.classList.add("on");
-
-    }else{
-
-        musicBtn.textContent =
-            "🔇 SOUND OFF";
-
-        musicBtn.classList.remove("on");
-    }
-}
-
-/* =========================================================
-   ENTER / START GAME
-========================================================= */
-
-const enterBtn =
-    document.getElementById("enterBtn");
-
-enterBtn.addEventListener(
+openBtn.addEventListener(
     "click",
-    function(){
+    async function(){
 
-        /* This click is a user gesture,
-           so browser audio can start here */
+        /*
+          This click is a real user action.
+          Browser audio permission is therefore
+          obtained here.
+        */
 
-        startMusic();
+        await startMusic();
 
-        showScreen(questionScreen);
 
-        currentQuestion = 0;
+        sound(
+            392,
+            .2,
+            "sine",
+            .18
+        );
+
+
+        showScreen(
+            document.getElementById(
+                "questionScreen"
+            )
+        );
+
+
+        currentQuestion=0;
 
         loadQuestion();
+
     }
 );
 
-musicBtn.addEventListener(
-    "click",
-    toggleMusic
-);
 
-/* =========================================================
+/* =====================================================
+   SCREEN CHANGE
+===================================================== */
+
+function showScreen(screen){
+
+    document
+        .querySelectorAll(".screen")
+        .forEach(
+            s=>
+                s.classList.remove(
+                    "active"
+                )
+        );
+
+
+    screen.classList.add("active");
+
+}
+
+
+/* =====================================================
    QUESTIONS
-========================================================= */
+===================================================== */
 
 const questions = [
 
     {
-        question:"Naa unna epdi kupduven?",
+
+        question:
+            "Naa unna epdi kupduven?",
+
         options:[
             "Alagii",
             "Alukuuuu",
             "Eruma",
             "Loosuu"
         ],
+
         correct:1
+
     },
 
     {
-        question:"Enaku pidicha dress color enna?",
+
+        question:
+            "Enaku pidicha dress color enna?",
+
         options:[
             "Blue",
             "Black",
             "Orange",
             "Yellow"
         ],
+
         correct:3
+
     },
 
     {
-        question:"Secret code sollu",
+
+        question:
+            "Secret code sollu",
+
         options:[
             "16",
             "17",
             "18",
             "19"
         ],
+
         correct:2
+
     }
 
 ];
 
-let currentQuestion = 0;
 
-const questionElement =
-    document.getElementById("question");
+let currentQuestion=0;
 
-const optionsElement =
-    document.getElementById("options");
 
-const progressElement =
-    document.getElementById("progress");
+const questionText =
+    document.getElementById(
+        "questionText"
+    );
+
+
+const questionNumber =
+    document.getElementById(
+        "questionNumber"
+    );
+
+
+const answers =
+    document.getElementById(
+        "answers"
+    );
+
 
 function loadQuestion(){
 
     const q =
         questions[currentQuestion];
 
-    progressElement.textContent =
-        "QUESTION " +
-        (currentQuestion + 1) +
-        " / " +
-        questions.length;
 
-    questionElement.textContent =
+    questionNumber.textContent =
+        "QUESTION " +
+        (currentQuestion+1) +
+        " / 3";
+
+
+    questionText.textContent =
         q.question;
 
-    optionsElement.innerHTML = "";
+
+    answers.innerHTML="";
+
 
     q.options.forEach(
-        (optionText,index)=>{
+        (text,index)=>{
 
             const button =
-                document.createElement("button");
+                document.createElement(
+                    "button"
+                );
 
-            button.className = "option";
 
-            button.textContent =
-                optionText;
+            button.className="answer";
+
+
+            button.textContent=text;
+
 
             button.addEventListener(
                 "click",
                 ()=>{
 
-                    checkAnswer(
+                    answerQuestion(
                         index,
                         button
                     );
@@ -1600,30 +2451,62 @@ function loadQuestion(){
                 }
             );
 
-            optionsElement.appendChild(button);
+
+            answers.appendChild(button);
+
         }
     );
+
 }
 
-function checkAnswer(index,button){
+
+/* =====================================================
+   ANSWER
+===================================================== */
+
+function answerQuestion(
+    selected,
+    button
+){
 
     const q =
         questions[currentQuestion];
 
-    if(index === q.correct){
 
-        button.classList.add("correct");
+    if(
+        selected ===
+        q.correct
+    ){
 
-        playTone(
-            659.25,
-            0.18,
-            "sine",
-            0.18
+        button.classList.add(
+            "correct"
         );
+
+
+        sound(
+            659.25,
+            .15,
+            "sine",
+            .18
+        );
+
+
+        setTimeout(()=>{
+
+            sound(
+                783.99,
+                .25,
+                "sine",
+                .16
+            );
+
+        },120);
+
 
         setTimeout(()=>{
 
             currentQuestion++;
+
 
             if(
                 currentQuestion <
@@ -1632,228 +2515,345 @@ function checkAnswer(index,button){
 
                 loadQuestion();
 
-            }else{
+            }
+            else{
 
                 showPuzzle();
 
             }
 
-        },500);
+        },550);
 
-    }else{
+    }
+    else{
 
-        button.classList.add("wrong");
-
-        playTone(
-            180,
-            0.25,
-            "sawtooth",
-            0.08
+        button.classList.add(
+            "wrong"
         );
 
+
+        sound(
+            170,
+            .22,
+            "sawtooth",
+            .07
+        );
+
+
         setTimeout(()=>{
-            button.classList.remove("wrong");
+
+            button.classList.remove(
+                "wrong"
+            );
+
         },400);
+
     }
+
 }
 
-/* =========================================================
+
+/* =====================================================
    PUZZLE
-========================================================= */
+===================================================== */
 
 const puzzle =
-    document.getElementById("puzzle");
+    document.getElementById(
+        "puzzle"
+    );
 
-let draggedPiece = null;
-let dragPointerId = null;
+
+let draggedPiece=null;
+
+let pointerID=null;
+
 
 function showPuzzle(){
 
-    showScreen(puzzleScreen);
-
-    createPuzzle();
-}
-
-function createPuzzle(){
-
-    puzzle.innerHTML = "";
-
-    puzzle.classList.remove("solved");
-
-    let pieces = [];
-
-    for(let i=0;i<9;i++){
-        pieces.push(i);
-    }
-
-    /* Shuffle */
-
-    do{
-
-        for(let i=pieces.length-1;i>0;i--){
-
-            const j =
-                Math.floor(
-                    Math.random()*(i+1)
-                );
-
-            [
-                pieces[i],
-                pieces[j]
-            ] =
-            [
-                pieces[j],
-                pieces[i]
-            ];
-        }
-
-    }while(
-        pieces.every(
-            (value,index)=>
-                value === index
+    showScreen(
+        document.getElementById(
+            "puzzleScreen"
         )
     );
 
+
+    createPuzzle();
+
+}
+
+
+/* =====================================================
+   CREATE PUZZLE
+===================================================== */
+
+function createPuzzle(){
+
+    puzzle.innerHTML="";
+
+    puzzle.classList.remove(
+        "solved"
+    );
+
+    puzzle.style.pointerEvents=
+        "auto";
+
+
+    let pieces=[];
+
+
+    for(let i=0;i<9;i++){
+
+        pieces.push(i);
+
+    }
+
+
+    /* shuffle */
+
+    for(
+        let i=pieces.length-1;
+        i>0;
+        i--
+    ){
+
+        const j =
+            Math.floor(
+                Math.random()*(i+1)
+            );
+
+
+        [
+            pieces[i],
+            pieces[j]
+        ] =
+        [
+            pieces[j],
+            pieces[i]
+        ];
+
+    }
+
+
+    /* avoid already solved */
+
+    if(
+        pieces.every(
+            (v,i)=>v===i
+        )
+    ){
+
+        [
+            pieces[0],
+            pieces[1]
+        ]=
+        [
+            pieces[1],
+            pieces[0]
+        ];
+
+    }
+
+
     pieces.forEach(
-        pieceNumber=>{
+        number=>{
 
             const piece =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
-            piece.className = "piece";
 
-            piece.dataset.piece =
-                pieceNumber;
+            piece.className=
+                "piece";
+
+
+            piece.dataset.piece=
+                number;
+
 
             setPieceImage(piece);
 
+
             piece.addEventListener(
                 "pointerdown",
-                startDrag
+                dragStart
             );
 
-            piece.addEventListener(
-                "pointerup",
-                endDrag
-            );
-
-            piece.addEventListener(
-                "pointercancel",
-                cancelDrag
-            );
 
             piece.addEventListener(
                 "pointermove",
                 dragMove
             );
 
-            puzzle.appendChild(piece);
+
+            piece.addEventListener(
+                "pointerup",
+                dragEnd
+            );
+
+
+            piece.addEventListener(
+                "pointercancel",
+                dragCancel
+            );
+
+
+            puzzle.appendChild(
+                piece
+            );
+
         }
     );
+
 }
+
+
+/* =====================================================
+   PIECE IMAGE
+===================================================== */
 
 function setPieceImage(piece){
 
     const number =
-        Number(piece.dataset.piece);
+        Number(
+            piece.dataset.piece
+        );
+
 
     const row =
-        Math.floor(number / 3);
+        Math.floor(number/3);
+
 
     const col =
-        number % 3;
+        number%3;
+
 
     piece.style.backgroundPosition =
-        (col * 50) + "% " +
-        (row * 50) + "%";
+        (col*50) +
+        "% " +
+        (row*50) +
+        "%";
+
 }
 
-/* ---------------------------------------------------------
-   START DRAG
---------------------------------------------------------- */
 
-function startDrag(event){
+/* =====================================================
+   DRAG START
+===================================================== */
 
-    if(event.button !== undefined &&
-       event.button !== 0){
+function dragStart(event){
+
+    if(
+        event.button !== undefined &&
+        event.button !== 0
+    ){
         return;
     }
 
-    draggedPiece = this;
 
-    dragPointerId =
+    draggedPiece=this;
+
+    pointerID=
         event.pointerId;
 
-    this.classList.add("dragging");
+
+    this.classList.add(
+        "dragging"
+    );
+
 
     try{
+
         this.setPointerCapture(
             event.pointerId
         );
-    }catch(e){}
+
+    }
+    catch(e){}
+
 
     event.preventDefault();
+
 }
 
-/* ---------------------------------------------------------
+
+/* =====================================================
    DRAG MOVE
---------------------------------------------------------- */
+===================================================== */
 
 function dragMove(event){
 
     if(
         !draggedPiece ||
-        event.pointerId !== dragPointerId
+        event.pointerId !== pointerID
     ){
         return;
     }
 
+
     event.preventDefault();
+
 
     const rect =
         draggedPiece.getBoundingClientRect();
 
+
     const centerX =
-        rect.left + rect.width/2;
+        rect.left+
+        rect.width/2;
+
 
     const centerY =
-        rect.top + rect.height/2;
+        rect.top+
+        rect.height/2;
 
-    const moveX =
-        event.clientX - centerX;
 
-    const moveY =
-        event.clientY - centerY;
+    const dx =
+        event.clientX-centerX;
+
+
+    const dy =
+        event.clientY-centerY;
+
 
     draggedPiece.style.transform =
-        "translate(" +
-        moveX * 0.08 +
-        "px," +
-        moveY * 0.08 +
+        "translate("+
+        (dx*.08)+
+        "px,"+
+        (dy*.08)+
         "px) scale(.92)";
+
 }
 
-/* ---------------------------------------------------------
-   END DRAG
---------------------------------------------------------- */
 
-function endDrag(event){
+/* =====================================================
+   DRAG END
+===================================================== */
+
+function dragEnd(event){
 
     if(
         !draggedPiece ||
-        event.pointerId !== dragPointerId
+        event.pointerId !== pointerID
     ){
         return;
     }
 
+
     event.preventDefault();
+
 
     const source =
         draggedPiece;
 
-    source.classList.remove("dragging");
 
-    source.style.transform = "";
+    source.classList.remove(
+        "dragging"
+    );
+
+
+    source.style.transform="";
+
 
     let target =
         document.elementFromPoint(
@@ -1861,11 +2861,16 @@ function endDrag(event){
             event.clientY
         );
 
+
     if(target){
 
         target =
-            target.closest(".piece");
+            target.closest(
+                ".piece"
+            );
+
     }
+
 
     if(
         target &&
@@ -1878,358 +2883,482 @@ function endDrag(event){
             target
         );
 
-        playTone(
+
+        sound(
             440,
-            0.10,
+            .1,
             "sine",
-            0.10
+            .1
         );
 
+
         checkPuzzle();
+
     }
 
-    draggedPiece = null;
-    dragPointerId = null;
+
+    draggedPiece=null;
+
+    pointerID=null;
+
 }
 
-/* ---------------------------------------------------------
-   CANCEL DRAG
---------------------------------------------------------- */
 
-function cancelDrag(event){
+/* =====================================================
+   DRAG CANCEL
+===================================================== */
+
+function dragCancel(){
 
     if(!draggedPiece){
         return;
     }
 
+
     draggedPiece.classList.remove(
         "dragging"
     );
 
-    draggedPiece.style.transform = "";
 
-    draggedPiece = null;
-    dragPointerId = null;
+    draggedPiece.style.transform="";
+
+
+    draggedPiece=null;
+
+    pointerID=null;
+
 }
 
-/* ---------------------------------------------------------
-   SWAP PIECES
---------------------------------------------------------- */
+
+/* =====================================================
+   SWAP
+===================================================== */
 
 function swapPieces(a,b){
 
     const temp =
         a.dataset.piece;
 
+
     a.dataset.piece =
         b.dataset.piece;
+
 
     b.dataset.piece =
         temp;
 
+
     setPieceImage(a);
+
     setPieceImage(b);
+
 }
 
-/* ---------------------------------------------------------
+
+/* =====================================================
    CHECK PUZZLE
---------------------------------------------------------- */
+===================================================== */
 
 function checkPuzzle(){
 
-    const allPieces =
-        [...puzzle.children];
+    const pieces =
+        [
+            ...puzzle.children
+        ];
+
 
     const solved =
-        allPieces.every(
+        pieces.every(
             (piece,index)=>
-                Number(piece.dataset.piece)
-                === index
+                Number(
+                    piece.dataset.piece
+                )===index
         );
+
 
     if(!solved){
         return;
     }
 
-    puzzle.classList.add("solved");
 
-    puzzle.style.pointerEvents =
-        "none";
-
-    playTone(
-        523.25,
-        0.18,
-        "sine",
-        0.20
+    puzzle.classList.add(
+        "solved"
     );
 
-    setTimeout(()=>{
-        playTone(
-            659.25,
-            0.18,
-            "sine",
-            0.20
-        );
-    },130);
+
+    puzzle.style.pointerEvents=
+        "none";
+
+
+    sound(
+        523.25,
+        .18,
+        "sine",
+        .2
+    );
+
 
     setTimeout(()=>{
-        playTone(
-            783.99,
-            0.30,
+
+        sound(
+            659.25,
+            .18,
             "sine",
-            0.22
+            .2
         );
-    },260);
+
+    },140);
+
+
+    setTimeout(()=>{
+
+        sound(
+            783.99,
+            .25,
+            "sine",
+            .2
+        );
+
+    },280);
+
 
     setTimeout(
         showSuccess,
-        600
+        650
     );
+
 }
 
-/* =========================================================
-   SUCCESS
-========================================================= */
 
-const successOverlay =
+/* =====================================================
+   SUCCESS
+===================================================== */
+
+const success =
     document.getElementById(
-        "successOverlay"
+        "success"
     );
+
 
 function showSuccess(){
 
-    successOverlay.classList.add(
+    success.classList.add(
         "show"
     );
 
+
     setTimeout(()=>{
 
-        successOverlay.classList.remove(
+        success.classList.remove(
             "show"
         );
 
-        startCurtain();
+
+        startTheatre();
 
     },1800);
+
 }
 
-/* =========================================================
+
+/* =====================================================
    CURTAIN SOUND
-========================================================= */
+===================================================== */
 
 function curtainSound(){
 
     if(
         !audioContext ||
-        !soundEnabled
+        !musicStarted
     ){
         return;
     }
 
-    const oscillator =
+
+    const osc =
         audioContext.createOscillator();
+
 
     const gain =
         audioContext.createGain();
 
-    oscillator.type = "sawtooth";
 
-    oscillator.frequency.setValueAtTime(
-        100,
+    osc.type="sawtooth";
+
+
+    osc.frequency.setValueAtTime(
+        90,
         audioContext.currentTime
     );
 
-    oscillator.frequency.exponentialRampToValueAtTime(
-        900,
-        audioContext.currentTime + 1.5
+
+    osc.frequency.exponentialRampToValueAtTime(
+        850,
+        audioContext.currentTime+1.8
     );
+
 
     gain.gain.setValueAtTime(
-        0.001,
+        .001,
         audioContext.currentTime
     );
 
-    gain.gain.exponentialRampToValueAtTime(
-        0.08,
-        audioContext.currentTime + .15
-    );
 
     gain.gain.exponentialRampToValueAtTime(
-        0.001,
-        audioContext.currentTime + 1.6
+        .08,
+        audioContext.currentTime+.2
     );
 
-    oscillator.connect(gain);
+
+    gain.gain.exponentialRampToValueAtTime(
+        .001,
+        audioContext.currentTime+1.9
+    );
+
+
+    osc.connect(gain);
+
     gain.connect(masterGain);
 
-    oscillator.start();
 
-    oscillator.stop(
-        audioContext.currentTime + 1.7
+    osc.start();
+
+
+    osc.stop(
+        audioContext.currentTime+2
     );
+
 }
 
-/* =========================================================
-   CURTAIN OPEN
-========================================================= */
 
-const curtainScene =
+/* =====================================================
+   THEATRE
+===================================================== */
+
+const theatre =
     document.getElementById(
-        "curtainScene"
+        "theatre"
     );
 
+
+const blackPause =
+    document.getElementById(
+        "blackPause"
+    );
+
+
 const flash =
-    document.getElementById("flash");
+    document.getElementById(
+        "flash"
+    );
 
-function startCurtain(){
 
-    curtainScene.classList.add(
+function startTheatre(){
+
+    theatre.classList.add(
         "show"
     );
 
-    /* Small pause before opening */
+
+    /* short cinematic pause */
 
     setTimeout(()=>{
 
         curtainSound();
 
-        curtainScene.classList.add(
+        theatre.classList.add(
             "open"
         );
 
-    },350);
+    },500);
 
-    /* Flash after curtain opens */
 
-    setTimeout(()=>{
-
-        flash.classList.remove("show");
-
-        void flash.offsetWidth;
-
-        flash.classList.add("show");
-
-    },2750);
-
-    /* Final image */
+    /*
+      Curtain is now fully open.
+      Then everything goes completely black.
+    */
 
     setTimeout(()=>{
 
-        curtainScene.classList.remove(
+        blackPause.classList.add(
             "show"
         );
 
-        document.body.classList.add(
-            "final-mode"
+    },3200);
+
+
+    /*
+      Black pause stays for a moment.
+      Then final image appears.
+    */
+
+    setTimeout(()=>{
+
+        theatre.classList.remove(
+            "show"
         );
 
-        showScreen(finalScreen);
+
+        showScreen(
+            document.getElementById(
+                "finalScreen"
+            )
+        );
+
+
+        setTimeout(()=>{
+
+            blackPause.classList.remove(
+                "show"
+            );
+
+        },350);
+
+
+        flash.classList.remove(
+            "show"
+        );
+
+
+        void flash.offsetWidth;
+
+
+        flash.classList.add(
+            "show"
+        );
+
 
         finalSound();
 
         createConfetti();
 
-    },3150);
+    },4000);
+
 }
 
-/* =========================================================
-   FINAL REVEAL SOUND
-========================================================= */
+
+/* =====================================================
+   FINAL SOUND
+===================================================== */
 
 function finalSound(){
 
-    if(!soundEnabled){
+    if(!musicStarted){
         return;
     }
 
-    const notes = [
+
+    const notes=[
         523.25,
         659.25,
         783.99,
         1046.50
     ];
 
+
     notes.forEach(
         (note,index)=>{
 
             setTimeout(()=>{
 
-                playTone(
+                sound(
                     note,
                     .5,
                     "sine",
                     .18
                 );
 
-            },index*160);
+            },index*180);
 
         }
     );
+
 }
 
-/* =========================================================
+
+/* =====================================================
    CONFETTI
-========================================================= */
+===================================================== */
 
 function createConfetti(){
 
-    for(let i=0;i<70;i++){
+    const colors=[
+        "#ff4fa3",
+        "#ffd45c",
+        "#8f6cff",
+        "#65e8ff",
+        "#7dff9c"
+    ];
+
+
+    for(
+        let i=0;
+        i<65;
+        i++
+    ){
 
         const piece =
             document.createElement(
                 "div"
             );
 
-        piece.className =
+
+        piece.className=
             "confetti";
 
-        piece.style.left =
-            Math.random()*100 + "%";
 
-        piece.style.animationDelay =
-            Math.random()*1.5 + "s";
+        piece.style.left=
+            Math.random()*100+
+            "%";
 
-        piece.style.animationDuration =
-            (2.5 + Math.random()*2) + "s";
 
-        piece.style.transform =
-            "rotate(" +
-            Math.random()*360 +
-            "deg)";
-
-        /* Different colors without
-           affecting the final image */
-
-        const colors = [
-            "#ff4fa3",
-            "#ffd45c",
-            "#8f6cff",
-            "#65e8ff",
-            "#7dff9c"
-        ];
-
-        piece.style.background =
+        piece.style.background=
             colors[
                 Math.floor(
-                    Math.random()*colors.length
+                    Math.random()*
+                    colors.length
                 )
             ];
 
-        document.body.appendChild(piece);
+
+        piece.style.animationDelay=
+            Math.random()*1.2+
+            "s";
+
+
+        piece.style.animationDuration=
+            2.8+
+            Math.random()*2+
+            "s";
+
+
+        document.body.appendChild(
+            piece
+        );
+
 
         setTimeout(()=>{
 
             piece.remove();
 
         },5000);
+
     }
+
 }
 
-/* =========================================================
-   INITIAL BUTTON STATE
-========================================================= */
 
-updateMusicButton();
+/* =====================================================
+   INITIAL STATE
+===================================================== */
+
+document
+    .getElementById(
+        "musicIndicator"
+    )
+    .textContent=
+    "🔊 SOUND READY";
+
 
 </script>
 
