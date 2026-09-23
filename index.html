@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Birthday Surprise ✨</title>
+<title>Siha ✨</title>
 
 <style>
 *{
@@ -12,21 +12,50 @@
     padding:0;
 }
 
-body{
+html,body{
     width:100%;
-    height:100vh;
+    min-height:100%;
     overflow:hidden;
-    font-family:Arial,sans-serif;
-    background:#050008;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+    background:#090014;
     color:white;
+}
+
+/* =========================
+   BACKGROUND
+========================= */
+
+#starField{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+    pointer-events:none;
+    z-index:1;
+}
+
+.star{
+    position:absolute;
+    width:3px;
+    height:3px;
+    background:white;
+    border-radius:50%;
+    opacity:.75;
+    animation:twinkle 2s infinite alternate;
+}
+
+@keyframes twinkle{
+    from{opacity:.15;transform:scale(.6);}
+    to{opacity:1;transform:scale(1.3);}
 }
 
 .screen{
     position:fixed;
     inset:0;
     display:none;
-    justify-content:center;
-    align-items:center;
+    z-index:5;
     overflow:hidden;
 }
 
@@ -34,471 +63,864 @@ body{
     display:flex;
 }
 
-/* BACKGROUND */
-
-.background{
+.background-glow{
     position:absolute;
     inset:0;
     background:
-        radial-gradient(circle at 15% 20%,rgba(255,0,170,.18),transparent 28%),
-        radial-gradient(circle at 85% 75%,rgba(80,0,255,.20),transparent 32%),
-        linear-gradient(135deg,#050008,#180020,#050008);
+        radial-gradient(circle at 20% 20%,rgba(255,0,150,.25),transparent 35%),
+        radial-gradient(circle at 80% 70%,rgba(100,0,255,.25),transparent 35%),
+        radial-gradient(circle at 50% 50%,rgba(255,80,180,.08),transparent 50%);
+    pointer-events:none;
 }
 
-.orb{
-    position:absolute;
-    width:220px;
-    height:220px;
-    border-radius:50%;
-    background:rgba(255,0,180,.10);
-    filter:blur(45px);
-    animation:float 7s infinite ease-in-out;
-}
-
-.orb.one{
-    top:-50px;
-    left:-50px;
-}
-
-.orb.two{
-    right:-50px;
-    bottom:-50px;
-    background:rgba(80,0,255,.12);
-    animation-delay:2s;
-}
-
-@keyframes float{
-    0%,100%{transform:translate(0,0)}
-    50%{transform:translate(35px,-30px)}
-}
-
-/* MUSIC */
+/* =========================
+   MUSIC BUTTON
+========================= */
 
 #musicBtn{
     position:fixed;
     top:18px;
     right:18px;
-    width:54px;
-    height:54px;
-    z-index:99999;
-    border:none;
-    border-radius:50%;
-    background:rgba(255,255,255,.12);
+    z-index:9999;
+
+    border:2px solid rgba(255,255,255,.5);
+    background:rgba(20,0,35,.85);
     color:white;
-    font-size:22px;
+
+    padding:11px 16px;
+    border-radius:30px;
+    font-size:14px;
+    font-weight:bold;
+
     cursor:pointer;
-    backdrop-filter:blur(12px);
-    box-shadow:0 0 22px rgba(255,0,200,.55);
+    backdrop-filter:blur(10px);
+
+    box-shadow:
+        0 0 15px rgba(255,80,200,.35),
+        inset 0 0 10px rgba(255,255,255,.08);
+
+    transition:.25s;
+}
+
+#musicBtn:hover{
+    transform:scale(1.06);
 }
 
 #musicBtn.on{
-    background:rgba(255,0,180,.28);
+    border-color:#ff8bd8;
     box-shadow:
-        0 0 15px #ff00aa,
-        0 0 35px rgba(255,0,170,.55);
+        0 0 20px rgba(255,50,200,.7),
+        0 0 45px rgba(255,50,200,.25);
 }
 
-/* INTRO */
+/* =========================
+   INTRO
+========================= */
+
+#introScreen{
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+}
 
 .intro-content{
     position:relative;
     z-index:10;
     width:90%;
-    max-width:520px;
-    text-align:center;
+    max-width:600px;
+}
+
+.small-title{
+    font-size:14px;
+    letter-spacing:5px;
+    opacity:.75;
+    margin-bottom:20px;
+}
+
+.main-title{
+    font-size:clamp(42px,10vw,90px);
+    font-weight:900;
+    background:linear-gradient(90deg,#ff65c7,#fff,#a96bff,#ff65c7);
+    background-size:300%;
+    -webkit-background-clip:text;
+    color:transparent;
+    animation:titleGradient 5s linear infinite;
+}
+
+@keyframes titleGradient{
+    0%{background-position:0%;}
+    100%{background-position:300%;}
+}
+
+.subtitle{
+    margin-top:12px;
+    font-size:18px;
+    opacity:.8;
 }
 
 .gift{
+    width:150px;
+    height:130px;
+    margin:45px auto 35px;
     position:relative;
-    width:160px;
-    height:140px;
-    margin:0 auto 28px;
-    animation:giftFloat 3s infinite ease-in-out;
+    animation:giftFloat 2.5s ease-in-out infinite;
 }
 
 @keyframes giftFloat{
-    0%,100%{transform:translateY(0) rotateY(0)}
-    50%{transform:translateY(-12px) rotateY(8deg)}
+    0%,100%{transform:translateY(0) rotate(-2deg);}
+    50%{transform:translateY(-14px) rotate(2deg);}
 }
 
 .gift-box{
     position:absolute;
-    left:0;
+    left:10px;
     bottom:0;
-    width:160px;
-    height:100px;
-    border-radius:12px;
-    background:linear-gradient(135deg,#ff008c,#68004d);
-    box-shadow:0 15px 40px rgba(255,0,150,.45);
+    width:130px;
+    height:95px;
+    border-radius:10px;
+    background:linear-gradient(135deg,#ff3d9d,#9d38ff);
+    box-shadow:
+        0 20px 40px rgba(255,0,150,.3),
+        inset 0 0 25px rgba(255,255,255,.2);
 }
 
 .gift-box:before{
     content:"";
     position:absolute;
-    left:67px;
+    left:55px;
     top:0;
-    width:26px;
-    height:100px;
-    background:#ffd700;
+    width:20px;
+    height:100%;
+    background:#ffd45c;
 }
 
 .gift-lid{
     position:absolute;
-    left:-8px;
-    top:25px;
-    width:176px;
-    height:30px;
-    border-radius:9px;
-    background:linear-gradient(135deg,#ff1888,#85005d);
-    z-index:2;
+    left:0;
+    top:15px;
+    width:150px;
+    height:28px;
+    border-radius:8px;
+    background:linear-gradient(135deg,#ff55ae,#a83bff);
+    box-shadow:0 8px 20px rgba(0,0,0,.25);
 }
 
 .gift-lid:before{
     content:"";
     position:absolute;
-    left:75px;
-    width:26px;
-    height:30px;
-    background:#ffd700;
+    left:65px;
+    top:-20px;
+    width:20px;
+    height:45px;
+    background:#ffd45c;
 }
 
-.ribbon{
+.gift-ribbon{
     position:absolute;
+    left:51px;
+    top:-32px;
     width:48px;
-    height:38px;
-    top:0;
-    left:45px;
-    border:9px solid #ffd700;
-    border-radius:50%;
+    height:30px;
+}
+
+.gift-ribbon:before,
+.gift-ribbon:after{
+    content:"";
+    position:absolute;
+    width:30px;
+    height:22px;
+    border:7px solid #ffd45c;
+    border-radius:50% 50% 0 50%;
+}
+
+.gift-ribbon:before{
+    left:-2px;
     transform:rotate(-25deg);
-    z-index:3;
 }
 
-.ribbon.right{
-    left:68px;
-    transform:rotate(25deg);
+.gift-ribbon:after{
+    right:-2px;
+    transform:rotate(25deg) scaleX(-1);
 }
 
-.title{
-    font-size:clamp(40px,10vw,68px);
-    font-weight:900;
-    letter-spacing:2px;
-    background:linear-gradient(90deg,#fff,#ff8bd6,#fff);
-    -webkit-background-clip:text;
-    color:transparent;
-    margin-bottom:12px;
-    text-shadow:0 0 30px rgba(255,0,180,.5);
-}
-
-.subtitle{
-    color:#e8c7e3;
-    font-size:16px;
-    margin-bottom:30px;
-}
-
-.main-btn{
+.enter-btn{
     border:none;
-    padding:18px 30px;
-    border-radius:50px;
+    padding:16px 38px;
+    border-radius:40px;
     color:white;
-    background:linear-gradient(90deg,#ff008c,#8b00ff);
-    font-size:15px;
+    font-size:17px;
     font-weight:bold;
-    letter-spacing:1px;
     cursor:pointer;
+
+    background:linear-gradient(90deg,#ff3c9e,#8f42ff);
     box-shadow:
-        0 0 20px rgba(255,0,180,.5),
-        0 0 45px rgba(130,0,255,.25);
+        0 10px 30px rgba(255,0,150,.35),
+        0 0 25px rgba(150,60,255,.3);
+
+    transition:.3s;
 }
 
-.main-btn:active{
-    transform:scale(.94);
+.enter-btn:hover{
+    transform:translateY(-3px) scale(1.04);
 }
 
-/* QUESTIONS */
+.sound-note{
+    margin-top:15px;
+    font-size:12px;
+    opacity:.55;
+}
 
-.question-card{
+/* =========================
+   QUESTIONS
+========================= */
+
+#questionScreen{
+    align-items:center;
+    justify-content:center;
+}
+
+.question-content{
     position:relative;
     z-index:10;
-    width:90%;
-    max-width:520px;
-    padding:32px 20px;
-    border-radius:26px;
+    width:min(92%,650px);
     text-align:center;
-    background:rgba(255,255,255,.08);
-    border:1px solid rgba(255,255,255,.2);
-    backdrop-filter:blur(18px);
-    box-shadow:0 20px 70px rgba(0,0,0,.55);
 }
 
 .progress{
-    color:#d8add2;
     font-size:13px;
-    margin-bottom:18px;
+    letter-spacing:3px;
+    opacity:.6;
+    margin-bottom:20px;
 }
 
 .question{
-    font-size:23px;
+    font-size:clamp(24px,5vw,42px);
     font-weight:bold;
-    margin-bottom:25px;
+    margin-bottom:30px;
+    line-height:1.25;
 }
 
 .options{
     display:grid;
-    gap:12px;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
 }
 
 .option{
-    width:100%;
-    padding:15px;
-    border-radius:14px;
     border:1px solid rgba(255,255,255,.2);
-    background:rgba(255,255,255,.08);
+    background:rgba(255,255,255,.07);
     color:white;
-    font-size:16px;
+    padding:17px;
+    border-radius:18px;
+    font-size:17px;
     cursor:pointer;
+    transition:.25s;
+    backdrop-filter:blur(8px);
+}
+
+.option:hover{
+    transform:translateY(-4px);
+    background:rgba(255,70,180,.18);
+    border-color:rgba(255,120,220,.7);
 }
 
 .option.correct{
-    background:rgba(0,255,150,.25);
-    border-color:#00ff9d;
+    background:rgba(50,220,120,.25);
+    border-color:#66ffad;
 }
 
 .option.wrong{
-    background:rgba(255,0,60,.25);
-    border-color:#ff315d;
+    animation:wrongShake .35s;
+    border-color:#ff4c78;
 }
 
-/* PUZZLE */
+@keyframes wrongShake{
+    25%{transform:translateX(-8px);}
+    50%{transform:translateX(8px);}
+    75%{transform:translateX(-5px);}
+}
 
-.puzzle-container{
+/* =========================
+   PUZZLE
+========================= */
+
+#puzzleScreen{
+    align-items:center;
+    justify-content:center;
+}
+
+.puzzle-content{
     position:relative;
     z-index:10;
-    width:95%;
+    width:92%;
+    max-width:550px;
     text-align:center;
 }
 
 .puzzle-title{
-    font-size:28px;
+    font-size:clamp(25px,6vw,40px);
     margin-bottom:8px;
 }
 
-.puzzle-sub{
-    color:#d8b6d3;
+.puzzle-help{
     font-size:14px;
-    margin-bottom:20px;
+    opacity:.7;
+    margin-bottom:22px;
 }
 
 .puzzle{
-    width:min(90vw,360px);
-    aspect-ratio:1;
+    width:min(88vw,480px);
+    aspect-ratio:1/1;
     margin:auto;
+
     display:grid;
     grid-template-columns:repeat(3,1fr);
-    gap:3px;
-    padding:4px;
-    background:rgba(255,255,255,.15);
-    border-radius:14px;
-    box-shadow:0 0 35px rgba(255,0,190,.3);
+    gap:4px;
+
+    padding:5px;
+    border-radius:18px;
+
+    background:rgba(255,255,255,.08);
+    border:2px solid rgba(255,255,255,.2);
+
+    box-shadow:
+        0 0 35px rgba(255,40,180,.3),
+        0 20px 50px rgba(0,0,0,.4);
+
+    touch-action:none;
 }
 
 .piece{
+    position:relative;
+    border-radius:8px;
     background-image:url("photo.jpeg");
     background-size:300% 300%;
-    border-radius:5px;
-    cursor:pointer;
-    transition:.25s;
+    background-repeat:no-repeat;
+
+    cursor:grab;
+    user-select:none;
+    -webkit-user-select:none;
+    touch-action:none;
+
+    transition:
+        transform .18s ease,
+        filter .18s ease,
+        box-shadow .18s ease;
+
+    box-shadow:inset 0 0 10px rgba(0,0,0,.25);
 }
 
-.piece.selected{
-    outline:3px solid #ff4fbd;
-    transform:scale(.94);
+.piece:hover{
+    filter:brightness(1.12);
 }
 
-/* SUCCESS */
+.piece.dragging{
+    cursor:grabbing;
+    transform:scale(.92) translateY(-8px);
+    filter:brightness(1.2);
+    box-shadow:
+        0 15px 30px rgba(0,0,0,.5),
+        0 0 20px rgba(255,100,210,.5);
+    z-index:20;
+}
 
-.success-overlay{
+.puzzle.solved .piece{
+    animation:solvedPiece .5s ease forwards;
+}
+
+@keyframes solvedPiece{
+    50%{transform:scale(1.04);}
+    100%{transform:scale(1);}
+}
+
+/* =========================
+   SUCCESS
+========================= */
+
+#successOverlay{
     position:fixed;
     inset:0;
-    z-index:7000;
     display:none;
-    justify-content:center;
     align-items:center;
-    background:rgba(5,0,15,.82);
-    backdrop-filter:blur(10px);
+    justify-content:center;
+    z-index:70;
+    background:rgba(10,0,20,.72);
+    backdrop-filter:blur(7px);
 }
 
-.success-overlay.show{
+#successOverlay.show{
     display:flex;
 }
 
-.success-text{
+.success-box{
     text-align:center;
+    padding:40px 30px;
+    width:min(90%,500px);
+    border-radius:28px;
+    background:linear-gradient(
+        145deg,
+        rgba(255,70,180,.18),
+        rgba(100,50,255,.18)
+    );
+    border:1px solid rgba(255,255,255,.25);
+    box-shadow:0 0 60px rgba(255,50,190,.3);
     animation:successPop .6s ease;
 }
 
-.success-text h1{
-    font-size:clamp(38px,10vw,70px);
-    text-shadow:
-        0 0 20px #ff00aa,
-        0 0 50px #ff00aa;
-}
-
-.success-text p{
-    margin-top:12px;
-    color:#ffd9f3;
-}
-
 @keyframes successPop{
-    from{transform:scale(.4);opacity:0}
-    to{transform:scale(1);opacity:1}
+    from{
+        opacity:0;
+        transform:scale(.7);
+    }
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
 }
 
-/* CURTAIN */
+.success-box h2{
+    font-size:35px;
+    margin-bottom:12px;
+}
+
+.success-box p{
+    opacity:.8;
+}
+
+/* =========================
+   CURTAIN
+========================= */
 
 #curtainScene{
     position:fixed;
     inset:0;
-    z-index:8000;
     display:none;
-    background:#030003;
+    z-index:80;
     overflow:hidden;
-    perspective:1200px;
+    background:#020005;
+    perspective:1400px;
 }
 
 #curtainScene.show{
     display:block;
 }
 
-.stage-light{
+.stage-glow{
     position:absolute;
     inset:0;
     background:
         radial-gradient(
-            ellipse at center 45% 50%,
-            rgba(255,220,100,.20),
-            rgba(0,0,0,.9) 65%
+            ellipse at center,
+            rgba(255,205,100,.35) 0%,
+            rgba(160,50,255,.12) 28%,
+            rgba(0,0,0,.9) 72%
         );
+    transform:scale(1.2);
+}
+
+.stage-floor{
+    position:absolute;
+    bottom:-15%;
+    left:-10%;
+    width:120%;
+    height:45%;
+    background:
+        radial-gradient(
+            ellipse at center,
+            rgba(255,190,80,.35),
+            transparent 65%
+        );
+    filter:blur(8px);
+}
+
+.top-valance{
+    position:absolute;
+    top:-5%;
+    left:-5%;
+    width:110%;
+    height:145px;
+    z-index:8;
+
+    background:
+        repeating-linear-gradient(
+            90deg,
+            #510015 0px,
+            #a00032 35px,
+            #4a0015 70px,
+            #9b0031 105px
+        );
+
+    border-bottom:8px solid #e6b34c;
+
+    border-radius:0 0 50% 50%;
+
+    box-shadow:
+        0 15px 40px rgba(0,0,0,.7),
+        inset 0 -15px 25px rgba(0,0,0,.35);
+}
+
+.top-valance:after{
+    content:"";
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:-16px;
+    height:18px;
+    background:#ffd86a;
+    border-radius:50%;
+    box-shadow:0 0 20px rgba(255,210,80,.7);
 }
 
 .curtain{
     position:absolute;
-    top:-5%;
-    width:54%;
-    height:110%;
+    top:0;
+    width:57%;
+    height:100%;
+    z-index:10;
+
+    background:
+        radial-gradient(
+            ellipse at center,
+            rgba(255,80,120,.15),
+            transparent 45%
+        ),
+        repeating-linear-gradient(
+            90deg,
+            #30000d 0px,
+            #7e001e 22px,
+            #3d000f 45px,
+            #a1002b 68px,
+            #35000d 92px
+        );
+
+    box-shadow:
+        inset 0 0 70px rgba(0,0,0,.65),
+        0 0 45px rgba(0,0,0,.8);
+
+    transition:
+        transform 2.8s cubic-bezier(.65,0,.15,1),
+        filter 2.8s ease,
+        opacity 2.8s ease;
+}
+
+.curtain:after{
+    content:"";
+    position:absolute;
+    inset:0;
     background:
         repeating-linear-gradient(
             90deg,
-            #250005 0px,
-            #780012 18px,
-            #420008 32px,
-            #8c0017 48px,
-            #250005 65px
+            transparent 0px,
+            rgba(255,100,140,.13) 12px,
+            transparent 27px,
+            rgba(0,0,0,.18) 48px
         );
-    box-shadow:
-        inset 0 0 90px rgba(0,0,0,.75),
-        0 0 35px rgba(0,0,0,.8);
-    transition:transform 2.5s cubic-bezier(.65,0,.15,1);
+    pointer-events:none;
 }
 
 .curtain.left{
-    left:-2%;
+    left:0;
     transform-origin:left center;
 }
 
 .curtain.right{
-    right:-2%;
+    right:0;
     transform-origin:right center;
 }
 
 #curtainScene.open .curtain.left{
-    transform:translateX(-105%) rotateY(18deg);
+    transform:
+        translateX(-110%)
+        rotateY(20deg)
+        scaleX(.82)
+        skewY(-1deg);
+    filter:brightness(.7);
 }
 
 #curtainScene.open .curtain.right{
-    transform:translateX(105%) rotateY(-18deg);
+    transform:
+        translateX(110%)
+        rotateY(-20deg)
+        scaleX(.82)
+        skewY(1deg);
+    filter:brightness(.7);
 }
 
-.curtain-glow{
+.tie{
     position:absolute;
-    left:50%;
-    top:0;
-    transform:translateX(-50%);
-    width:5px;
-    height:100%;
-    background:#ffd75a;
+    top:58%;
+    width:80px;
+    height:80px;
+    z-index:12;
+    border:5px solid #e9bd55;
+    border-radius:50%;
     box-shadow:
-        0 0 15px #ffd75a,
-        0 0 40px rgba(255,210,50,.8);
-    opacity:.8;
-    transition:opacity 1s;
+        0 0 20px rgba(255,205,80,.65),
+        inset 0 0 15px rgba(255,255,255,.2);
+    transition:2s ease;
 }
 
-#curtainScene.open .curtain-glow{
+.tie.left{
+    left:51%;
+    transform:translateX(-50%);
+}
+
+.tie.right{
+    right:51%;
+    transform:translateX(50%);
+}
+
+#curtainScene.open .tie.left{
+    left:10%;
     opacity:0;
 }
 
-/* FINAL */
+#curtainScene.open .tie.right{
+    right:10%;
+    opacity:0;
+}
+
+.gold-rope{
+    position:absolute;
+    top:52%;
+    width:90px;
+    height:130px;
+    z-index:11;
+    border-right:5px solid #e9bd55;
+    border-radius:0 80px 80px 0;
+    transition:2s ease;
+}
+
+.gold-rope.left{
+    left:49%;
+}
+
+.gold-rope.right{
+    right:49%;
+    transform:scaleX(-1);
+}
+
+#curtainScene.open .gold-rope.left{
+    left:7%;
+    opacity:0;
+}
+
+#curtainScene.open .gold-rope.right{
+    right:7%;
+    opacity:0;
+}
+
+.curtain-message{
+    position:absolute;
+    z-index:5;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    text-align:center;
+    opacity:0;
+    transition:1.5s ease 1s;
+}
+
+#curtainScene.open .curtain-message{
+    opacity:1;
+}
+
+.curtain-message h1{
+    font-size:clamp(30px,7vw,65px);
+    text-shadow:
+        0 0 15px #fff,
+        0 0 40px #ff6cd0;
+}
+
+.curtain-message p{
+    margin-top:10px;
+    opacity:.8;
+    letter-spacing:3px;
+}
+
+/* =========================
+   FINAL
+========================= */
+
+#finalScreen{
+    align-items:center;
+    justify-content:center;
+    background:#050007;
+    z-index:20;
+}
+
+.final-background{
+    position:absolute;
+    inset:0;
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(255,60,180,.16),
+            transparent 55%
+        );
+}
 
 .final-content{
     position:relative;
-    z-index:10;
-    width:92%;
-    max-width:700px;
-    text-align:center;
+    z-index:30;
+    width:100%;
+    height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:35px 15px;
+}
+
+.final-frame{
+    position:relative;
+    max-width:94vw;
+    max-height:92vh;
+
+    padding:7px;
+    border-radius:16px;
+
+    background:linear-gradient(
+        135deg,
+        #e7bd60,
+        #fff0a4,
+        #b77b22,
+        #ffe28a
+    );
+
+    box-shadow:
+        0 0 25px rgba(255,210,100,.45),
+        0 25px 80px rgba(0,0,0,.65);
+
+    animation:finalReveal 1.5s cubic-bezier(.2,.8,.2,1);
 }
 
 .final-image{
-    width:100%;
-    max-height:82vh;
+    display:block;
+
+    max-width:92vw;
+    max-height:88vh;
+
+    width:auto;
+    height:auto;
+
     object-fit:contain;
-    border-radius:18px;
-    box-shadow:
-        0 0 35px rgba(255,0,180,.45),
-        0 20px 60px rgba(0,0,0,.7);
-    animation:finalZoom 7s ease-out;
+
+    border-radius:10px;
 }
 
-@keyframes finalZoom{
-    from{transform:scale(1.06);opacity:.7}
-    to{transform:scale(1);opacity:1}
+@keyframes finalReveal{
+    from{
+        opacity:0;
+        transform:
+            scale(.72)
+            translateY(30px);
+        filter:brightness(1.8) blur(5px);
+    }
+
+    60%{
+        opacity:1;
+        transform:scale(1.03);
+        filter:brightness(1.1) blur(0);
+    }
+
+    to{
+        opacity:1;
+        transform:scale(1);
+        filter:brightness(1);
+    }
 }
 
-/* FLASH */
+/* IMPORTANT:
+   White stars disappear on final screen
+*/
 
-.flash{
+body.final-mode #starField{
+    display:none;
+}
+
+/* =========================
+   FLASH
+========================= */
+
+#flash{
     position:fixed;
     inset:0;
-    z-index:10000;
     background:white;
-    opacity:0;
+    z-index:100;
     pointer-events:none;
+    opacity:0;
 }
 
-.flash.active{
-    animation:flash .7s ease;
+#flash.show{
+    animation:flash .65s ease;
 }
 
 @keyframes flash{
-    0%{opacity:0}
-    25%{opacity:.9}
-    100%{opacity:0}
+    0%{opacity:0;}
+    20%{opacity:.9;}
+    100%{opacity:0;}
 }
 
-/* CONFETTI */
+/* =========================
+   CONFETTI
+========================= */
 
 .confetti{
     position:fixed;
     top:-20px;
     width:8px;
     height:14px;
-    z-index:8500;
-    animation:fall linear forwards;
+    z-index:15;
+    pointer-events:none;
+    animation:confettiFall 3.5s linear forwards;
 }
 
-@keyframes fall{
+@keyframes confettiFall{
     to{
-        transform:translateY(110vh) rotate(720deg);
+        transform:
+            translateY(110vh)
+            rotate(720deg);
+        opacity:0;
+    }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:600px){
+
+    #musicBtn{
+        top:10px;
+        right:10px;
+        padding:9px 12px;
+        font-size:12px;
+    }
+
+    .options{
+        gap:10px;
+    }
+
+    .option{
+        padding:14px 8px;
+        font-size:15px;
+    }
+
+    .gift{
+        transform:scale(.85);
+        margin-top:30px;
+    }
+
+    .puzzle{
+        width:90vw;
+    }
+
+    .top-valance{
+        height:100px;
+    }
+
+    .final-content{
+        padding:55px 8px 15px;
     }
 }
 </style>
@@ -506,465 +928,669 @@ body{
 
 <body>
 
-<!-- MUSIC BUTTON -->
-<button id="musicBtn" type="button">🔇</button>
+<!-- =========================
+     MUSIC BUTTON
+========================= -->
 
-<!-- INTRO -->
+<button id="musicBtn" type="button">
+    🔇 SOUND OFF
+</button>
+
+<!-- STAR FIELD -->
+
+<div id="starField"></div>
+
+<!-- =========================
+     INTRO
+========================= -->
+
 <section id="introScreen" class="screen active">
-    <div class="background"></div>
-    <div class="orb one"></div>
-    <div class="orb two"></div>
+
+    <div class="background-glow"></div>
 
     <div class="intro-content">
 
-        <div class="gift">
-            <div class="ribbon"></div>
-            <div class="ribbon right"></div>
-            <div class="gift-lid"></div>
-            <div class="gift-box"></div>
+        <div class="small-title">
+            A LITTLE SURPRISE
         </div>
 
-        <h1 class="title">Birthday Surprise</h1>
+        <div class="main-title">
+            SIHA ✨
+        </div>
 
-        <p class="subtitle">
-            Something special is waiting for you ✨
-        </p>
+        <div class="subtitle">
+            Something special is waiting for you...
+        </div>
 
-        <button id="enterBtn" class="main-btn" type="button">
-            ENTER THE SURPRISE ✨
+        <div class="gift">
+
+            <div class="gift-ribbon"></div>
+
+            <div class="gift-lid"></div>
+
+            <div class="gift-box"></div>
+
+        </div>
+
+        <button id="enterBtn" class="enter-btn">
+            OPEN THE SURPRISE ✨
         </button>
 
-    </div>
-</section>
-
-<!-- QUESTIONS -->
-<section id="questionScreen" class="screen">
-
-    <div class="background"></div>
-    <div class="orb one"></div>
-    <div class="orb two"></div>
-
-    <div class="question-card">
-
-        <div id="progress" class="progress">
-            Question 1 of 3
+        <div class="sound-note">
+            🔊 Sound will start when you enter
         </div>
 
-        <div id="question" class="question"></div>
-
-        <div id="options" class="options"></div>
-
     </div>
+
 </section>
 
-<!-- PUZZLE -->
+<!-- =========================
+     QUESTIONS
+========================= -->
+
+<section id="questionScreen" class="screen">
+
+    <div class="background-glow"></div>
+
+    <div class="question-content">
+
+        <div id="progress" class="progress">
+            QUESTION 1 / 3
+        </div>
+
+        <div id="question" class="question">
+        </div>
+
+        <div id="options" class="options">
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================
+     PUZZLE
+========================= -->
+
 <section id="puzzleScreen" class="screen">
 
-    <div class="background"></div>
-    <div class="orb one"></div>
-    <div class="orb two"></div>
+    <div class="background-glow"></div>
 
-    <div class="puzzle-container">
+    <div class="puzzle-content">
 
         <h1 class="puzzle-title">
-            One Last Challenge 🧩
+            🧩 One Last Puzzle
         </h1>
 
-        <p class="puzzle-sub">
-            Swipe the pieces into the correct place
+        <p class="puzzle-help">
+            Drag / Swipe one piece over another piece
         </p>
 
         <div id="puzzle" class="puzzle"></div>
 
     </div>
+
 </section>
 
-<!-- SUCCESS -->
-<div id="successOverlay" class="success-overlay">
-    <div class="success-text">
-        <h1>✨ YOU DID IT ✨</h1>
-        <p>Something beautiful is waiting...</p>
+<!-- =========================
+     SUCCESS
+========================= -->
+
+<div id="successOverlay">
+
+    <div class="success-box">
+
+        <h2>
+            🎉 Perfect!
+        </h2>
+
+        <p>
+            You solved it... Something special is coming.
+        </p>
+
     </div>
+
 </div>
 
-<!-- CURTAIN -->
+<!-- =========================
+     CURTAIN
+========================= -->
+
 <div id="curtainScene">
 
-    <div class="stage-light"></div>
+    <div class="stage-glow"></div>
+
+    <div class="stage-floor"></div>
+
+    <div class="curtain-message">
+        <h1>
+            ✨ HERE IT IS ✨
+        </h1>
+        <p>
+            YOUR SPECIAL SURPRISE
+        </p>
+    </div>
 
     <div class="curtain left"></div>
+
     <div class="curtain right"></div>
 
-    <div class="curtain-glow"></div>
+    <div class="gold-rope left"></div>
+    <div class="gold-rope right"></div>
+
+    <div class="tie left"></div>
+    <div class="tie right"></div>
+
+    <div class="top-valance"></div>
 
 </div>
 
-<!-- FINAL -->
+<!-- =========================
+     FINAL
+========================= -->
+
 <section id="finalScreen" class="screen">
 
-    <div class="background"></div>
+    <div class="final-background"></div>
 
     <div class="final-content">
 
-        <img
-            src="surprise.jpeg"
-            class="final-image"
-            alt="Birthday Surprise"
-        >
+        <div class="final-frame">
+
+            <img
+                src="surprise.jpeg"
+                class="final-image"
+                alt="Birthday Surprise"
+            >
+
+        </div>
 
     </div>
+
 </section>
 
-<div id="flash" class="flash"></div>
+<div id="flash"></div>
 
 <script>
-/* =====================================================
-   EVERYTHING STARTS AFTER PAGE LOAD
-===================================================== */
 
-window.addEventListener("DOMContentLoaded",function(){
+/* =========================================================
+   SCREEN SYSTEM
+========================================================= */
 
-    /* AUDIO */
+const introScreen = document.getElementById("introScreen");
+const questionScreen = document.getElementById("questionScreen");
+const puzzleScreen = document.getElementById("puzzleScreen");
+const finalScreen = document.getElementById("finalScreen");
 
-    let audioContext = null;
-    let masterGain = null;
-    let musicPlaying = false;
-    let musicTimer = null;
-    let melodyIndex = 0;
+function showScreen(screen){
 
-    const melody = [
-        261.63,
-        329.63,
-        392.00,
-        523.25,
-        392.00,
-        329.63,
-        293.66,
-        392.00
-    ];
+    document.querySelectorAll(".screen").forEach(s=>{
+        s.classList.remove("active");
+    });
 
-    function initAudio(){
+    screen.classList.add("active");
+}
 
-        try{
+/* =========================================================
+   STAR FIELD
+========================================================= */
 
-            if(!audioContext){
+const starField = document.getElementById("starField");
 
-                const AC =
-                    window.AudioContext ||
-                    window.webkitAudioContext;
+for(let i=0;i<80;i++){
 
-                if(!AC){
-                    return false;
-                }
+    const star = document.createElement("div");
 
-                audioContext = new AC();
+    star.className = "star";
 
-                masterGain =
-                    audioContext.createGain();
+    star.style.left = Math.random()*100 + "%";
+    star.style.top = Math.random()*100 + "%";
 
-                masterGain.gain.value = 0.18;
+    const size = Math.random()*3 + 1;
 
-                masterGain.connect(
-                    audioContext.destination
-                );
-            }
+    star.style.width = size + "px";
+    star.style.height = size + "px";
 
-            if(audioContext.state === "suspended"){
-                audioContext.resume();
-            }
+    star.style.animationDelay =
+        Math.random()*3 + "s";
 
-            return true;
+    starField.appendChild(star);
+}
 
-        }catch(error){
+/* =========================================================
+   AUDIO SYSTEM
+========================================================= */
 
-            console.log("Audio error",error);
-            return false;
+let audioContext = null;
+let masterGain = null;
 
-        }
+let musicPlaying = false;
+let soundEnabled = false;
+
+let musicTimer = null;
+let melodyIndex = 0;
+
+const melody = [
+    [261.63,0.30],
+    [329.63,0.30],
+    [392.00,0.30],
+    [523.25,0.45],
+
+    [392.00,0.30],
+    [329.63,0.30],
+    [293.66,0.30],
+    [392.00,0.45],
+
+    [261.63,0.30],
+    [329.63,0.30],
+    [440.00,0.30],
+    [523.25,0.45],
+
+    [493.88,0.30],
+    [440.00,0.30],
+    [392.00,0.30],
+    [329.63,0.45]
+];
+
+function createAudio(){
+
+    if(audioContext) return;
+
+    const AudioCtx =
+        window.AudioContext ||
+        window.webkitAudioContext;
+
+    if(!AudioCtx){
+        return;
     }
 
-    function playTone(freq,duration,type,volume){
+    audioContext = new AudioCtx();
 
-        if(!initAudio()){
-            return;
-        }
+    masterGain =
+        audioContext.createGain();
 
-        try{
+    masterGain.gain.value = 0.18;
 
-            const oscillator =
-                audioContext.createOscillator();
+    masterGain.connect(
+        audioContext.destination
+    );
+}
 
-            const gain =
-                audioContext.createGain();
+/* ---------------------------------------------------------
+   BASIC TONE
+--------------------------------------------------------- */
 
-            oscillator.type =
-                type || "sine";
+function playTone(
+    frequency,
+    duration = 0.25,
+    type = "sine",
+    volume = 0.25
+){
 
-            oscillator.frequency.setValueAtTime(
-                freq,
-                audioContext.currentTime
-            );
-
-            gain.gain.setValueAtTime(
-                volume || .10,
-                audioContext.currentTime
-            );
-
-            gain.gain.exponentialRampToValueAtTime(
-                .001,
-                audioContext.currentTime + duration
-            );
-
-            oscillator.connect(gain);
-            gain.connect(masterGain);
-
-            oscillator.start();
-
-            oscillator.stop(
-                audioContext.currentTime + duration
-            );
-
-        }catch(error){
-            console.log(error);
-        }
+    if(!audioContext || !soundEnabled){
+        return;
     }
 
-    function buttonSound(){
+    const oscillator =
+        audioContext.createOscillator();
 
-        playTone(520,.12,"sine",.14);
+    const gain =
+        audioContext.createGain();
 
-        setTimeout(function(){
-            playTone(760,.16,"sine",.13);
-        },80);
+    oscillator.type = type;
+
+    oscillator.frequency.setValueAtTime(
+        frequency,
+        audioContext.currentTime
+    );
+
+    gain.gain.setValueAtTime(
+        0.0001,
+        audioContext.currentTime
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+        volume,
+        audioContext.currentTime + 0.02
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+        0.0001,
+        audioContext.currentTime + duration
+    );
+
+    oscillator.connect(gain);
+    gain.connect(masterGain);
+
+    oscillator.start();
+
+    oscillator.stop(
+        audioContext.currentTime + duration + 0.03
+    );
+}
+
+/* ---------------------------------------------------------
+   MUSIC LOOP
+--------------------------------------------------------- */
+
+function playMusicNote(){
+
+    if(!musicPlaying || !soundEnabled){
+        return;
     }
 
-    function correctSound(){
+    const note = melody[melodyIndex];
 
-        playTone(523,.18,"sine",.14);
+    playTone(
+        note[0],
+        note[1],
+        "triangle",
+        0.13
+    );
 
-        setTimeout(function(){
-            playTone(659,.18,"sine",.14);
-        },100);
+    /* soft higher note */
 
-        setTimeout(function(){
-            playTone(784,.40,"sine",.16);
-        },200);
-    }
-
-    function wrongSound(){
-
-        playTone(180,.25,"sawtooth",.08);
-    }
-
-    function musicLoop(){
-
-        if(!musicPlaying){
-            return;
-        }
+    if(melodyIndex % 4 === 3){
 
         playTone(
-            melody[melodyIndex],
-            .72,
+            note[0] * 2,
+            0.4,
             "sine",
-            .065
+            0.045
         );
-
-        melodyIndex++;
-
-        if(melodyIndex >= melody.length){
-            melodyIndex = 0;
-        }
-
-        musicTimer =
-            setTimeout(
-                musicLoop,
-                620
-            );
     }
 
-    function startMusic(){
+    melodyIndex++;
 
-        if(!initAudio()){
-            return;
+    if(melodyIndex >= melody.length){
+        melodyIndex = 0;
+    }
+
+    musicTimer =
+        setTimeout(
+            playMusicNote,
+            330
+        );
+}
+
+/* ---------------------------------------------------------
+   START MUSIC
+--------------------------------------------------------- */
+
+async function startMusic(){
+
+    createAudio();
+
+    if(!audioContext){
+        return;
+    }
+
+    try{
+
+        if(audioContext.state === "suspended"){
+            await audioContext.resume();
         }
 
-        if(musicPlaying){
-            return;
-        }
-
+        soundEnabled = true;
         musicPlaying = true;
+
+        updateMusicButton();
+
+        if(musicTimer){
+            clearTimeout(musicTimer);
+        }
 
         melodyIndex = 0;
 
-        document
-            .getElementById("musicBtn")
-            .innerText = "🎵";
+        /* Immediate confirmation sound */
 
-        document
-            .getElementById("musicBtn")
-            .classList.add("on");
+        playTone(
+            659.25,
+            0.16,
+            "sine",
+            0.22
+        );
 
-        musicLoop();
-    }
+        setTimeout(()=>{
+            playTone(
+                783.99,
+                0.25,
+                "sine",
+                0.18
+            );
+        },120);
 
-    function stopMusic(){
+        playMusicNote();
 
+    }catch(error){
+
+        console.log(
+            "Audio could not start:",
+            error
+        );
+
+        soundEnabled = false;
         musicPlaying = false;
 
+        updateMusicButton();
+    }
+}
+
+/* ---------------------------------------------------------
+   STOP MUSIC
+--------------------------------------------------------- */
+
+function stopMusic(){
+
+    musicPlaying = false;
+
+    if(musicTimer){
         clearTimeout(musicTimer);
-
-        document
-            .getElementById("musicBtn")
-            .innerText = "🔇";
-
-        document
-            .getElementById("musicBtn")
-            .classList.remove("on");
+        musicTimer = null;
     }
 
-    /* SCREEN */
+    updateMusicButton();
+}
 
-    function showScreen(id){
+/* ---------------------------------------------------------
+   TOGGLE SOUND
+--------------------------------------------------------- */
 
-        document
-            .querySelectorAll(".screen")
-            .forEach(function(screen){
+async function toggleMusic(){
 
-                screen.classList.remove("active");
+    createAudio();
 
-            });
-
-        const target =
-            document.getElementById(id);
-
-        if(target){
-            target.classList.add("active");
-        }
+    if(!audioContext){
+        return;
     }
 
-    /* ENTER BUTTON */
+    try{
 
-    document
-        .getElementById("enterBtn")
-        .addEventListener("click",function(){
-
-            /*
-              IMPORTANT:
-              Audio starts DIRECTLY from
-              the user's click.
-            */
-
-            initAudio();
-
-            buttonSound();
-
-            startMusic();
-
-            currentQuestion = 0;
-
-            showScreen("questionScreen");
-
-            loadQuestion();
-
-        });
-
-    /* MUSIC BUTTON */
-
-    document
-        .getElementById("musicBtn")
-        .addEventListener("click",function(){
-
-            initAudio();
-
-            if(musicPlaying){
-
-                stopMusic();
-
-            }else{
-
-                startMusic();
-
-            }
-
-        });
-
-    /* QUESTIONS */
-
-    const questions = [
-
-        {
-            question:"Naa unna epdi kupduven?",
-            options:[
-                "Alagii",
-                "Alukuuuu",
-                "Eruma",
-                "Loosuu"
-            ],
-            correct:1
-        },
-
-        {
-            question:"Enaku pidicha dress color enna?",
-            options:[
-                "Blue",
-                "Black",
-                "Orange",
-                "Yellow"
-            ],
-            correct:3
-        },
-
-        {
-            question:"Secret code sollu",
-            options:[
-                "16",
-                "17",
-                "18",
-                "19"
-            ],
-            correct:2
+        if(audioContext.state === "suspended"){
+            await audioContext.resume();
         }
 
-    ];
+        if(musicPlaying){
 
-    let currentQuestion = 0;
+            stopMusic();
 
-    function loadQuestion(){
+            soundEnabled = false;
 
-        const q =
-            questions[currentQuestion];
+            updateMusicButton();
 
-        document
-            .getElementById("progress")
-            .innerText =
-            "Question " +
-            (currentQuestion + 1) +
-            " of 3";
+        }else{
 
-        document
-            .getElementById("question")
-            .innerText =
-            q.question;
+            soundEnabled = true;
 
-        const options =
-            document.getElementById("options");
+            musicPlaying = true;
 
-        options.innerHTML = "";
+            updateMusicButton();
 
-        q.options.forEach(function(option,index){
+            melodyIndex = 0;
+
+            playTone(
+                523.25,
+                0.18,
+                "sine",
+                0.25
+            );
+
+            setTimeout(()=>{
+                if(soundEnabled){
+                    playTone(
+                        659.25,
+                        0.22,
+                        "sine",
+                        0.22
+                    );
+                }
+            },120);
+
+            playMusicNote();
+        }
+
+    }catch(error){
+
+        console.log(error);
+    }
+}
+
+/* ---------------------------------------------------------
+   MUSIC BUTTON UI
+--------------------------------------------------------- */
+
+const musicBtn =
+    document.getElementById("musicBtn");
+
+function updateMusicButton(){
+
+    if(musicPlaying){
+
+        musicBtn.textContent =
+            "🔊 SOUND ON";
+
+        musicBtn.classList.add("on");
+
+    }else{
+
+        musicBtn.textContent =
+            "🔇 SOUND OFF";
+
+        musicBtn.classList.remove("on");
+    }
+}
+
+/* =========================================================
+   ENTER / START GAME
+========================================================= */
+
+const enterBtn =
+    document.getElementById("enterBtn");
+
+enterBtn.addEventListener(
+    "click",
+    function(){
+
+        /* This click is a user gesture,
+           so browser audio can start here */
+
+        startMusic();
+
+        showScreen(questionScreen);
+
+        currentQuestion = 0;
+
+        loadQuestion();
+    }
+);
+
+musicBtn.addEventListener(
+    "click",
+    toggleMusic
+);
+
+/* =========================================================
+   QUESTIONS
+========================================================= */
+
+const questions = [
+
+    {
+        question:"Naa unna epdi kupduven?",
+        options:[
+            "Alagii",
+            "Alukuuuu",
+            "Eruma",
+            "Loosuu"
+        ],
+        correct:1
+    },
+
+    {
+        question:"Enaku pidicha dress color enna?",
+        options:[
+            "Blue",
+            "Black",
+            "Orange",
+            "Yellow"
+        ],
+        correct:3
+    },
+
+    {
+        question:"Secret code sollu",
+        options:[
+            "16",
+            "17",
+            "18",
+            "19"
+        ],
+        correct:2
+    }
+
+];
+
+let currentQuestion = 0;
+
+const questionElement =
+    document.getElementById("question");
+
+const optionsElement =
+    document.getElementById("options");
+
+const progressElement =
+    document.getElementById("progress");
+
+function loadQuestion(){
+
+    const q =
+        questions[currentQuestion];
+
+    progressElement.textContent =
+        "QUESTION " +
+        (currentQuestion + 1) +
+        " / " +
+        questions.length;
+
+    questionElement.textContent =
+        q.question;
+
+    optionsElement.innerHTML = "";
+
+    q.options.forEach(
+        (optionText,index)=>{
 
             const button =
                 document.createElement("button");
 
             button.className = "option";
 
-            button.type = "button";
-
-            button.innerText = option;
+            button.textContent =
+                optionText;
 
             button.addEventListener(
                 "click",
-                function(){
+                ()=>{
 
                     checkAnswer(
                         index,
@@ -974,435 +1600,637 @@ window.addEventListener("DOMContentLoaded",function(){
                 }
             );
 
-            options.appendChild(button);
-
-        });
-    }
-
-    function checkAnswer(selected,button){
-
-        const q =
-            questions[currentQuestion];
-
-        if(selected === q.correct){
-
-            button.classList.add("correct");
-
-            correctSound();
-
-            setTimeout(function(){
-
-                currentQuestion++;
-
-                if(
-                    currentQuestion <
-                    questions.length
-                ){
-
-                    loadQuestion();
-
-                }else{
-
-                    showPuzzle();
-
-                }
-
-            },600);
-
-        }else{
-
-            button.classList.add("wrong");
-
-            wrongSound();
-
-            setTimeout(function(){
-
-                button.classList.remove("wrong");
-
-            },450);
-
+            optionsElement.appendChild(button);
         }
-    }
+    );
+}
 
-    /* PUZZLE */
+function checkAnswer(index,button){
 
-    let selectedPiece = null;
+    const q =
+        questions[currentQuestion];
 
-    function showPuzzle(){
+    if(index === q.correct){
 
-        showScreen("puzzleScreen");
-
-        createPuzzle();
-    }
-
-    function createPuzzle(){
-
-        const puzzle =
-            document.getElementById("puzzle");
-
-        puzzle.innerHTML = "";
-
-        let pieces = [
-            0,1,2,
-            3,4,5,
-            6,7,8
-        ];
-
-        do{
-
-            pieces.sort(function(){
-                return Math.random()-.5;
-            });
-
-        }while(
-            pieces.every(function(value,index){
-                return value === index;
-            })
-        );
-
-        pieces.forEach(function(piece){
-
-            const div =
-                document.createElement("div");
-
-            div.className = "piece";
-
-            div.dataset.piece = piece;
-
-            updatePiece(div);
-
-            div.addEventListener(
-                "click",
-                function(){
-
-                    selectPiece(div);
-
-                }
-            );
-
-            puzzle.appendChild(div);
-
-        });
-    }
-
-    function updatePiece(piece){
-
-        const value =
-            parseInt(piece.dataset.piece);
-
-        const row =
-            Math.floor(value/3);
-
-        const col =
-            value%3;
-
-        piece.style.backgroundPosition =
-            (col*50) +
-            "% " +
-            (row*50) +
-            "%";
-    }
-
-    function selectPiece(piece){
-
-        if(selectedPiece === null){
-
-            selectedPiece = piece;
-
-            piece.classList.add("selected");
-
-            playTone(
-                600,
-                .08,
-                "sine",
-                .07
-            );
-
-            return;
-        }
-
-        if(selectedPiece === piece){
-
-            piece.classList.remove("selected");
-
-            selectedPiece = null;
-
-            return;
-        }
-
-        const first = selectedPiece;
-        const second = piece;
-
-        const temp =
-            first.dataset.piece;
-
-        first.dataset.piece =
-            second.dataset.piece;
-
-        second.dataset.piece =
-            temp;
-
-        updatePiece(first);
-        updatePiece(second);
-
-        first.classList.remove("selected");
-
-        selectedPiece = null;
+        button.classList.add("correct");
 
         playTone(
-            720,
-            .10,
+            659.25,
+            0.18,
             "sine",
-            .08
+            0.18
+        );
+
+        setTimeout(()=>{
+
+            currentQuestion++;
+
+            if(
+                currentQuestion <
+                questions.length
+            ){
+
+                loadQuestion();
+
+            }else{
+
+                showPuzzle();
+
+            }
+
+        },500);
+
+    }else{
+
+        button.classList.add("wrong");
+
+        playTone(
+            180,
+            0.25,
+            "sawtooth",
+            0.08
+        );
+
+        setTimeout(()=>{
+            button.classList.remove("wrong");
+        },400);
+    }
+}
+
+/* =========================================================
+   PUZZLE
+========================================================= */
+
+const puzzle =
+    document.getElementById("puzzle");
+
+let draggedPiece = null;
+let dragPointerId = null;
+
+function showPuzzle(){
+
+    showScreen(puzzleScreen);
+
+    createPuzzle();
+}
+
+function createPuzzle(){
+
+    puzzle.innerHTML = "";
+
+    puzzle.classList.remove("solved");
+
+    let pieces = [];
+
+    for(let i=0;i<9;i++){
+        pieces.push(i);
+    }
+
+    /* Shuffle */
+
+    do{
+
+        for(let i=pieces.length-1;i>0;i--){
+
+            const j =
+                Math.floor(
+                    Math.random()*(i+1)
+                );
+
+            [
+                pieces[i],
+                pieces[j]
+            ] =
+            [
+                pieces[j],
+                pieces[i]
+            ];
+        }
+
+    }while(
+        pieces.every(
+            (value,index)=>
+                value === index
+        )
+    );
+
+    pieces.forEach(
+        pieceNumber=>{
+
+            const piece =
+                document.createElement("div");
+
+            piece.className = "piece";
+
+            piece.dataset.piece =
+                pieceNumber;
+
+            setPieceImage(piece);
+
+            piece.addEventListener(
+                "pointerdown",
+                startDrag
+            );
+
+            piece.addEventListener(
+                "pointerup",
+                endDrag
+            );
+
+            piece.addEventListener(
+                "pointercancel",
+                cancelDrag
+            );
+
+            piece.addEventListener(
+                "pointermove",
+                dragMove
+            );
+
+            puzzle.appendChild(piece);
+        }
+    );
+}
+
+function setPieceImage(piece){
+
+    const number =
+        Number(piece.dataset.piece);
+
+    const row =
+        Math.floor(number / 3);
+
+    const col =
+        number % 3;
+
+    piece.style.backgroundPosition =
+        (col * 50) + "% " +
+        (row * 50) + "%";
+}
+
+/* ---------------------------------------------------------
+   START DRAG
+--------------------------------------------------------- */
+
+function startDrag(event){
+
+    if(event.button !== undefined &&
+       event.button !== 0){
+        return;
+    }
+
+    draggedPiece = this;
+
+    dragPointerId =
+        event.pointerId;
+
+    this.classList.add("dragging");
+
+    try{
+        this.setPointerCapture(
+            event.pointerId
+        );
+    }catch(e){}
+
+    event.preventDefault();
+}
+
+/* ---------------------------------------------------------
+   DRAG MOVE
+--------------------------------------------------------- */
+
+function dragMove(event){
+
+    if(
+        !draggedPiece ||
+        event.pointerId !== dragPointerId
+    ){
+        return;
+    }
+
+    event.preventDefault();
+
+    const rect =
+        draggedPiece.getBoundingClientRect();
+
+    const centerX =
+        rect.left + rect.width/2;
+
+    const centerY =
+        rect.top + rect.height/2;
+
+    const moveX =
+        event.clientX - centerX;
+
+    const moveY =
+        event.clientY - centerY;
+
+    draggedPiece.style.transform =
+        "translate(" +
+        moveX * 0.08 +
+        "px," +
+        moveY * 0.08 +
+        "px) scale(.92)";
+}
+
+/* ---------------------------------------------------------
+   END DRAG
+--------------------------------------------------------- */
+
+function endDrag(event){
+
+    if(
+        !draggedPiece ||
+        event.pointerId !== dragPointerId
+    ){
+        return;
+    }
+
+    event.preventDefault();
+
+    const source =
+        draggedPiece;
+
+    source.classList.remove("dragging");
+
+    source.style.transform = "";
+
+    let target =
+        document.elementFromPoint(
+            event.clientX,
+            event.clientY
+        );
+
+    if(target){
+
+        target =
+            target.closest(".piece");
+    }
+
+    if(
+        target &&
+        target !== source &&
+        target.parentElement === puzzle
+    ){
+
+        swapPieces(
+            source,
+            target
+        );
+
+        playTone(
+            440,
+            0.10,
+            "sine",
+            0.10
         );
 
         checkPuzzle();
     }
 
-    function checkPuzzle(){
+    draggedPiece = null;
+    dragPointerId = null;
+}
 
-        const pieces =
-            document.querySelectorAll(".piece");
+/* ---------------------------------------------------------
+   CANCEL DRAG
+--------------------------------------------------------- */
 
-        let solved = true;
+function cancelDrag(event){
 
-        pieces.forEach(function(piece,index){
-
-            if(
-                parseInt(piece.dataset.piece)
-                !== index
-            ){
-
-                solved = false;
-
-            }
-
-        });
-
-        if(solved){
-
-            puzzleCompleted();
-
-        }
+    if(!draggedPiece){
+        return;
     }
 
-    function puzzleCompleted(){
+    draggedPiece.classList.remove(
+        "dragging"
+    );
 
-        correctSound();
+    draggedPiece.style.transform = "";
 
-        const overlay =
-            document.getElementById(
-                "successOverlay"
-            );
+    draggedPiece = null;
+    dragPointerId = null;
+}
 
-        overlay.classList.add("show");
+/* ---------------------------------------------------------
+   SWAP PIECES
+--------------------------------------------------------- */
 
-        setTimeout(function(){
+function swapPieces(a,b){
 
-            overlay.classList.remove("show");
+    const temp =
+        a.dataset.piece;
 
-            startCurtain();
+    a.dataset.piece =
+        b.dataset.piece;
 
-        },1800);
+    b.dataset.piece =
+        temp;
+
+    setPieceImage(a);
+    setPieceImage(b);
+}
+
+/* ---------------------------------------------------------
+   CHECK PUZZLE
+--------------------------------------------------------- */
+
+function checkPuzzle(){
+
+    const allPieces =
+        [...puzzle.children];
+
+    const solved =
+        allPieces.every(
+            (piece,index)=>
+                Number(piece.dataset.piece)
+                === index
+        );
+
+    if(!solved){
+        return;
     }
 
-    /* CURTAIN SOUND */
+    puzzle.classList.add("solved");
 
-    function curtainSound(){
+    puzzle.style.pointerEvents =
+        "none";
 
-        if(!initAudio()){
-            return;
-        }
+    playTone(
+        523.25,
+        0.18,
+        "sine",
+        0.20
+    );
 
-        try{
+    setTimeout(()=>{
+        playTone(
+            659.25,
+            0.18,
+            "sine",
+            0.20
+        );
+    },130);
 
-            const oscillator =
-                audioContext.createOscillator();
+    setTimeout(()=>{
+        playTone(
+            783.99,
+            0.30,
+            "sine",
+            0.22
+        );
+    },260);
 
-            const gain =
-                audioContext.createGain();
+    setTimeout(
+        showSuccess,
+        600
+    );
+}
 
-            oscillator.type = "sine";
+/* =========================================================
+   SUCCESS
+========================================================= */
 
-            oscillator.frequency.setValueAtTime(
-                100,
-                audioContext.currentTime
-            );
+const successOverlay =
+    document.getElementById(
+        "successOverlay"
+    );
 
-            oscillator.frequency.exponentialRampToValueAtTime(
-                700,
-                audioContext.currentTime + 2.5
-            );
+function showSuccess(){
 
-            gain.gain.setValueAtTime(
-                .001,
-                audioContext.currentTime
-            );
+    successOverlay.classList.add(
+        "show"
+    );
 
-            gain.gain.linearRampToValueAtTime(
-                .18,
-                audioContext.currentTime + .5
-            );
+    setTimeout(()=>{
 
-            gain.gain.exponentialRampToValueAtTime(
-                .001,
-                audioContext.currentTime + 2.5
-            );
+        successOverlay.classList.remove(
+            "show"
+        );
 
-            oscillator.connect(gain);
-            gain.connect(masterGain);
+        startCurtain();
 
-            oscillator.start();
+    },1800);
+}
 
-            oscillator.stop(
-                audioContext.currentTime + 2.5
-            );
+/* =========================================================
+   CURTAIN SOUND
+========================================================= */
 
-        }catch(error){
-            console.log(error);
-        }
+function curtainSound(){
+
+    if(
+        !audioContext ||
+        !soundEnabled
+    ){
+        return;
     }
 
-    /* CURTAIN */
+    const oscillator =
+        audioContext.createOscillator();
 
-    function startCurtain(){
+    const gain =
+        audioContext.createGain();
 
-        const curtain =
-            document.getElementById(
-                "curtainScene"
-            );
+    oscillator.type = "sawtooth";
 
-        curtain.classList.add("show");
+    oscillator.frequency.setValueAtTime(
+        100,
+        audioContext.currentTime
+    );
 
-        setTimeout(function(){
+    oscillator.frequency.exponentialRampToValueAtTime(
+        900,
+        audioContext.currentTime + 1.5
+    );
 
-            curtainSound();
+    gain.gain.setValueAtTime(
+        0.001,
+        audioContext.currentTime
+    );
 
-            curtain.classList.add("open");
+    gain.gain.exponentialRampToValueAtTime(
+        0.08,
+        audioContext.currentTime + .15
+    );
 
-            setTimeout(function(){
+    gain.gain.exponentialRampToValueAtTime(
+        0.001,
+        audioContext.currentTime + 1.6
+    );
 
-                flashScreen();
+    oscillator.connect(gain);
+    gain.connect(masterGain);
 
-            },1900);
+    oscillator.start();
 
-            setTimeout(function(){
+    oscillator.stop(
+        audioContext.currentTime + 1.7
+    );
+}
 
-                curtain.classList.remove("show");
+/* =========================================================
+   CURTAIN OPEN
+========================================================= */
 
-                curtain.classList.remove("open");
+const curtainScene =
+    document.getElementById(
+        "curtainScene"
+    );
 
-                showScreen("finalScreen");
+const flash =
+    document.getElementById("flash");
 
-                createConfetti();
+function startCurtain(){
 
-                finalRevealSound();
+    curtainScene.classList.add(
+        "show"
+    );
 
-            },2800);
+    /* Small pause before opening */
 
-        },500);
-    }
+    setTimeout(()=>{
 
-    function flashScreen(){
+        curtainSound();
 
-        const flash =
-            document.getElementById("flash");
+        curtainScene.classList.add(
+            "open"
+        );
 
-        flash.classList.remove("active");
+    },350);
+
+    /* Flash after curtain opens */
+
+    setTimeout(()=>{
+
+        flash.classList.remove("show");
 
         void flash.offsetWidth;
 
-        flash.classList.add("active");
+        flash.classList.add("show");
+
+    },2750);
+
+    /* Final image */
+
+    setTimeout(()=>{
+
+        curtainScene.classList.remove(
+            "show"
+        );
+
+        document.body.classList.add(
+            "final-mode"
+        );
+
+        showScreen(finalScreen);
+
+        finalSound();
+
+        createConfetti();
+
+    },3150);
+}
+
+/* =========================================================
+   FINAL REVEAL SOUND
+========================================================= */
+
+function finalSound(){
+
+    if(!soundEnabled){
+        return;
     }
 
-    /* FINAL SOUND */
+    const notes = [
+        523.25,
+        659.25,
+        783.99,
+        1046.50
+    ];
 
-    function finalRevealSound(){
+    notes.forEach(
+        (note,index)=>{
 
-        playTone(523,.30,"sine",.14);
+            setTimeout(()=>{
 
-        setTimeout(function(){
-            playTone(659,.30,"sine",.14);
-        },180);
+                playTone(
+                    note,
+                    .5,
+                    "sine",
+                    .18
+                );
 
-        setTimeout(function(){
-            playTone(784,.40,"sine",.16);
-        },360);
+            },index*160);
 
-        setTimeout(function(){
-            playTone(1046,.70,"sine",.15);
-        },550);
-    }
+        }
+    );
+}
 
-    /* CONFETTI */
+/* =========================================================
+   CONFETTI
+========================================================= */
 
-    function createConfetti(){
+function createConfetti(){
 
-        for(let i=0;i<120;i++){
+    for(let i=0;i<70;i++){
 
-            const confetti =
-                document.createElement("div");
+        const piece =
+            document.createElement(
+                "div"
+            );
 
-            confetti.className = "confetti";
+        piece.className =
+            "confetti";
 
-            confetti.style.left =
-                Math.random()*100 + "%";
+        piece.style.left =
+            Math.random()*100 + "%";
 
-            confetti.style.animationDuration =
-                2 + Math.random()*3 + "s";
+        piece.style.animationDelay =
+            Math.random()*1.5 + "s";
 
-            confetti.style.animationDelay =
-                Math.random()*.8 + "s";
+        piece.style.animationDuration =
+            (2.5 + Math.random()*2) + "s";
 
-            const colors = [
-                "#ff4da6",
-                "#ffd700",
-                "#8b5cff",
-                "#00e5ff",
-                "#ffffff",
-                "#ff6b35"
+        piece.style.transform =
+            "rotate(" +
+            Math.random()*360 +
+            "deg)";
+
+        /* Different colors without
+           affecting the final image */
+
+        const colors = [
+            "#ff4fa3",
+            "#ffd45c",
+            "#8f6cff",
+            "#65e8ff",
+            "#7dff9c"
+        ];
+
+        piece.style.background =
+            colors[
+                Math.floor(
+                    Math.random()*colors.length
+                )
             ];
 
-            confetti.style.background =
-                colors[
-                    Math.floor(
-                        Math.random()*colors.length
-                    )
-                ];
+        document.body.appendChild(piece);
 
-            document.body.appendChild(confetti);
+        setTimeout(()=>{
 
-            setTimeout(function(){
+            piece.remove();
 
-                confetti.remove();
-
-            },5000);
-        }
+        },5000);
     }
+}
 
-    /* STARS */
+/* =========================================================
+   INITIAL BUTTON STATE
+========================================================= */
 
-    for(let i=0;i<45;i++){
+updateMusicButton();
 
-        const star =
-            document.createElement("div");
-
-        star.style.position = "fixed";
-        star.style.width = "2px";
-        star.style.height = "2px";
-        star.style.borderRadius = "50%";
-        star.style.background = "rgba(255,255,255,.55)";
-        star.style.left =
-            Math.random()*100 + "%";
-        star.style.top =
-            Math.random()*100 + "%";
-        star.style.pointerEvents = "none";
-        star.style.zIndex = "1";
-
-        document.body.appendChild(star);
-    }
-
-});
 </script>
 
 </body>
