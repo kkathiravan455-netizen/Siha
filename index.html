@@ -1549,3 +1549,896 @@ const questions = [
             "Alagii",
             "Alukuuuu",
             "Eruma",
+            "Loosuu"
+
+        ],
+
+        correct:1
+
+    },
+
+
+    {
+
+        question:
+            "Enaku pidicha dress color enna?",
+
+        options: [
+
+            "Blue",
+            "Black",
+            "Orange",
+            "Yellow"
+
+        ],
+
+        correct:3
+
+    },
+
+
+    {
+
+        question:
+            "Secret code sollu",
+
+        options: [
+
+            "16",
+            "17",
+            "18",
+            "19"
+
+        ],
+
+        correct:2
+
+    }
+
+];
+
+
+let currentQuestion = 0;
+
+
+/* =====================================================
+   LOAD QUESTION
+===================================================== */
+
+function loadQuestion(){
+
+    const q =
+        questions[currentQuestion];
+
+
+    document.getElementById(
+        "progress"
+    ).innerText =
+        "Question " +
+        (currentQuestion + 1) +
+        " of 3";
+
+
+    document.getElementById(
+        "question"
+    ).innerText =
+        q.question;
+
+
+    const options =
+        document.getElementById(
+            "options"
+        );
+
+
+    options.innerHTML = "";
+
+
+    q.options.forEach(
+        function(option,index){
+
+            const button =
+                document.createElement(
+                    "button"
+                );
+
+
+            button.className =
+                "option";
+
+
+            button.type =
+                "button";
+
+
+            button.innerText =
+                option;
+
+
+            button.onclick =
+                function(){
+
+                    checkAnswer(
+                        index,
+                        button
+                    );
+
+                };
+
+
+            options.appendChild(
+                button
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   CHECK ANSWER
+===================================================== */
+
+function checkAnswer(
+    selected,
+    button
+){
+
+    const q =
+        questions[currentQuestion];
+
+
+    if(
+        selected ===
+        q.correct
+    ){
+
+        button.classList.add(
+            "correct"
+        );
+
+
+        correctSound();
+
+
+        setTimeout(
+            function(){
+
+                currentQuestion++;
+
+
+                if(
+                    currentQuestion <
+                    questions.length
+                ){
+
+                    loadQuestion();
+
+                }
+
+                else{
+
+                    showPuzzle();
+
+                }
+
+            },
+            600
+        );
+
+    }
+
+    else{
+
+        button.classList.add(
+            "wrong"
+        );
+
+
+        wrongSound();
+
+
+        setTimeout(
+            function(){
+
+                button.classList.remove(
+                    "wrong"
+                );
+
+            },
+            450
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   SHOW PUZZLE
+===================================================== */
+
+function showPuzzle(){
+
+    showScreen(
+        "puzzleScreen"
+    );
+
+
+    createPuzzle();
+
+}
+
+
+/* =====================================================
+   PUZZLE
+===================================================== */
+
+let selectedPiece = null;
+
+
+function createPuzzle(){
+
+    const puzzle =
+        document.getElementById(
+            "puzzle"
+        );
+
+
+    puzzle.innerHTML = "";
+
+
+    let pieces = [
+
+        0,1,2,
+        3,4,5,
+        6,7,8
+
+    ];
+
+
+    /*
+       Shuffle
+    */
+
+    do{
+
+        pieces.sort(
+            function(){
+
+                return Math.random() - .5;
+
+            }
+        );
+
+    }while(
+
+        pieces.every(
+            function(value,index){
+
+                return value === index;
+
+            }
+        )
+
+    );
+
+
+    pieces.forEach(
+        function(piece,index){
+
+            const div =
+                document.createElement(
+                    "div"
+                );
+
+
+            div.className =
+                "piece";
+
+
+            div.dataset.piece =
+                piece;
+
+
+            updatePiece(
+                div
+            );
+
+
+            div.onclick =
+                function(){
+
+                    selectPiece(
+                        div
+                    );
+
+                };
+
+
+            puzzle.appendChild(
+                div
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   UPDATE PIECE
+===================================================== */
+
+function updatePiece(piece){
+
+    const value =
+        parseInt(
+            piece.dataset.piece
+        );
+
+
+    const row =
+        Math.floor(
+            value / 3
+        );
+
+
+    const col =
+        value % 3;
+
+
+    piece.style.backgroundPosition =
+        (col * 50) +
+        "% " +
+        (row * 50) +
+        "%";
+
+}
+
+
+/* =====================================================
+   SELECT PUZZLE PIECE
+===================================================== */
+
+function selectPiece(piece){
+
+    if(
+        selectedPiece === null
+    ){
+
+        selectedPiece =
+            piece;
+
+
+        piece.classList.add(
+            "selected"
+        );
+
+
+        playTone(
+            600,
+            0.08,
+            "sine",
+            0.08
+        );
+
+
+        return;
+
+    }
+
+
+    if(
+        selectedPiece ===
+        piece
+    ){
+
+        piece.classList.remove(
+            "selected"
+        );
+
+
+        selectedPiece =
+            null;
+
+
+        return;
+
+    }
+
+
+    const first =
+        selectedPiece;
+
+
+    const second =
+        piece;
+
+
+    const temp =
+        first.dataset.piece;
+
+
+    first.dataset.piece =
+        second.dataset.piece;
+
+
+    second.dataset.piece =
+        temp;
+
+
+    updatePiece(first);
+
+    updatePiece(second);
+
+
+    first.classList.remove(
+        "selected"
+    );
+
+
+    selectedPiece =
+        null;
+
+
+    playTone(
+        720,
+        0.10,
+        "sine",
+        0.10
+    );
+
+
+    checkPuzzle();
+
+}
+
+
+/* =====================================================
+   CHECK PUZZLE
+===================================================== */
+
+function checkPuzzle(){
+
+    const pieces =
+        document.querySelectorAll(
+            ".piece"
+        );
+
+
+    let solved = true;
+
+
+    pieces.forEach(
+        function(piece,index){
+
+            if(
+                parseInt(
+                    piece.dataset.piece
+                ) !== index
+            ){
+
+                solved = false;
+
+            }
+
+        }
+    );
+
+
+    if(solved){
+
+        puzzleCompleted();
+
+    }
+
+}
+
+
+/* =====================================================
+   PUZZLE COMPLETE
+===================================================== */
+
+function puzzleCompleted(){
+
+    correctSound();
+
+
+    const overlay =
+        document.getElementById(
+            "successOverlay"
+        );
+
+
+    overlay.classList.add(
+        "show"
+    );
+
+
+    setTimeout(
+        function(){
+
+            overlay.classList.remove(
+                "show"
+            );
+
+
+            startCurtain();
+
+        },
+        1800
+    );
+
+}
+
+
+/* =====================================================
+   CURTAIN SOUND
+===================================================== */
+
+function curtainSound(){
+
+    if(!initAudio()){
+
+        return;
+
+    }
+
+
+    try{
+
+        const duration = 2.8;
+
+
+        const oscillator =
+            audioContext.createOscillator();
+
+
+        const gain =
+            audioContext.createGain();
+
+
+        oscillator.type =
+            "sawtooth";
+
+
+        oscillator.frequency.setValueAtTime(
+            60,
+            audioContext.currentTime
+        );
+
+
+        oscillator.frequency.exponentialRampToValueAtTime(
+            500,
+            audioContext.currentTime +
+            duration
+        );
+
+
+        gain.gain.setValueAtTime(
+            0.001,
+            audioContext.currentTime
+        );
+
+
+        gain.gain.linearRampToValueAtTime(
+            0.20,
+            audioContext.currentTime +
+            .4
+        );
+
+
+        gain.gain.exponentialRampToValueAtTime(
+            0.001,
+            audioContext.currentTime +
+            duration
+        );
+
+
+        oscillator.connect(gain);
+
+        gain.connect(masterGain);
+
+
+        oscillator.start();
+
+
+        oscillator.stop(
+            audioContext.currentTime +
+            duration
+        );
+
+    }catch(error){
+
+        console.log(error);
+
+    }
+
+}
+
+
+/* =====================================================
+   FINAL REVEAL SOUND
+===================================================== */
+
+function finalRevealSound(){
+
+    playTone(
+        523,
+        .30,
+        "sine",
+        .15
+    );
+
+
+    setTimeout(
+        function(){
+
+            playTone(
+                659,
+                .30,
+                "sine",
+                .15
+            );
+
+        },
+        180
+    );
+
+
+    setTimeout(
+        function(){
+
+            playTone(
+                784,
+                .40,
+                "sine",
+                .17
+            );
+
+        },
+        360
+    );
+
+
+    setTimeout(
+        function(){
+
+            playTone(
+                1046,
+                .70,
+                "sine",
+                .16
+            );
+
+        },
+        550
+    );
+
+}
+
+
+/* =====================================================
+   CURTAIN
+===================================================== */
+
+function startCurtain(){
+
+    const curtain =
+        document.getElementById(
+            "curtainScene"
+        );
+
+
+    curtain.classList.add(
+        "show"
+    );
+
+
+    setTimeout(
+        function(){
+
+            curtainSound();
+
+
+            curtain.classList.add(
+                "open"
+            );
+
+
+            setTimeout(
+                function(){
+
+                    flashScreen();
+
+                },
+                2100
+            );
+
+
+            setTimeout(
+                function(){
+
+                    curtain.classList.remove(
+                        "show"
+                    );
+
+
+                    curtain.classList.remove(
+                        "open"
+                    );
+
+
+                    showScreen(
+                        "finalScreen"
+                    );
+
+
+                    createConfetti();
+
+
+                    finalRevealSound();
+
+                },
+                3000
+            );
+
+        },
+        600
+    );
+
+}
+
+
+/* =====================================================
+   FLASH
+===================================================== */
+
+function flashScreen(){
+
+    const flash =
+        document.getElementById(
+            "flash"
+        );
+
+
+    flash.classList.remove(
+        "active"
+    );
+
+
+    void flash.offsetWidth;
+
+
+    flash.classList.add(
+        "active"
+    );
+
+}
+
+
+/* =====================================================
+   CONFETTI
+===================================================== */
+
+function createConfetti(){
+
+    for(
+        let i = 0;
+        i < 120;
+        i++
+    ){
+
+        const confetti =
+            document.createElement(
+                "div"
+            );
+
+
+        confetti.className =
+            "confetti";
+
+
+        confetti.style.left =
+            Math.random() * 100 +
+            "%";
+
+
+        confetti.style.animationDuration =
+            2 +
+            Math.random() * 3 +
+            "s";
+
+
+        confetti.style.animationDelay =
+            Math.random() * .8 +
+            "s";
+
+
+        const colors = [
+
+            "#ff4da6",
+            "#ffd700",
+            "#8b5cff",
+            "#00e5ff",
+            "#ffffff",
+            "#ff6b35"
+
+        ];
+
+
+        confetti.style.background =
+            colors[
+                Math.floor(
+                    Math.random() *
+                    colors.length
+                )
+            ];
+
+
+        document.body.appendChild(
+            confetti
+        );
+
+
+        setTimeout(
+            function(){
+
+                confetti.remove();
+
+            },
+            5000
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   CREATE STARS
+===================================================== */
+
+for(
+    let i = 0;
+    i < 70;
+    i++
+){
+
+    const star =
+        document.createElement(
+            "div"
+        );
+
+
+    star.className =
+        "star";
+
+
+    star.style.left =
+        Math.random() * 100 +
+        "%";
+
+
+    star.style.top =
+        Math.random() * 100 +
+        "%";
+
+
+    star.style.animationDelay =
+        Math.random() * 2 +
+        "s";
+
+
+    document.body.appendChild(
+        star
+    );
+
+}
+
+</script>
+
+</body>
+</html>
