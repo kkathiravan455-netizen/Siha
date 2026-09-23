@@ -3,11 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Birthday Surprise ✨</title>
 
 <style>
-
 *{
     box-sizing:border-box;
     margin:0;
@@ -18,8 +16,8 @@ body{
     width:100%;
     height:100vh;
     overflow:hidden;
-    font-family:Arial, sans-serif;
-    background:#08000f;
+    font-family:Arial,sans-serif;
+    background:#050008;
     color:white;
 }
 
@@ -36,944 +34,535 @@ body{
     display:flex;
 }
 
-/* ================= BACKGROUND ================= */
+/* BACKGROUND */
 
 .background{
     position:absolute;
     inset:0;
     background:
-        radial-gradient(
-            circle at 20% 20%,
-            rgba(255,0,180,.20),
-            transparent 30%
-        ),
-        radial-gradient(
-            circle at 80% 75%,
-            rgba(100,0,255,.22),
-            transparent 35%
-        ),
-        linear-gradient(
-            135deg,
-            #08000f,
-            #19002d,
-            #08000f
-        );
+        radial-gradient(circle at 15% 20%,rgba(255,0,170,.18),transparent 28%),
+        radial-gradient(circle at 85% 75%,rgba(80,0,255,.20),transparent 32%),
+        linear-gradient(135deg,#050008,#180020,#050008);
 }
 
 .orb{
     position:absolute;
-    width:180px;
-    height:180px;
+    width:220px;
+    height:220px;
     border-radius:50%;
-    background:rgba(255,0,180,.12);
-    filter:blur(30px);
-    animation:float 6s infinite ease-in-out;
+    background:rgba(255,0,180,.10);
+    filter:blur(45px);
+    animation:float 7s infinite ease-in-out;
 }
 
 .orb.one{
-    top:5%;
-    left:0;
+    top:-50px;
+    left:-50px;
 }
 
 .orb.two{
-    right:0;
-    bottom:0;
-    background:rgba(80,0,255,.15);
+    right:-50px;
+    bottom:-50px;
+    background:rgba(80,0,255,.12);
     animation-delay:2s;
 }
 
 @keyframes float{
-
-    0%,100%{
-        transform:translate(0,0);
-    }
-
-    50%{
-        transform:translate(30px,-30px);
-    }
-
+    0%,100%{transform:translate(0,0)}
+    50%{transform:translate(35px,-30px)}
 }
 
-/* ================= STARS ================= */
-
-.star{
-    position:fixed;
-    width:3px;
-    height:3px;
-    border-radius:50%;
-    background:white;
-    pointer-events:none;
-    animation:twinkle 2s infinite alternate;
-}
-
-@keyframes twinkle{
-
-    from{
-        opacity:.2;
-        transform:scale(.5);
-    }
-
-    to{
-        opacity:1;
-        transform:scale(1.5);
-    }
-
-}
-
-/* ================= MUSIC BUTTON ================= */
+/* MUSIC */
 
 #musicBtn{
-
     position:fixed;
-
     top:18px;
     right:18px;
-
-    width:52px;
-    height:52px;
-
-    z-index:9999;
-
+    width:54px;
+    height:54px;
+    z-index:99999;
     border:none;
     border-radius:50%;
-
-    background:rgba(255,255,255,.14);
-
+    background:rgba(255,255,255,.12);
     color:white;
-
     font-size:22px;
-
     cursor:pointer;
+    backdrop-filter:blur(12px);
+    box-shadow:0 0 22px rgba(255,0,200,.55);
+}
 
-    backdrop-filter:blur(10px);
-
+#musicBtn.on{
+    background:rgba(255,0,180,.28);
     box-shadow:
-        0 0 15px rgba(255,0,200,.5);
-
-    transition:.2s;
+        0 0 15px #ff00aa,
+        0 0 35px rgba(255,0,170,.55);
 }
 
-#musicBtn:active{
-    transform:scale(.88);
-}
-
-/* ================= INTRO ================= */
+/* INTRO */
 
 .intro-content{
-
     position:relative;
-
     z-index:10;
-
     width:90%;
-    max-width:500px;
-
+    max-width:520px;
     text-align:center;
 }
 
-/* GIFT */
-
 .gift{
-
     position:relative;
-
-    width:150px;
-    height:130px;
-
-    margin:0 auto 30px;
-
+    width:160px;
+    height:140px;
+    margin:0 auto 28px;
     animation:giftFloat 3s infinite ease-in-out;
-
 }
 
 @keyframes giftFloat{
-
-    0%,100%{
-        transform:translateY(0) rotateY(0);
-    }
-
-    50%{
-        transform:translateY(-12px) rotateY(8deg);
-    }
-
+    0%,100%{transform:translateY(0) rotateY(0)}
+    50%{transform:translateY(-12px) rotateY(8deg)}
 }
 
 .gift-box{
-
     position:absolute;
-
     left:0;
     bottom:0;
-
-    width:150px;
-    height:95px;
-
-    border-radius:10px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #ff008c,
-            #72004e
-        );
-
-    box-shadow:
-        0 15px 35px rgba(255,0,150,.4);
+    width:160px;
+    height:100px;
+    border-radius:12px;
+    background:linear-gradient(135deg,#ff008c,#68004d);
+    box-shadow:0 15px 40px rgba(255,0,150,.45);
 }
 
-.gift-box::before{
-
+.gift-box:before{
     content:"";
-
     position:absolute;
-
-    left:62px;
+    left:67px;
     top:0;
-
     width:26px;
-    height:95px;
-
+    height:100px;
     background:#ffd700;
 }
 
 .gift-lid{
-
     position:absolute;
-
-    left:-7px;
+    left:-8px;
     top:25px;
-
-    width:164px;
-    height:28px;
-
-    border-radius:8px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #ff1888,
-            #87005c
-        );
-
+    width:176px;
+    height:30px;
+    border-radius:9px;
+    background:linear-gradient(135deg,#ff1888,#85005d);
     z-index:2;
 }
 
-.gift-lid::before{
-
+.gift-lid:before{
     content:"";
-
     position:absolute;
-
-    left:69px;
-
+    left:75px;
     width:26px;
-    height:28px;
-
+    height:30px;
     background:#ffd700;
 }
 
 .ribbon{
-
     position:absolute;
-
-    width:45px;
-    height:35px;
-
+    width:48px;
+    height:38px;
     top:0;
-    left:43px;
-
+    left:45px;
     border:9px solid #ffd700;
-
     border-radius:50%;
-
     transform:rotate(-25deg);
-
     z-index:3;
 }
 
 .ribbon.right{
-
-    left:65px;
-
+    left:68px;
     transform:rotate(25deg);
 }
 
 .title{
-
-    font-size:clamp(38px,10vw,64px);
-
+    font-size:clamp(40px,10vw,68px);
     font-weight:900;
-
     letter-spacing:2px;
-
-    background:
-        linear-gradient(
-            90deg,
-            white,
-            #ff8bd6,
-            white
-        );
-
+    background:linear-gradient(90deg,#fff,#ff8bd6,#fff);
     -webkit-background-clip:text;
-
     color:transparent;
-
     margin-bottom:12px;
-
-    text-shadow:
-        0 0 25px rgba(255,0,180,.4);
+    text-shadow:0 0 30px rgba(255,0,180,.5);
 }
 
 .subtitle{
-
-    color:#e5bfdf;
-
+    color:#e8c7e3;
     font-size:16px;
-
     margin-bottom:30px;
 }
 
-/* ================= BUTTON ================= */
-
 .main-btn{
-
     border:none;
-
-    padding:17px 28px;
-
+    padding:18px 30px;
     border-radius:50px;
-
     color:white;
-
-    background:
-        linear-gradient(
-            90deg,
-            #ff008c,
-            #8b00ff
-        );
-
+    background:linear-gradient(90deg,#ff008c,#8b00ff);
     font-size:15px;
-
     font-weight:bold;
-
     letter-spacing:1px;
-
     cursor:pointer;
-
     box-shadow:
-        0 0 20px rgba(255,0,180,.5);
-
-    transition:.2s;
+        0 0 20px rgba(255,0,180,.5),
+        0 0 45px rgba(130,0,255,.25);
 }
 
 .main-btn:active{
-
     transform:scale(.94);
-
 }
 
-/* ================= QUESTION ================= */
+/* QUESTIONS */
 
 .question-card{
-
     position:relative;
-
     z-index:10;
-
     width:90%;
     max-width:520px;
-
-    padding:30px 20px;
-
-    border-radius:25px;
-
+    padding:32px 20px;
+    border-radius:26px;
     text-align:center;
-
     background:rgba(255,255,255,.08);
-
     border:1px solid rgba(255,255,255,.2);
-
-    backdrop-filter:blur(15px);
-
-    box-shadow:
-        0 20px 60px rgba(0,0,0,.5);
+    backdrop-filter:blur(18px);
+    box-shadow:0 20px 70px rgba(0,0,0,.55);
 }
 
 .progress{
-
     color:#d8add2;
-
     font-size:13px;
-
     margin-bottom:18px;
 }
 
 .question{
-
     font-size:23px;
-
     font-weight:bold;
-
     margin-bottom:25px;
 }
 
 .options{
-
     display:grid;
-
     gap:12px;
 }
 
 .option{
-
     width:100%;
-
     padding:15px;
-
     border-radius:14px;
-
     border:1px solid rgba(255,255,255,.2);
-
     background:rgba(255,255,255,.08);
-
     color:white;
-
     font-size:16px;
-
     cursor:pointer;
-
-    transition:.2s;
-}
-
-.option:active{
-
-    transform:scale(.96);
-
 }
 
 .option.correct{
-
     background:rgba(0,255,150,.25);
-
     border-color:#00ff9d;
 }
 
 .option.wrong{
-
     background:rgba(255,0,60,.25);
-
     border-color:#ff315d;
 }
 
-/* ================= PUZZLE ================= */
+/* PUZZLE */
 
 .puzzle-container{
-
     position:relative;
-
     z-index:10;
-
-    text-align:center;
-
     width:95%;
+    text-align:center;
 }
 
 .puzzle-title{
-
     font-size:28px;
-
     margin-bottom:8px;
 }
 
 .puzzle-sub{
-
     color:#d8b6d3;
-
     font-size:14px;
-
     margin-bottom:20px;
 }
 
 .puzzle{
-
     width:min(90vw,360px);
-
     aspect-ratio:1;
-
     margin:auto;
-
     display:grid;
-
     grid-template-columns:repeat(3,1fr);
-
     gap:3px;
-
     padding:4px;
-
     background:rgba(255,255,255,.15);
-
     border-radius:14px;
-
-    box-shadow:
-        0 0 35px rgba(255,0,190,.3);
+    box-shadow:0 0 35px rgba(255,0,190,.3);
 }
 
 .piece{
-
     background-image:url("photo.jpeg");
-
     background-size:300% 300%;
-
     border-radius:5px;
-
     cursor:pointer;
-
-    transition:.2s;
+    transition:.25s;
 }
 
 .piece.selected{
-
     outline:3px solid #ff4fbd;
-
     transform:scale(.94);
-
 }
 
-/* ================= SUCCESS ================= */
+/* SUCCESS */
 
 .success-overlay{
-
     position:fixed;
-
     inset:0;
-
     z-index:7000;
-
     display:none;
-
     justify-content:center;
-
     align-items:center;
-
-    background:rgba(5,0,15,.78);
-
-    backdrop-filter:blur(8px);
-
+    background:rgba(5,0,15,.82);
+    backdrop-filter:blur(10px);
 }
 
 .success-overlay.show{
-
     display:flex;
-
 }
 
 .success-text{
-
     text-align:center;
-
     animation:successPop .6s ease;
 }
 
 .success-text h1{
-
     font-size:clamp(38px,10vw,70px);
-
     text-shadow:
         0 0 20px #ff00aa,
-        0 0 45px #ff00aa;
+        0 0 50px #ff00aa;
 }
 
 .success-text p{
-
     margin-top:12px;
-
     color:#ffd9f3;
 }
 
 @keyframes successPop{
-
-    from{
-        transform:scale(.4);
-        opacity:0;
-    }
-
-    to{
-        transform:scale(1);
-        opacity:1;
-    }
-
+    from{transform:scale(.4);opacity:0}
+    to{transform:scale(1);opacity:1}
 }
 
-/* ================= CURTAIN ================= */
+/* CURTAIN */
 
 #curtainScene{
-
     position:fixed;
-
     inset:0;
-
     z-index:8000;
-
     display:none;
-
-    background:#050005;
-
+    background:#030003;
     overflow:hidden;
+    perspective:1200px;
 }
 
 #curtainScene.show{
-
     display:block;
 }
 
-.spotlight{
-
+.stage-light{
     position:absolute;
-
-    left:50%;
-    top:0;
-
-    transform:translateX(-50%);
-
-    width:0;
-    height:0;
-
-    border-left:260px solid transparent;
-    border-right:260px solid transparent;
-
-    border-top:700px solid rgba(255,230,150,.08);
-
-    filter:blur(5px);
+    inset:0;
+    background:
+        radial-gradient(
+            ellipse at center 45% 50%,
+            rgba(255,220,100,.20),
+            rgba(0,0,0,.9) 65%
+        );
 }
 
 .curtain{
-
     position:absolute;
-
-    top:0;
-
-    width:53%;
-    height:100%;
-
+    top:-5%;
+    width:54%;
+    height:110%;
     background:
         repeating-linear-gradient(
             90deg,
-            #3b0007 0px,
-            #750015 20px,
-            #3b0007 42px
+            #250005 0px,
+            #780012 18px,
+            #420008 32px,
+            #8c0017 48px,
+            #250005 65px
         );
-
     box-shadow:
-        inset 0 0 80px rgba(0,0,0,.7);
-
-    transition:
-        transform 2.2s
-        cubic-bezier(.77,0,.18,1);
+        inset 0 0 90px rgba(0,0,0,.75),
+        0 0 35px rgba(0,0,0,.8);
+    transition:transform 2.5s cubic-bezier(.65,0,.15,1);
 }
 
 .curtain.left{
-
-    left:0;
-
+    left:-2%;
     transform-origin:left center;
 }
 
 .curtain.right{
-
-    right:0;
-
+    right:-2%;
     transform-origin:right center;
 }
 
 #curtainScene.open .curtain.left{
-
-    transform:
-        translateX(-105%)
-        rotateY(12deg);
+    transform:translateX(-105%) rotateY(18deg);
 }
 
 #curtainScene.open .curtain.right{
-
-    transform:
-        translateX(105%)
-        rotateY(-12deg);
+    transform:translateX(105%) rotateY(-18deg);
 }
 
-.tie{
-
+.curtain-glow{
     position:absolute;
-
-    top:52%;
-
-    width:45px;
-    height:90px;
-
-    background:
-        linear-gradient(
-            90deg,
-            #a87400,
-            #ffe36a,
-            #a87400
-        );
-
+    left:50%;
+    top:0;
+    transform:translateX(-50%);
+    width:5px;
+    height:100%;
+    background:#ffd75a;
     box-shadow:
-        0 0 20px rgba(255,210,50,.6);
+        0 0 15px #ffd75a,
+        0 0 40px rgba(255,210,50,.8);
+    opacity:.8;
+    transition:opacity 1s;
 }
 
-.tie.left{
-
-    left:47%;
-
-    border-radius:
-        0 20px 20px 0;
-}
-
-.tie.right{
-
-    right:47%;
-
-    border-radius:
-        20px 0 0 20px;
-}
-
-#curtainScene.open .tie{
-
+#curtainScene.open .curtain-glow{
     opacity:0;
-
-    transition:.5s;
 }
 
-/* ================= FINAL ================= */
+/* FINAL */
 
 .final-content{
-
     position:relative;
-
     z-index:10;
-
     width:92%;
     max-width:700px;
-
     text-align:center;
 }
 
 .final-image{
-
     width:100%;
-
-    max-height:80vh;
-
+    max-height:82vh;
     object-fit:contain;
-
     border-radius:18px;
-
     box-shadow:
         0 0 35px rgba(255,0,180,.45),
         0 20px 60px rgba(0,0,0,.7);
-
-    animation:finalZoom 8s ease-out;
+    animation:finalZoom 7s ease-out;
 }
 
 @keyframes finalZoom{
-
-    from{
-        transform:scale(1.05);
-    }
-
-    to{
-        transform:scale(1);
-    }
-
+    from{transform:scale(1.06);opacity:.7}
+    to{transform:scale(1);opacity:1}
 }
 
-/* ================= FLASH ================= */
+/* FLASH */
 
 .flash{
-
     position:fixed;
-
     inset:0;
-
     z-index:10000;
-
     background:white;
-
     opacity:0;
-
     pointer-events:none;
 }
 
 .flash.active{
-
     animation:flash .7s ease;
 }
 
 @keyframes flash{
-
-    0%{
-        opacity:0;
-    }
-
-    30%{
-        opacity:.9;
-    }
-
-    100%{
-        opacity:0;
-    }
-
+    0%{opacity:0}
+    25%{opacity:.9}
+    100%{opacity:0}
 }
 
-/* ================= CONFETTI ================= */
+/* CONFETTI */
 
 .confetti{
-
     position:fixed;
-
     top:-20px;
-
     width:8px;
     height:14px;
-
     z-index:8500;
-
-    animation:
-        fall linear forwards;
+    animation:fall linear forwards;
 }
 
 @keyframes fall{
-
     to{
-
-        transform:
-            translateY(110vh)
-            rotate(720deg);
-
+        transform:translateY(110vh) rotate(720deg);
     }
-
 }
-
 </style>
 </head>
 
-
 <body>
 
-
 <!-- MUSIC BUTTON -->
+<button id="musicBtn" type="button">🔇</button>
 
-<button
-    id="musicBtn"
-    type="button"
-    onclick="toggleMusic()"
->
-    🔇
-</button>
-
-
-<!-- ================= INTRO ================= -->
-
-<section
-    id="introScreen"
-    class="screen active"
->
-
+<!-- INTRO -->
+<section id="introScreen" class="screen active">
     <div class="background"></div>
-
     <div class="orb one"></div>
     <div class="orb two"></div>
 
     <div class="intro-content">
 
         <div class="gift">
-
             <div class="ribbon"></div>
-
             <div class="ribbon right"></div>
-
             <div class="gift-lid"></div>
-
             <div class="gift-box"></div>
-
         </div>
 
-
-        <h1 class="title">
-            Birthday Surprise
-        </h1>
-
+        <h1 class="title">Birthday Surprise</h1>
 
         <p class="subtitle">
             Something special is waiting for you ✨
         </p>
 
-
-        <button
-            class="main-btn"
-            type="button"
-            onclick="startGame()"
-        >
+        <button id="enterBtn" class="main-btn" type="button">
             ENTER THE SURPRISE ✨
         </button>
 
     </div>
-
 </section>
 
-
-<!-- ================= QUESTIONS ================= -->
-
-<section
-    id="questionScreen"
-    class="screen"
->
+<!-- QUESTIONS -->
+<section id="questionScreen" class="screen">
 
     <div class="background"></div>
-
     <div class="orb one"></div>
     <div class="orb two"></div>
-
 
     <div class="question-card">
 
-        <div
-            id="progress"
-            class="progress"
-        >
+        <div id="progress" class="progress">
             Question 1 of 3
         </div>
 
+        <div id="question" class="question"></div>
 
-        <div
-            id="question"
-            class="question"
-        >
-        </div>
-
-
-        <div
-            id="options"
-            class="options"
-        >
-        </div>
+        <div id="options" class="options"></div>
 
     </div>
-
 </section>
 
-
-<!-- ================= PUZZLE ================= -->
-
-<section
-    id="puzzleScreen"
-    class="screen"
->
+<!-- PUZZLE -->
+<section id="puzzleScreen" class="screen">
 
     <div class="background"></div>
-
     <div class="orb one"></div>
     <div class="orb two"></div>
-
 
     <div class="puzzle-container">
 
@@ -982,72 +571,38 @@ body{
         </h1>
 
         <p class="puzzle-sub">
-            Arrange the pieces to reveal the surprise
+            Swipe the pieces into the correct place
         </p>
 
-
-        <div
-            id="puzzle"
-            class="puzzle"
-        >
-        </div>
+        <div id="puzzle" class="puzzle"></div>
 
     </div>
-
 </section>
 
-
-<!-- ================= SUCCESS ================= -->
-
-<div
-    id="successOverlay"
-    class="success-overlay"
->
-
+<!-- SUCCESS -->
+<div id="successOverlay" class="success-overlay">
     <div class="success-text">
-
-        <h1>
-            ✨ YOU DID IT ✨
-        </h1>
-
-        <p>
-            Something beautiful is waiting...
-        </p>
-
+        <h1>✨ YOU DID IT ✨</h1>
+        <p>Something beautiful is waiting...</p>
     </div>
-
 </div>
 
-
-<!-- ================= CURTAIN ================= -->
-
+<!-- CURTAIN -->
 <div id="curtainScene">
 
-    <div class="spotlight"></div>
+    <div class="stage-light"></div>
 
     <div class="curtain left"></div>
-
     <div class="curtain right"></div>
 
-    <div class="tie left"></div>
-
-    <div class="tie right"></div>
+    <div class="curtain-glow"></div>
 
 </div>
 
-
-<!-- ================= FINAL ================= -->
-
-<section
-    id="finalScreen"
-    class="screen"
->
+<!-- FINAL -->
+<section id="finalScreen" class="screen">
 
     <div class="background"></div>
-
-    <div class="orb one"></div>
-    <div class="orb two"></div>
-
 
     <div class="final-content">
 
@@ -1058,604 +613,357 @@ body{
         >
 
     </div>
-
 </section>
 
-
-<!-- FLASH -->
-
-<div
-    id="flash"
-    class="flash"
->
-</div>
-
+<div id="flash" class="flash"></div>
 
 <script>
-
 /* =====================================================
-   AUDIO
+   EVERYTHING STARTS AFTER PAGE LOAD
 ===================================================== */
 
-let audioContext = null;
+window.addEventListener("DOMContentLoaded",function(){
 
-let masterGain = null;
+    /* AUDIO */
 
-let musicPlaying = false;
+    let audioContext = null;
+    let masterGain = null;
+    let musicPlaying = false;
+    let musicTimer = null;
+    let melodyIndex = 0;
 
-let musicTimer = null;
+    const melody = [
+        261.63,
+        329.63,
+        392.00,
+        523.25,
+        392.00,
+        329.63,
+        293.66,
+        392.00
+    ];
 
-let melodyIndex = 0;
+    function initAudio(){
 
+        try{
 
-/* =====================================================
-   INITIALIZE AUDIO
-===================================================== */
+            if(!audioContext){
 
-function initAudio(){
+                const AC =
+                    window.AudioContext ||
+                    window.webkitAudioContext;
 
-    try{
+                if(!AC){
+                    return false;
+                }
 
-        if(!audioContext){
+                audioContext = new AC();
 
-            const AudioContext =
-                window.AudioContext ||
-                window.webkitAudioContext;
+                masterGain =
+                    audioContext.createGain();
 
-            if(!AudioContext){
+                masterGain.gain.value = 0.18;
 
-                return false;
+                masterGain.connect(
+                    audioContext.destination
+                );
             }
 
-            audioContext =
-                new AudioContext();
+            if(audioContext.state === "suspended"){
+                audioContext.resume();
+            }
 
-            masterGain =
+            return true;
+
+        }catch(error){
+
+            console.log("Audio error",error);
+            return false;
+
+        }
+    }
+
+    function playTone(freq,duration,type,volume){
+
+        if(!initAudio()){
+            return;
+        }
+
+        try{
+
+            const oscillator =
+                audioContext.createOscillator();
+
+            const gain =
                 audioContext.createGain();
 
-            masterGain.gain.value =
-                0.20;
+            oscillator.type =
+                type || "sine";
 
-            masterGain.connect(
-                audioContext.destination
+            oscillator.frequency.setValueAtTime(
+                freq,
+                audioContext.currentTime
             );
+
+            gain.gain.setValueAtTime(
+                volume || .10,
+                audioContext.currentTime
+            );
+
+            gain.gain.exponentialRampToValueAtTime(
+                .001,
+                audioContext.currentTime + duration
+            );
+
+            oscillator.connect(gain);
+            gain.connect(masterGain);
+
+            oscillator.start();
+
+            oscillator.stop(
+                audioContext.currentTime + duration
+            );
+
+        }catch(error){
+            console.log(error);
+        }
+    }
+
+    function buttonSound(){
+
+        playTone(520,.12,"sine",.14);
+
+        setTimeout(function(){
+            playTone(760,.16,"sine",.13);
+        },80);
+    }
+
+    function correctSound(){
+
+        playTone(523,.18,"sine",.14);
+
+        setTimeout(function(){
+            playTone(659,.18,"sine",.14);
+        },100);
+
+        setTimeout(function(){
+            playTone(784,.40,"sine",.16);
+        },200);
+    }
+
+    function wrongSound(){
+
+        playTone(180,.25,"sawtooth",.08);
+    }
+
+    function musicLoop(){
+
+        if(!musicPlaying){
+            return;
         }
 
+        playTone(
+            melody[melodyIndex],
+            .72,
+            "sine",
+            .065
+        );
 
-        if(
-            audioContext.state ===
-            "suspended"
-        ){
+        melodyIndex++;
 
-            audioContext.resume();
-
+        if(melodyIndex >= melody.length){
+            melodyIndex = 0;
         }
 
-
-        return true;
-
-    }catch(error){
-
-        console.log(
-            "Audio error:",
-            error
-        );
-
-        return false;
-
+        musicTimer =
+            setTimeout(
+                musicLoop,
+                620
+            );
     }
 
-}
+    function startMusic(){
 
+        if(!initAudio()){
+            return;
+        }
 
-/* =====================================================
-   PLAY SOUND
-===================================================== */
+        if(musicPlaying){
+            return;
+        }
 
-function playTone(
-    frequency,
-    duration,
-    type,
-    volume
-){
-
-    if(!initAudio()){
-
-        return;
-
-    }
-
-
-    try{
-
-        const oscillator =
-            audioContext.createOscillator();
-
-        const gain =
-            audioContext.createGain();
-
-
-        oscillator.type =
-            type || "sine";
-
-
-        oscillator.frequency.setValueAtTime(
-            frequency,
-            audioContext.currentTime
-        );
-
-
-        gain.gain.setValueAtTime(
-            volume || 0.12,
-            audioContext.currentTime
-        );
-
-
-        gain.gain.exponentialRampToValueAtTime(
-            0.001,
-            audioContext.currentTime +
-            duration
-        );
-
-
-        oscillator.connect(gain);
-
-        gain.connect(masterGain);
-
-
-        oscillator.start();
-
-
-        oscillator.stop(
-            audioContext.currentTime +
-            duration
-        );
-
-    }catch(error){
-
-        console.log(error);
-
-    }
-
-}
-
-
-/* =====================================================
-   BUTTON SOUND
-===================================================== */
-
-function buttonSound(){
-
-    playTone(
-        520,
-        0.12,
-        "sine",
-        0.15
-    );
-
-
-    setTimeout(function(){
-
-        playTone(
-            760,
-            0.16,
-            "sine",
-            0.14
-        );
-
-    },70);
-
-}
-
-
-/* =====================================================
-   CORRECT SOUND
-===================================================== */
-
-function correctSound(){
-
-    playTone(
-        523,
-        0.18,
-        "sine",
-        0.15
-    );
-
-
-    setTimeout(function(){
-
-        playTone(
-            659,
-            0.18,
-            "sine",
-            0.15
-        );
-
-    },100);
-
-
-    setTimeout(function(){
-
-        playTone(
-            784,
-            0.40,
-            "sine",
-            0.17
-        );
-
-    },200);
-
-}
-
-
-/* =====================================================
-   WRONG SOUND
-===================================================== */
-
-function wrongSound(){
-
-    playTone(
-        180,
-        0.25,
-        "sawtooth",
-        0.09
-    );
-
-}
-
-
-/* =====================================================
-   MUSIC
-===================================================== */
-
-const melody = [
-
-    261.63,
-    329.63,
-    392.00,
-    523.25,
-    392.00,
-    329.63,
-    293.66,
-    392.00
-
-];
-
-
-function musicLoop(){
-
-    if(!musicPlaying){
-
-        return;
-
-    }
-
-
-    playTone(
-        melody[melodyIndex],
-        0.75,
-        "sine",
-        0.08
-    );
-
-
-    melodyIndex++;
-
-
-    if(
-        melodyIndex >=
-        melody.length
-    ){
+        musicPlaying = true;
 
         melodyIndex = 0;
 
+        document
+            .getElementById("musicBtn")
+            .innerText = "🎵";
+
+        document
+            .getElementById("musicBtn")
+            .classList.add("on");
+
+        musicLoop();
     }
 
+    function stopMusic(){
 
-    musicTimer =
-        setTimeout(
-            musicLoop,
-            650
-        );
+        musicPlaying = false;
 
-}
+        clearTimeout(musicTimer);
 
+        document
+            .getElementById("musicBtn")
+            .innerText = "🔇";
 
-/* =====================================================
-   START MUSIC
-===================================================== */
-
-function startMusic(){
-
-    if(!initAudio()){
-
-        return;
-
+        document
+            .getElementById("musicBtn")
+            .classList.remove("on");
     }
 
+    /* SCREEN */
 
-    if(musicPlaying){
+    function showScreen(id){
 
-        return;
+        document
+            .querySelectorAll(".screen")
+            .forEach(function(screen){
 
-    }
+                screen.classList.remove("active");
 
+            });
 
-    musicPlaying = true;
+        const target =
+            document.getElementById(id);
 
-
-    document.getElementById(
-        "musicBtn"
-    ).innerText = "🎵";
-
-
-    melodyIndex = 0;
-
-
-    musicLoop();
-
-}
-
-
-/* =====================================================
-   STOP MUSIC
-===================================================== */
-
-function stopMusic(){
-
-    musicPlaying = false;
-
-
-    clearTimeout(
-        musicTimer
-    );
-
-
-    document.getElementById(
-        "musicBtn"
-    ).innerText = "🔇";
-
-}
-
-
-/* =====================================================
-   MUSIC BUTTON
-===================================================== */
-
-function toggleMusic(){
-
-    if(!initAudio()){
-
-        return;
-
-    }
-
-
-    if(musicPlaying){
-
-        stopMusic();
-
-        buttonSound();
-
-    }
-
-    else{
-
-        startMusic();
-
-        buttonSound();
-
-    }
-
-}
-
-
-/* =====================================================
-   START GAME
-===================================================== */
-
-function startGame(){
-
-    /*
-       IMPORTANT:
-       SCREEN CHANGE FIRST.
-       SOUND CANNOT BLOCK THE BUTTON.
-    */
-
-
-    currentQuestion = 0;
-
-
-    showScreen(
-        "questionScreen"
-    );
-
-
-    loadQuestion();
-
-
-    /*
-       Start sound AFTER screen change.
-    */
-
-    try{
-
-        initAudio();
-
-        buttonSound();
-
-        startMusic();
-
-    }catch(error){
-
-        console.log(error);
-
-    }
-
-}
-
-
-/* =====================================================
-   SCREEN CHANGE
-===================================================== */
-
-function showScreen(id){
-
-    const screens =
-        document.querySelectorAll(
-            ".screen"
-        );
-
-
-    screens.forEach(
-        function(screen){
-
-            screen.classList.remove(
-                "active"
-            );
-
+        if(target){
+            target.classList.add("active");
         }
-    );
-
-
-    const target =
-        document.getElementById(id);
-
-
-    if(target){
-
-        target.classList.add(
-            "active"
-        );
-
     }
 
-}
+    /* ENTER BUTTON */
 
+    document
+        .getElementById("enterBtn")
+        .addEventListener("click",function(){
 
-/* =====================================================
-   QUESTIONS
-===================================================== */
+            /*
+              IMPORTANT:
+              Audio starts DIRECTLY from
+              the user's click.
+            */
 
-const questions = [
+            initAudio();
 
-    {
+            buttonSound();
 
-        question:
-            "Naa unna epdi kupduven?",
+            startMusic();
 
-        options: [
+            currentQuestion = 0;
 
-            "Alagii",
-            "Alukuuuu",
-            "Eruma",
-            "Loosuu"
+            showScreen("questionScreen");
 
-        ],
+            loadQuestion();
 
-        correct:1
+        });
 
-    },
+    /* MUSIC BUTTON */
 
+    document
+        .getElementById("musicBtn")
+        .addEventListener("click",function(){
 
-    {
+            initAudio();
 
-        question:
-            "Enaku pidicha dress color enna?",
+            if(musicPlaying){
 
-        options: [
+                stopMusic();
 
-            "Blue",
-            "Black",
-            "Orange",
-            "Yellow"
+            }else{
 
-        ],
+                startMusic();
 
-        correct:3
+            }
 
-    },
+        });
 
+    /* QUESTIONS */
 
-    {
+    const questions = [
 
-        question:
-            "Secret code sollu",
+        {
+            question:"Naa unna epdi kupduven?",
+            options:[
+                "Alagii",
+                "Alukuuuu",
+                "Eruma",
+                "Loosuu"
+            ],
+            correct:1
+        },
 
-        options: [
+        {
+            question:"Enaku pidicha dress color enna?",
+            options:[
+                "Blue",
+                "Black",
+                "Orange",
+                "Yellow"
+            ],
+            correct:3
+        },
 
-            "16",
-            "17",
-            "18",
-            "19"
+        {
+            question:"Secret code sollu",
+            options:[
+                "16",
+                "17",
+                "18",
+                "19"
+            ],
+            correct:2
+        }
 
-        ],
+    ];
 
-        correct:2
+    let currentQuestion = 0;
 
-    }
+    function loadQuestion(){
 
-];
+        const q =
+            questions[currentQuestion];
 
+        document
+            .getElementById("progress")
+            .innerText =
+            "Question " +
+            (currentQuestion + 1) +
+            " of 3";
 
-let currentQuestion = 0;
+        document
+            .getElementById("question")
+            .innerText =
+            q.question;
 
+        const options =
+            document.getElementById("options");
 
-/* =====================================================
-   LOAD QUESTION
-===================================================== */
+        options.innerHTML = "";
 
-function loadQuestion(){
-
-    const q =
-        questions[currentQuestion];
-
-
-    document.getElementById(
-        "progress"
-    ).innerText =
-        "Question " +
-        (currentQuestion + 1) +
-        " of 3";
-
-
-    document.getElementById(
-        "question"
-    ).innerText =
-        q.question;
-
-
-    const options =
-        document.getElementById(
-            "options"
-        );
-
-
-    options.innerHTML = "";
-
-
-    q.options.forEach(
-        function(option,index){
+        q.options.forEach(function(option,index){
 
             const button =
-                document.createElement(
-                    "button"
-                );
+                document.createElement("button");
 
+            button.className = "option";
 
-            button.className =
-                "option";
+            button.type = "button";
 
+            button.innerText = option;
 
-            button.type =
-                "button";
-
-
-            button.innerText =
-                option;
-
-
-            button.onclick =
+            button.addEventListener(
+                "click",
                 function(){
 
                     checkAnswer(
@@ -1663,50 +971,28 @@ function loadQuestion(){
                         button
                     );
 
-                };
-
-
-            options.appendChild(
-                button
+                }
             );
 
-        }
-    );
+            options.appendChild(button);
 
-}
+        });
+    }
 
+    function checkAnswer(selected,button){
 
-/* =====================================================
-   CHECK ANSWER
-===================================================== */
+        const q =
+            questions[currentQuestion];
 
-function checkAnswer(
-    selected,
-    button
-){
+        if(selected === q.correct){
 
-    const q =
-        questions[currentQuestion];
+            button.classList.add("correct");
 
+            correctSound();
 
-    if(
-        selected ===
-        q.correct
-    ){
-
-        button.classList.add(
-            "correct"
-        );
-
-
-        correctSound();
-
-
-        setTimeout(
-            function(){
+            setTimeout(function(){
 
                 currentQuestion++;
-
 
                 if(
                     currentQuestion <
@@ -1715,729 +1001,408 @@ function checkAnswer(
 
                     loadQuestion();
 
-                }
-
-                else{
+                }else{
 
                     showPuzzle();
 
                 }
 
-            },
-            600
-        );
+            },600);
 
-    }
+        }else{
 
-    else{
+            button.classList.add("wrong");
 
-        button.classList.add(
-            "wrong"
-        );
+            wrongSound();
 
+            setTimeout(function(){
 
-        wrongSound();
+                button.classList.remove("wrong");
 
-
-        setTimeout(
-            function(){
-
-                button.classList.remove(
-                    "wrong"
-                );
-
-            },
-            450
-        );
-
-    }
-
-}
-
-
-/* =====================================================
-   SHOW PUZZLE
-===================================================== */
-
-function showPuzzle(){
-
-    showScreen(
-        "puzzleScreen"
-    );
-
-
-    createPuzzle();
-
-}
-
-
-/* =====================================================
-   PUZZLE
-===================================================== */
-
-let selectedPiece = null;
-
-
-function createPuzzle(){
-
-    const puzzle =
-        document.getElementById(
-            "puzzle"
-        );
-
-
-    puzzle.innerHTML = "";
-
-
-    let pieces = [
-
-        0,1,2,
-        3,4,5,
-        6,7,8
-
-    ];
-
-
-    /*
-       Shuffle
-    */
-
-    do{
-
-        pieces.sort(
-            function(){
-
-                return Math.random() - .5;
-
-            }
-        );
-
-    }while(
-
-        pieces.every(
-            function(value,index){
-
-                return value === index;
-
-            }
-        )
-
-    );
-
-
-    pieces.forEach(
-        function(piece,index){
-
-            const div =
-                document.createElement(
-                    "div"
-                );
-
-
-            div.className =
-                "piece";
-
-
-            div.dataset.piece =
-                piece;
-
-
-            updatePiece(
-                div
-            );
-
-
-            div.onclick =
-                function(){
-
-                    selectPiece(
-                        div
-                    );
-
-                };
-
-
-            puzzle.appendChild(
-                div
-            );
+            },450);
 
         }
-    );
+    }
 
-}
+    /* PUZZLE */
 
+    let selectedPiece = null;
 
-/* =====================================================
-   UPDATE PIECE
-===================================================== */
+    function showPuzzle(){
 
-function updatePiece(piece){
+        showScreen("puzzleScreen");
 
-    const value =
-        parseInt(
-            piece.dataset.piece
+        createPuzzle();
+    }
+
+    function createPuzzle(){
+
+        const puzzle =
+            document.getElementById("puzzle");
+
+        puzzle.innerHTML = "";
+
+        let pieces = [
+            0,1,2,
+            3,4,5,
+            6,7,8
+        ];
+
+        do{
+
+            pieces.sort(function(){
+                return Math.random()-.5;
+            });
+
+        }while(
+            pieces.every(function(value,index){
+                return value === index;
+            })
         );
 
+        pieces.forEach(function(piece){
 
-    const row =
-        Math.floor(
-            value / 3
-        );
+            const div =
+                document.createElement("div");
 
+            div.className = "piece";
 
-    const col =
-        value % 3;
+            div.dataset.piece = piece;
 
+            updatePiece(div);
 
-    piece.style.backgroundPosition =
-        (col * 50) +
-        "% " +
-        (row * 50) +
-        "%";
+            div.addEventListener(
+                "click",
+                function(){
 
-}
+                    selectPiece(div);
 
+                }
+            );
 
-/* =====================================================
-   SELECT PUZZLE PIECE
-===================================================== */
+            puzzle.appendChild(div);
 
-function selectPiece(piece){
+        });
+    }
 
-    if(
-        selectedPiece === null
-    ){
+    function updatePiece(piece){
 
-        selectedPiece =
-            piece;
+        const value =
+            parseInt(piece.dataset.piece);
 
+        const row =
+            Math.floor(value/3);
 
-        piece.classList.add(
-            "selected"
-        );
+        const col =
+            value%3;
 
+        piece.style.backgroundPosition =
+            (col*50) +
+            "% " +
+            (row*50) +
+            "%";
+    }
+
+    function selectPiece(piece){
+
+        if(selectedPiece === null){
+
+            selectedPiece = piece;
+
+            piece.classList.add("selected");
+
+            playTone(
+                600,
+                .08,
+                "sine",
+                .07
+            );
+
+            return;
+        }
+
+        if(selectedPiece === piece){
+
+            piece.classList.remove("selected");
+
+            selectedPiece = null;
+
+            return;
+        }
+
+        const first = selectedPiece;
+        const second = piece;
+
+        const temp =
+            first.dataset.piece;
+
+        first.dataset.piece =
+            second.dataset.piece;
+
+        second.dataset.piece =
+            temp;
+
+        updatePiece(first);
+        updatePiece(second);
+
+        first.classList.remove("selected");
+
+        selectedPiece = null;
 
         playTone(
-            600,
-            0.08,
+            720,
+            .10,
             "sine",
-            0.08
+            .08
         );
 
-
-        return;
-
+        checkPuzzle();
     }
 
+    function checkPuzzle(){
 
-    if(
-        selectedPiece ===
-        piece
-    ){
+        const pieces =
+            document.querySelectorAll(".piece");
 
-        piece.classList.remove(
-            "selected"
-        );
+        let solved = true;
 
-
-        selectedPiece =
-            null;
-
-
-        return;
-
-    }
-
-
-    const first =
-        selectedPiece;
-
-
-    const second =
-        piece;
-
-
-    const temp =
-        first.dataset.piece;
-
-
-    first.dataset.piece =
-        second.dataset.piece;
-
-
-    second.dataset.piece =
-        temp;
-
-
-    updatePiece(first);
-
-    updatePiece(second);
-
-
-    first.classList.remove(
-        "selected"
-    );
-
-
-    selectedPiece =
-        null;
-
-
-    playTone(
-        720,
-        0.10,
-        "sine",
-        0.10
-    );
-
-
-    checkPuzzle();
-
-}
-
-
-/* =====================================================
-   CHECK PUZZLE
-===================================================== */
-
-function checkPuzzle(){
-
-    const pieces =
-        document.querySelectorAll(
-            ".piece"
-        );
-
-
-    let solved = true;
-
-
-    pieces.forEach(
-        function(piece,index){
+        pieces.forEach(function(piece,index){
 
             if(
-                parseInt(
-                    piece.dataset.piece
-                ) !== index
+                parseInt(piece.dataset.piece)
+                !== index
             ){
 
                 solved = false;
 
             }
 
+        });
+
+        if(solved){
+
+            puzzleCompleted();
+
         }
-    );
-
-
-    if(solved){
-
-        puzzleCompleted();
-
     }
 
-}
+    function puzzleCompleted(){
 
+        correctSound();
 
-/* =====================================================
-   PUZZLE COMPLETE
-===================================================== */
-
-function puzzleCompleted(){
-
-    correctSound();
-
-
-    const overlay =
-        document.getElementById(
-            "successOverlay"
-        );
-
-
-    overlay.classList.add(
-        "show"
-    );
-
-
-    setTimeout(
-        function(){
-
-            overlay.classList.remove(
-                "show"
+        const overlay =
+            document.getElementById(
+                "successOverlay"
             );
 
+        overlay.classList.add("show");
+
+        setTimeout(function(){
+
+            overlay.classList.remove("show");
 
             startCurtain();
 
-        },
-        1800
-    );
-
-}
-
-
-/* =====================================================
-   CURTAIN SOUND
-===================================================== */
-
-function curtainSound(){
-
-    if(!initAudio()){
-
-        return;
-
+        },1800);
     }
 
+    /* CURTAIN SOUND */
 
-    try{
+    function curtainSound(){
 
-        const duration = 2.8;
+        if(!initAudio()){
+            return;
+        }
 
+        try{
 
-        const oscillator =
-            audioContext.createOscillator();
+            const oscillator =
+                audioContext.createOscillator();
 
+            const gain =
+                audioContext.createGain();
 
-        const gain =
-            audioContext.createGain();
+            oscillator.type = "sine";
 
+            oscillator.frequency.setValueAtTime(
+                100,
+                audioContext.currentTime
+            );
 
-        oscillator.type =
-            "sawtooth";
+            oscillator.frequency.exponentialRampToValueAtTime(
+                700,
+                audioContext.currentTime + 2.5
+            );
 
+            gain.gain.setValueAtTime(
+                .001,
+                audioContext.currentTime
+            );
 
-        oscillator.frequency.setValueAtTime(
-            60,
-            audioContext.currentTime
-        );
+            gain.gain.linearRampToValueAtTime(
+                .18,
+                audioContext.currentTime + .5
+            );
 
+            gain.gain.exponentialRampToValueAtTime(
+                .001,
+                audioContext.currentTime + 2.5
+            );
 
-        oscillator.frequency.exponentialRampToValueAtTime(
-            500,
-            audioContext.currentTime +
-            duration
-        );
+            oscillator.connect(gain);
+            gain.connect(masterGain);
 
+            oscillator.start();
 
-        gain.gain.setValueAtTime(
-            0.001,
-            audioContext.currentTime
-        );
+            oscillator.stop(
+                audioContext.currentTime + 2.5
+            );
 
-
-        gain.gain.linearRampToValueAtTime(
-            0.20,
-            audioContext.currentTime +
-            .4
-        );
-
-
-        gain.gain.exponentialRampToValueAtTime(
-            0.001,
-            audioContext.currentTime +
-            duration
-        );
-
-
-        oscillator.connect(gain);
-
-        gain.connect(masterGain);
-
-
-        oscillator.start();
-
-
-        oscillator.stop(
-            audioContext.currentTime +
-            duration
-        );
-
-    }catch(error){
-
-        console.log(error);
-
+        }catch(error){
+            console.log(error);
+        }
     }
 
-}
+    /* CURTAIN */
 
+    function startCurtain(){
 
-/* =====================================================
-   FINAL REVEAL SOUND
-===================================================== */
-
-function finalRevealSound(){
-
-    playTone(
-        523,
-        .30,
-        "sine",
-        .15
-    );
-
-
-    setTimeout(
-        function(){
-
-            playTone(
-                659,
-                .30,
-                "sine",
-                .15
+        const curtain =
+            document.getElementById(
+                "curtainScene"
             );
 
-        },
-        180
-    );
+        curtain.classList.add("show");
 
-
-    setTimeout(
-        function(){
-
-            playTone(
-                784,
-                .40,
-                "sine",
-                .17
-            );
-
-        },
-        360
-    );
-
-
-    setTimeout(
-        function(){
-
-            playTone(
-                1046,
-                .70,
-                "sine",
-                .16
-            );
-
-        },
-        550
-    );
-
-}
-
-
-/* =====================================================
-   CURTAIN
-===================================================== */
-
-function startCurtain(){
-
-    const curtain =
-        document.getElementById(
-            "curtainScene"
-        );
-
-
-    curtain.classList.add(
-        "show"
-    );
-
-
-    setTimeout(
-        function(){
+        setTimeout(function(){
 
             curtainSound();
 
+            curtain.classList.add("open");
 
-            curtain.classList.add(
-                "open"
-            );
+            setTimeout(function(){
 
+                flashScreen();
 
-            setTimeout(
-                function(){
+            },1900);
 
-                    flashScreen();
+            setTimeout(function(){
 
-                },
-                2100
-            );
+                curtain.classList.remove("show");
 
+                curtain.classList.remove("open");
 
-            setTimeout(
-                function(){
+                showScreen("finalScreen");
 
-                    curtain.classList.remove(
-                        "show"
-                    );
+                createConfetti();
 
+                finalRevealSound();
 
-                    curtain.classList.remove(
-                        "open"
-                    );
+            },2800);
 
+        },500);
+    }
 
-                    showScreen(
-                        "finalScreen"
-                    );
+    function flashScreen(){
 
+        const flash =
+            document.getElementById("flash");
 
-                    createConfetti();
+        flash.classList.remove("active");
 
+        void flash.offsetWidth;
 
-                    finalRevealSound();
+        flash.classList.add("active");
+    }
 
-                },
-                3000
-            );
+    /* FINAL SOUND */
 
-        },
-        600
-    );
+    function finalRevealSound(){
 
-}
+        playTone(523,.30,"sine",.14);
 
+        setTimeout(function(){
+            playTone(659,.30,"sine",.14);
+        },180);
 
-/* =====================================================
-   FLASH
-===================================================== */
+        setTimeout(function(){
+            playTone(784,.40,"sine",.16);
+        },360);
 
-function flashScreen(){
+        setTimeout(function(){
+            playTone(1046,.70,"sine",.15);
+        },550);
+    }
 
-    const flash =
-        document.getElementById(
-            "flash"
-        );
+    /* CONFETTI */
 
+    function createConfetti(){
 
-    flash.classList.remove(
-        "active"
-    );
+        for(let i=0;i<120;i++){
 
+            const confetti =
+                document.createElement("div");
 
-    void flash.offsetWidth;
+            confetti.className = "confetti";
 
+            confetti.style.left =
+                Math.random()*100 + "%";
 
-    flash.classList.add(
-        "active"
-    );
+            confetti.style.animationDuration =
+                2 + Math.random()*3 + "s";
 
-}
+            confetti.style.animationDelay =
+                Math.random()*.8 + "s";
 
-
-/* =====================================================
-   CONFETTI
-===================================================== */
-
-function createConfetti(){
-
-    for(
-        let i = 0;
-        i < 120;
-        i++
-    ){
-
-        const confetti =
-            document.createElement(
-                "div"
-            );
-
-
-        confetti.className =
-            "confetti";
-
-
-        confetti.style.left =
-            Math.random() * 100 +
-            "%";
-
-
-        confetti.style.animationDuration =
-            2 +
-            Math.random() * 3 +
-            "s";
-
-
-        confetti.style.animationDelay =
-            Math.random() * .8 +
-            "s";
-
-
-        const colors = [
-
-            "#ff4da6",
-            "#ffd700",
-            "#8b5cff",
-            "#00e5ff",
-            "#ffffff",
-            "#ff6b35"
-
-        ];
-
-
-        confetti.style.background =
-            colors[
-                Math.floor(
-                    Math.random() *
-                    colors.length
-                )
+            const colors = [
+                "#ff4da6",
+                "#ffd700",
+                "#8b5cff",
+                "#00e5ff",
+                "#ffffff",
+                "#ff6b35"
             ];
 
+            confetti.style.background =
+                colors[
+                    Math.floor(
+                        Math.random()*colors.length
+                    )
+                ];
 
-        document.body.appendChild(
-            confetti
-        );
+            document.body.appendChild(confetti);
 
-
-        setTimeout(
-            function(){
+            setTimeout(function(){
 
                 confetti.remove();
 
-            },
-            5000
-        );
-
+            },5000);
+        }
     }
 
-}
+    /* STARS */
 
+    for(let i=0;i<45;i++){
 
-/* =====================================================
-   CREATE STARS
-===================================================== */
+        const star =
+            document.createElement("div");
 
-for(
-    let i = 0;
-    i < 70;
-    i++
-){
+        star.style.position = "fixed";
+        star.style.width = "2px";
+        star.style.height = "2px";
+        star.style.borderRadius = "50%";
+        star.style.background = "rgba(255,255,255,.55)";
+        star.style.left =
+            Math.random()*100 + "%";
+        star.style.top =
+            Math.random()*100 + "%";
+        star.style.pointerEvents = "none";
+        star.style.zIndex = "1";
 
-    const star =
-        document.createElement(
-            "div"
-        );
+        document.body.appendChild(star);
+    }
 
-
-    star.className =
-        "star";
-
-
-    star.style.left =
-        Math.random() * 100 +
-        "%";
-
-
-    star.style.top =
-        Math.random() * 100 +
-        "%";
-
-
-    star.style.animationDelay =
-        Math.random() * 2 +
-        "s";
-
-
-    document.body.appendChild(
-        star
-    );
-
-}
-
+});
 </script>
 
 </body>
