@@ -67,7 +67,7 @@ body.green #glow::before,body.warm #glow::after{opacity:1}
 .pt{font-size:clamp(22px,5vw,35px);color:#d4af37;letter-spacing:5px;margin-bottom:10px;text-shadow:0 0 20px #d4af37}
 .ph{color:#999;font-size:11px;letter-spacing:3px;margin-bottom:24px}
 .puzzle{width:min(82vw,400px);aspect-ratio:1;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);gap:0;padding:4px;background:#020102;border:2px solid #d4af37;box-shadow:0 0 20px #d4af37,0 0 80px rgba(130,30,180,.5)}
-.piece{background:url("./photo.jpeg") 0 0/300% 300%,linear-gradient(135deg,#7b2fbf,#d4af37);cursor:pointer;border:1.5px solid #020102;transition:.3s,border-color .5s}
+.piece{background:url("./photo.jpeg") 0 0/300% 300%,linear-gradient(135deg,#7b2fbf,#d4af37);background-origin:border-box;background-clip:border-box;cursor:pointer;border:1.5px solid #020102;transition:.3s,border-color .5s}
 .piece.correct{border-color:transparent}
 .piece:hover{transform:translateZ(18px) scale(1.04);box-shadow:0 0 20px #fff}
 .piece.sel{outline:3px solid #d4af37;box-shadow:0 0 30px #d4af37;transform:translateZ(30px) scale(1.05)}
@@ -80,7 +80,8 @@ body.green #glow::before,body.warm #glow::after{opacity:1}
 @keyframes sk{to{opacity:0;transform:translateZ(-1000px) rotateX(30deg) rotateY(45deg) scale(.01);filter:blur(20px)}}
 
 /* photo */
-.frame{position:relative;width:min(72vw,480px);height:min(66vh,620px)}
+.frame{position:relative;width:min(72vw,480px);height:min(66vh,620px);animation:photoFloat 6s ease-in-out infinite}
+@keyframes photoFloat{0%,100%{transform:translateY(0) rotate(0deg)}25%{transform:translateY(-12px) rotate(-1deg)}75%{transform:translateY(10px) rotate(1deg)}}
 .frame::before{content:"";position:absolute;inset:-15px;border:1px solid rgba(255,220,120,.8);border-radius:18px;box-shadow:0 0 30px #d4af37,0 0 80px rgba(212,175,55,.5);animation:fp 2s ease-in-out infinite alternate}
 @keyframes fp{from{opacity:.35;transform:scale(.97)}to{opacity:1;transform:scale(1.03)}}
 #photoImg{width:100%;height:100%;object-fit:contain;padding:8px;background:#080509;border:3px solid #d4af37;border-radius:8px;box-shadow:0 0 25px #d4af37,0 0 90px rgba(212,175,55,.8),0 0 130px rgba(130,40,170,.6);transform:perspective(900px) rotateY(calc(var(--mx)*14deg)) rotateX(calc(var(--my)*-10deg))}
@@ -231,7 +232,10 @@ const FW=[],S=Array.from({length:240},()=>({x:rnd(-1,1),y:rnd(-1,1),z:Math.rando
 function rs(){W=cv.width=innerWidth;H=cv.height=innerHeight}rs();addEventListener("resize",rs);
 function tilt(x,y){mx=Math.max(-.5,Math.min(.5,x));my=Math.max(-.5,Math.min(.5,y));const r=document.documentElement.style;r.setProperty("--mx",mx*2);r.setProperty("--my",my*2)}
 addEventListener("pointermove",e=>tilt(e.clientX/innerWidth-.5,e.clientY/innerHeight-.5));
-addEventListener("deviceorientation",e=>{if(e.gamma!=null)tilt(e.gamma/60,(e.beta-45)/60)});
+// Gyro-based tilt (deviceorientation) removed: on phones it made the
+// surprise photo jitter/shake with every tiny hand movement. Mouse-based
+// tilt above still works fine on desktop; mobile now gets its own
+// dedicated CSS animation instead (see .frame "photoFloat" below).
 (function draw(){
   cx.clearRect(0,0,W,H);const f=W*.3;
   for(const s of S){
@@ -715,7 +719,7 @@ async function showThanks(){
   document.body.className="green";
   // The Happy Birthday Siha song continues through the final page.
   flash();
-  await say("Innaiku Brithday Innaiku Aachum Kulii Diii","ttl pulse",1200,0);
+  await say("Innaiku Brithday Innaiku Aachum Kulii Diii😒","ttl pulse",1200,0);
   await say("நன்றி💚","big pulse",1400,0);
   await closeAndRestart();
 }
